@@ -10,6 +10,8 @@ The main mission of this project FSBerry (or FlyingStrawberry), is to create and
 
 On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 
+* Unit and functional tests
+* Travis CI
 * Friend adding, removing and listing on profiles
 * Images in posts
 * Profile picture change & user settings
