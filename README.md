@@ -1,22 +1,27 @@
-![Logo](https://github.com/MartinKondor/fsberry/blob/master/public/images/strawberry-logo.png)
+<p align="center">
+<img src="https://github.com/MartinKondor/fsberry/blob/master/public/images/strawberry-logo.png" width="122px" height="auto">
+</p>
+<h1 align="center">FlyingStrawberry, the social network</h1>
+<h3 align="center">
+Free, open source, built by a community, built for everyone.
+</h3>
 
-FSBerry (FlyingStrawberry), an open source social network.
+The main mission of this project (FlyingStrawberry or FSBerry), is to create and maintain a social network which is available for everyone, free to use, as secure as possible and built by a community. On the community, we mean both the developers and the users who can recommend different functionalities and/or contribute on FlyingStrawberry.
 
-## Goals
-
-The main mission of this project (FlyingStrawberry), is to create and maintain a social network which is avaible for everyone, free to use, as secure as possible and built by a cummunity. The community means both the developers and the users who can recommend different functionalities and/or contribute on FlyingStrawberry. 
-
-On the other hand a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions:
+On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 
 * Friend adding, removing and listing on profiles
 * Images in posts
 * Profile picture change & user settings
-* Chat between users
+* Chat between users & teams
 * Organizations & teams
 * Searching for users / organizations
 * Improve UX
+* Host the website
 * Translations for the website
 * Mobile app
+
+But anyway, if you think you have a great idea for us, just go ahead and write an email: [martinkondor@gmail.com](mailto://martinkondor@gmail.com)
 
 ## Getting started
 
@@ -26,8 +31,10 @@ Clearly in a few steps:
 * Fork this repository
 * Clone your fork
 * Change your local files (make it better)
-* Test if everything is working fine (the change doesnt break anything)
+* Test if everything is working fine (the change doesn't break anything)
 * Create a pull request on this repository
+
+For more details read the [CONTRIBUTING.md](https://github.com/flyingstrawberry/fsberry/tree/master/.github/CONTRIBUTING.md).
 
 ### Prerequisites
 
