@@ -2,23 +2,32 @@
 
 FSBerry (FlyingStrawberry), an open source social network.
 
-## Getting Started
+## Goals
 
-### Goals
+The main mission of this project (FlyingStrawberry), is to create and maintain a social network which is avaible for everyone, free to use, as secure as possible and built by a cummunity. The community means both the developers and the users who can recommend different functionalities and/or contribute on FlyingStrawberry. 
+
+On the other hand a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions:
 
 * Friend adding, removing and listing on profiles
 * Images in posts
-* Profile picture change
+* Profile picture change & user settings
 * Chat between users
 * Organizations & teams
 * Searching for users / organizations
 * Improve UX
+* Translations for the website
+* Mobile app
 
-## Recommended way
+## Getting started
 
-You can use apache but I like to start the server by console PHP ```php -S localhost:8080```.
+Clearly in a few steps:
 
-Also note that since this project is at the beggining all paths are go to a root ```public/index.php```, so the main path is: ```localhost:8080/public/index.php/``` and home is ```localhost:8080/public/index.php/home```.
+* Prepare your computer for development
+* Fork this repository
+* Clone your fork
+* Change your local files (make it better)
+* Test if everything is working fine (the change doesnt break anything)
+* Create a pull request on this repository
 
 ### Prerequisites
 
