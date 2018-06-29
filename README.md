@@ -34,7 +34,7 @@ Clearly in a few steps:
 * Test if everything is working fine (the change doesn't break anything)
 * Create a pull request on this repository
 
-For more details read the [CONTRIBUTING.md](https://github.com/flyingstrawberry/fsberry/tree/master/.github/CONTRIBUTING.md).
+For more details read the [CONTRIBUTING.md](https://github.com/flyingstrawberry/fsberry/blob/master/.github/CONTRIBUTING.md).
 
 ### Prerequisites
 
