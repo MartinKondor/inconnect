@@ -1,4 +1,4 @@
--- This is not the final database structure 
+-- This is not the final database structure
 
 CREATE TABLE user (
    user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

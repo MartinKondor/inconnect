@@ -2,6 +2,11 @@
       <a class="navbar-brand brand-logo" href="{{ asset('home') }}" title="Flying Strawberry">
          <img src="{{ asset('images/strawberry-logo.png') }}" alt="Strawberry logo">
       </a>
+       <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link brand-logo" href="">FSBerry</a>
+            </li>
+        </ul>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
      </button>
@@ -37,11 +42,6 @@
                         <button class="btn btn-primary">Log in</button>
                     </li>
                 </form>
-             </ul>
-             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ asset('') }}">Sign up</a>
-                </li>
              </ul>
          {% endif %}
      </div>
