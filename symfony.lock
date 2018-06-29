@@ -92,6 +92,9 @@
     "symfony/asset": {
         "version": "v4.1.1"
     },
+    "symfony/browser-kit": {
+        "version": "v4.1.1"
+    },
     "symfony/cache": {
         "version": "v4.1.1"
     },
@@ -107,6 +110,9 @@
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
     },
+    "symfony/css-selector": {
+        "version": "v4.1.1"
+    },
     "symfony/debug": {
         "version": "v4.1.1"
     },
@@ -114,6 +120,9 @@
         "version": "v4.1.1"
     },
     "symfony/doctrine-bridge": {
+        "version": "v4.1.1"
+    },
+    "symfony/dom-crawler": {
         "version": "v4.1.1"
     },
     "symfony/dotenv": {
@@ -166,6 +175,15 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "01a6e80dad40a4ef42dad65877f744a53a121c38"
+        }
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.8.0"

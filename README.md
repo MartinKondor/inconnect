@@ -38,18 +38,6 @@ Clearly in a few steps:
 
 For more details read the [CONTRIBUTING.md](https://github.com/flyingstrawberry/fsberry/blob/master/.github/CONTRIBUTING.md).
 
-### Prerequisites
-
-We use Symfony framework, and MySQL database.
-
-Create a .env file in the main directory:
-
-```
-APP_ENV=dev
-APP_SECRET=<Put a random string here>
-DATABASE_URL=mysql://<username>:<password>@<host>:<port>/<database>
-```
-
 ## Built With
 
 * [Symfony](https://symfony.com/) - PHP framework used

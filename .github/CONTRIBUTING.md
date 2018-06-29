@@ -68,3 +68,8 @@ server and making changes on it.
    Create the database
    ```php bin/console doctrine:database:create```
 5. Go to ```localhost/fsberry/public/index.php/``` with your browser to see if everything is up and running.
+6. Change the code as you wish, like add a new feature, remove a bug.
+7. Write tests for your changes and try to test everything if possible.
+8. Make sure that all the tests passing, run tests with ```php bin/phpunit```
+9. Create a pull request at this repository, wait for a feedback.
+10. If everything is fine then congrats! You are now officially contributed on FSBerry!
