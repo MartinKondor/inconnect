@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat|Roboto:200,400,500,700');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 100vh;
+  width: 100vw;
+} 
+
+body {
+   font-family: 'Roboto', sans-serif;
+   font-size: 100%;
+   background-color: #FEFEFE;
+   color: #101010;
+   overflow-x: hidden;
+}
+
+@media screen and (max-width: 1000px) {
+   .welcome-form {
+      margin-top: 2% !important;
+      margin-left: 2% !important;
+      margin-right: 2% !important;
+   }
+   .newpost-card {
+      margin: 1vh 1vw 1vh 1vw !important;
+   }
+   .community-row {
+     display: none;
+   }
+   .post {
+      margin: 20px 0px 40px 0px !important;
+      padding: 20px !important;
+   }
+   .user-card-profile img {
+      width: 200px !important;
+   }
+   .settings-box {
+     margin: 2% 2% 2% 2% !important;
+   }
+}
+
+.welcome-form {
+   margin-top: 2%;
+   margin-left: 7%;
+   margin-right: 7%;
+}
+
+header {
+   top: 0;
+}
+
+header nav {
+  box-shadow: 0px 0px 10px #979797;
+}
+
+.m-profile {
+   width: 42px !important;
+   height: auto !important;
+   border-radius: 50%;
+   box-shadow: 0px 0px 1px #373737;
+   background-color: #FEFEFE;
+}
+
+.xs-profile {
+   width: 30px !important;
+   height: auto !important;
+   border-radius: 50%;
+   box-shadow: 0px 0px 1px #373737;
+   background-color: #FEFEFE;
+}
+
+.xxs-profile {
+   width: 25px !important;
+   height: auto !important;
+   border-radius: 50%;
+   box-shadow: 0px 0px 1px #424242;
+   background-color: #FEFEFE;
+}
+
+.bg-main {
+   background-color: rgb(226, 245, 233) !important;
+}
+
+header .brand-logo {
+   text-decoration: none;
+   color: #373737;
+   font-family: 'Caveat', sans-serif;
+   font-size: 30px;
+}
+
+header .brand-logo img {
+   width: 42px;
+   height: auto;
+}
+
+footer {
+   bottom: 0 !important;
+   position: relative;
+   width: 100vw;
+   background-color: #F4F4F4;
+   margin-top: 50%;
+   padding: 20px 20px 5px 20px;
+}
+
+footer ul {
+   list-style: none;
+}
+
+footer ul li {
+   display: inline-block;
+}
+
+/* Home page related styles */
+
+.newpost-card {
+  margin: 5vh 17vw 5vh 17vw;
+}
+
+.newpost-card textarea[name="postContent"] {
+  box-shadow: 1px 5px 15px #CDCDCD;
+}
+
+.feed-icon {
+  font-size: 20px;
+  color: #74A9B8 !important;
+  text-decoration: none;
+}
+
+.feed-icon:hover,
+.feed-icon:active {
+  text-decoration: none;
+  color: rgb(58, 108, 122) !important;
+}
+
+.post {
+  font-size: 17px;
+  border-radius: 2px;
+  /* margin: 22px 20vw 42px 20vw; */
+  margin: 22px 0px 42px 0px;
+  box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+  padding: 20px;
+}
+
+.post:nth-child(even) {
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  -webkit-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+}
+
+.post:nth-child(odd) {
+  -webkit-animation-name: bounceInRight;
+  animation-name: bounceInRight;
+  -webkit-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+}
+
+.post-title .uploader {
+  font-weight: 700;
+  font-size: 18px;
+  color: #101010;
+}
+
+.post-title .uploader a {
+  text-decoration: none;
+  color: #101010 !important;
+}
+
+.post-title .uploader a:hover,
+.post-title .uploader a:active {
+  text-decoration: none;
+  color: #777777 !important;
+}
+
+.post-title .post-time {
+  margin-top: 2px;
+  display: block !important;
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+.post-content {
+  overflow: visible;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  margin-top: 5px;
+}
+
+.post-info {
+  border-top: 1px solid #DADADA;
+  padding-top: 2px;
+  width: 100%;
+}
+
+.post-comments {
+  font-size: 14px;
+}
+
+.post-comments .comment {
+  margin-top: 14px;
+}
+
+.comment-commenter {
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #424242;
+}
+
+.comment-commenter:hover {
+  text-decoration: none;
+  color: #909090;
+}
+
+.comment-time {
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+/* User page related styles */
+
+.user-card-profile img {
+  border-radius: 50%;
+  width: 300px;
+  height: auto;
+  box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+}
+
+.user-card-info {
+  padding: 10px;
+}
+
+.user-card-info .user-name {
+  font-size: 44px;
+  color: #373737;
+  font-family: 'Caveat', sans-serif;
+}
+
+#post-list .post-list-item,
+#friend-list .friend-list-item {
+  margin-top: 10px;
+  padding-bottom: 7px;
+  font-size: 20px;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+#post-list .post-list-item {
+  font-size: 19px;
+}
+
+#post-list .post-list-item .time {
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+#post-list .post-list-item a,
+#friend-list .friend-list-item a {
+  text-decoration: none;
+  color: #101010;
+}
+
+#post-list .post-list-item a:hover,
+#post-list .post-list-item a:hover:active,
+#friend-list .friend-list-item a:hover,
+#friend-list .friend-list-item a:hover:active {
+  text-decoration: none;
+  color: #505050;
+}
+
+.settings-box {
+  margin: 2% 15% 2% 15%;
+}

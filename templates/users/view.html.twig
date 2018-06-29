@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome!{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+<section class="row mt-2 mb-2 animated fadeIn">
+   <div class="col-sm user-card-profile mb-5">
+      <img title="Profile picture of {{ viewUser.name }}" src="{{ asset('images/profiles/' ~ viewUser.profilePic) }}" alt="Profile picture of {{ viewUser.name }},">
+   </div>
+   <div class="col-sm mt-5">
+      <p class="text-uppercase font-weight-bold">Friends {{ viewUser.friends|length }}</p>
+      <p class="text-uppercase font-weight-bold">{{ viewUser.birthDate }}</p>
+      <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
+   </div>
+   <div class="col-sm user-card-info mt-5">
+      <h1 class="font-weight-bold user-name">{{ viewUser.name }}</h1>
+      <p>{{ viewUser.about }}</p>
+   </div>
+</section>
+<section class="row text-center">
+   <div class="col-sm-6">
+      <a id="friends" href="#friends" class="btn btn-outline-primary btn-block">Friends</a>
+      <section id="friend-list" style="display:none;">
+         {% if viewUser.friends is not null %}
+            <ul class="text-left animated bounceInLeft" style="list-style:none;">
+            {% for friend in viewUser.friends %}
+               <li class="friend-list-item">
+                  <a href="{{ asset('u/' ~ friend.link) }}">
+                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.profile) }}" alt="Profile picture of {{ friend.profile }},">
+                     <span> &middot; {{ friend.name }}<span>
+                  </a>
+               </li>
+            {% endfor %}
+            </ul>
+         {% endif %}
+      </section>
+   </div>
+   <div class="col-sm-6">
+      <a id="posts" href="#posts" class="btn btn-outline-primary btn-block">Posts</a>
+      <section id="post-list" style="display:none;">
+         {% if viewUser.posts is not null %}
+            <ul class="text-right animated bounceInRight" style="list-style:none;">
+            {% for post in viewUser.posts %}
+               <li class="post-list-item">
+                  <a href="{{ asset('p/' ~ post.post_id) }}">
+                     <span>{{ post.introspection }}</span>
+                     <span class="time">{{ post.time }}</span>
+                  </a>
+               </li>
+            {% endfor %}
+            </ul>
+         {% endif %}
+      </section>
+   </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

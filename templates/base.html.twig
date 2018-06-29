@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="FlyingStrawberry, an open source social network.">
+    <meta name="keywords" content="flyingstrawberry, foam, social, network">
+    <meta name="author" content="Martin Kondor">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="images/png" href="{{ asset('images/strawberry-logo.png') }}"/>
+    <title>FSberry - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset("assets/css/theme.min.css") }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset("assets/css/animate.min.css") }}"> 
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="{{ asset("stylesheets/style.css") }}">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand brand-logo" href="{{ asset('home') }}" title="Flying Strawberry">
+            <img src="{{ asset('images/strawberry-logo.png') }}" alt="Strawberry logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            {% if user is defined %}
+               <ul class="navbar-nav mr-auto">
+                    <li class="mr-1"><a class="brand-logo" href="{{ asset('u/' ~ user.link) }}">{{ user.name }}</a></li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+                        <img class="xs-profile" src="{{ asset('images/profiles/' ~ user.profilePic) }}" alt="Navigation bar profile picture"> 
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu mr-5">
+                            <li><a class="nav-link" href="{{ asset('u/' ~ user.link) }}"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="nav-link" href="{{ asset('settings') }}"><i class="fas fa-cogs"></i> Settings</a></li>
+                            <li><form action="{{ asset('auth/logout') }}" method="POST">
+                                <button class="btn btn-link nav-link" type="submit">
+                                    <i class="fas fa-sign-out-alt"></i> Log out
+                                </button>
+                            </form></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ asset('') }}">Log in/Sign up</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+<main class="container"> 
+    {% block body %}
+    {% endblock %}
+</main>
+<footer>
+    <ul>
+        <li class="text-muted">Copyright &copy; 2018 Martin Kondor</li>
+        <li>&middot;</li>
+        <li><a href="https://github.com/MartinKondor/flyingstrawberry.com">Contribute on FlyingStrawberry</a></li>
+    </ul>
+</footer>
+<script src="{{ asset("assets/js/jquery.min.js") }}"></script>
+<script src="{{ asset("assets/js/popper.min.js") }}"></script>
+<script src="{{ asset("assets/js/bootstrap.min.js") }}"></script>
+{% block javascripts %}{% endblock %}
+<script src="{{ asset("assets/js/cookienotice.min.js") }}"></script>
+<script src="{{ asset("javascripts/script.js") }}"></script>
+</body>
+</html>
