@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,23 +15,15 @@ class UsersController extends Controller
     */
    public function viewUserAction(string $permalink)
    {
+      $user = $this->getDoctrine()
+                  ->getRepository(User::class)
+                  ->findOneBy([ 'permalink' => $permalink ]);
 
-      $viewUser = [
-         'link' => 'userlink',
-         'name' => 'User' . ' ' . 'Name',
-         'first_name' => 'first_name',
-         'last_name' => 'last_name',
-         'about' => 'about',
-         'email' => 'email',
-         'gender' => 'male',
-         'birthDate' => '0000 / January / 01',
-         'profilePic' => 'default.png',
-         'friends' => [],
-         'posts' => []
-      ];
+      if (empty($user))
+         throw $this->createNotFoundException('The user does not exists.');
 
       return $this->render('users/view.html.twig', [
-         'viewUser' => $viewUser
+         'viewUser' => $user
       ]);
    }
 }

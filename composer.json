@@ -65,12 +65,13 @@
     "name" : "FSBerry",
 	"description" : "Open source social network for everyone.",
 	"keywords" : [
-		"flying",
-		"strawberry",
+		"fsberry",
 		"flyingstrawberry",
 		"php",
 		"symfony",
 		"social",
-		"network"
+        "network",
+        "free",
+        "social-network"
 	]
 }

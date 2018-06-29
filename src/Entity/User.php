@@ -44,12 +44,17 @@ class User
     /**
      * @ORM\Column(type="string", length=255, options={"default" : "default.png"})
      */
-    private $profile_pic;
+    private $profile_pic = 'default.png';
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $about;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $permalink;
 
     public function getUserId()
     {
@@ -136,6 +141,18 @@ class User
     public function setAbout(?string $about): self
     {
         $this->about = $about;
+
+        return $this;
+    }
+
+    public function getPermalink(): ?string
+    {
+        return $this->permalink;
+    }
+
+    public function setPermalink(string $permalink): self
+    {
+        $this->permalink = $permalink;
 
         return $this;
     }

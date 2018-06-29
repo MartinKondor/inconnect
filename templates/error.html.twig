@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oops! An Error Occurred{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+<div class="middle-box text-center">
+    <h1>#42</h1>
+    <h3 class="font-bold">Error</h3>
+
+    <div class="error-desc">
+        The server has encountered an error. 
+        <br>
+        Code : {{ error_number }}
+        <br><br>
+        <a href="{{ path("home") }}" class="btn btn-w-m btn-danger">Home</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}
