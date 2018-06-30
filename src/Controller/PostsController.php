@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Action;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,18 +16,16 @@ class PostsController extends Controller
    /**
     * @Route("/p/{postid}", name="view_post", methods={ "GET" })
     */
-   public function viewPostAction(int $postid)
+   public function viewPost(int $postid)
    {
-      $viewPost = $this->getDoctrine()
-                     ->getRepository(Post::class)
+      $viewPost = $this->getDoctrine()->getRepository(Post::class)
                      ->findOneBy([ 'post_id' => $postid ]);
 
       if (empty($viewPost))
          throw $this->createNotFoundException('The post does not exists.');
 
       // Get the uploader of this post
-      $uploader = $this->getDoctrine()
-                     ->getRepository(User::class)
+      $uploader = $this->getDoctrine()->getRepository(User::class)
                      ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
 
       if (empty($uploader))
@@ -36,8 +35,22 @@ class PostsController extends Controller
       $viewPost->setUploader($uploader->getName());
       $viewPost->setUploaderProfilePic($uploader->getProfilePic());
       $viewPost->setUploaderLink($uploader->getPermalink());
-      $viewPost->setComments([]);
-      $viewPost->setUpvotes('10');
+
+      // Get the actions related to this post
+      $actions = $this->getDoctrine()->getRepository(Action::class)
+                  ->findBy([ 'entity_id' => $viewPost->getPostId() ]);
+
+      $upvotes = 0;
+      $comments = [];
+      \array_map(function($action) {
+         if ($action->getActionType() === 'comment') $comments[] = $action;
+         if ($action->getActionType() === 'upvote') $upvotes++;
+      }, $actions);
+
+      if (empty($comments) or $comments === []) $comments = null;
+      $viewPost->setComments($comments);
+      $viewPost->setUpvotes($upvotes);
+      $viewPost->isUpvotedByUser();
 
       return $this->render('posts/view.html.twig', [
          'viewPost' => $viewPost
@@ -47,7 +60,7 @@ class PostsController extends Controller
    /**
     * @Route("/p/new", name="new_post", methods={ "POST" })
     */
-   public function newPostAction() 
+   public function newPost() 
    {
       $viewPost = new Post();
       $viewPost->setUserId(1);

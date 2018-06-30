@@ -13,7 +13,7 @@ class UsersController extends Controller
    /**
     * @Route("/u/{permalink}", name="view_user", methods={ "GET" })
     */
-   public function viewUserAction(string $permalink)
+   public function viewUser(string $permalink)
    {
       $viewUser = $this->getDoctrine()
                   ->getRepository(User::class)

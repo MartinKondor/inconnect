@@ -16,13 +16,13 @@
       <p class="post-content">{{ viewPost.content }}</p>
       <div class="post-info">
          {% if user is defined %}
-            <a class="upvote-icon feed-icon" href="{{ path('upvote', { postid: viewPost.postId }) }}" title="Upvote this post">
+            <a class="upvote-icon feed-icon" href="upvote" title="Upvote this post">
               {% if viewPost.upvotedByUser %}
                 <i class="fas fa-thumbs-up"></i>
               {% else %}
                 <i class="far fa-thumbs-up"></i>
               {% endif %}
-              {{ viewPost.upvoters | length }}
+              {{ viewPost.upvotes }}
             </a> 
             &middot;
           {% endif %}

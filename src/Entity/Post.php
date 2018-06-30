@@ -105,9 +105,10 @@ class Post
         return $this->uploader;
     }
 
-    public function setUploader(string $uploader)
+    public function setUploader(string $uploader): self
     {
         $this->uploader = $uploader;
+        return $this;
     }
 
     public function getUploaderLink(): string
@@ -126,28 +127,36 @@ class Post
         return $this->uploader_profile_pic;
     }
 
-    public function setUploaderProfilePic(string $uploader_profile_pic)
+    public function setUploaderProfilePic(string $uploader_profile_pic): self
     {
         $this->uploader_profile_pic = $uploader_profile_pic;
+        return $this;
     }
 
-    public function getComments(): array 
+    public function getComments(): ?array 
     {
         return $this->comments;
     }
 
-    public function setComments(array $comments) 
+    public function setComments(?array $comments): self
     {
         $this->comments = $comments;
+        return $this;
     }
 
-    public function getUpvotes(): array 
+    public function getUpvotes(): ?string 
     {
         return $this->upvotes;
     }
 
-    public function setUpvotes(string $upvotes)
+    public function setUpvotes(string $upvotes): self
     {
         $this->upvotes = $upvotes;
+        return $this;
+    }
+
+    public function isUpvotedByUser(): bool
+    {
+        return true;
     }
 }
