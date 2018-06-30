@@ -15,15 +15,15 @@ class UsersController extends Controller
     */
    public function viewUserAction(string $permalink)
    {
-      $user = $this->getDoctrine()
+      $viewUser = $this->getDoctrine()
                   ->getRepository(User::class)
                   ->findOneBy([ 'permalink' => $permalink ]);
 
-      if (empty($user))
+      if (empty($viewUser))
          throw $this->createNotFoundException('The user does not exists.');
 
       return $this->render('users/view.html.twig', [
-         'viewUser' => $user
+         'viewUser' => $viewUser
       ]);
    }
 }

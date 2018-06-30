@@ -8,6 +8,7 @@
 
 # Local test only
 test.php
+
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml

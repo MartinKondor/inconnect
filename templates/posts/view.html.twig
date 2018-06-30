@@ -8,15 +8,15 @@
    <article class="post animated" style="margin-bottom:400px;">
       <div class="post-title">
          <span class="uploader">
-            <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.uploader_profile_pic) }}" alt="Profile icon of {{ viewPost.uploader }},">
-            <a href="{{ asset('u/' ~ viewPost.uploader_link) }}">{{ viewPost.uploader }}</a>
+            <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.uploaderProfilePic) }}" alt="Profile icon of {{ viewPost.uploader }},">
+            <a href="{{ asset('u/' ~ viewPost.uploaderLink) }}">{{ viewPost.uploader }}</a>
            </span>
-         <span class="post-time">{{ viewPost.time }}</span>
+         <span class="post-time">{{ viewPost.dateOfUpload | date('Y-m-d G:i') }}</span>
       </div>
       <p class="post-content">{{ viewPost.content }}</p>
       <div class="post-info">
          {% if user is defined %}
-            <a class="upvote-icon feed-icon" href="{{ path('upvote', { postid: viewPost.post_id }) }}" title="Upvote this post">
+            <a class="upvote-icon feed-icon" href="{{ path('upvote', { postid: viewPost.postId }) }}" title="Upvote this post">
               {% if viewPost.upvotedByUser %}
                 <i class="fas fa-thumbs-up"></i>
               {% else %}
@@ -26,16 +26,16 @@
             </a> 
             &middot;
           {% endif %}
-         <a id="{{ 'post-' ~ viewPost.post_id ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
+         <a id="{{ 'post-' ~ viewPost.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
           <i class="far fa-comment"></i> {{ viewPost.comments | length }}
          </a>
       </div>
-      <div id="{{ 'post-' ~ viewPost.post_id ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
+      <div id="{{ 'post-' ~ viewPost.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
       {% if user is defined %}
         <form action="{{ asset('p/auth/newcomment') }}" method="POST">
           <div class="input-group">
             <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
-            <input style="display:none;" type="text" name="postid" value="{{ viewPost.post_id }}">
+            <input style="display:none;" type="text" name="postid" value="{{ viewPost.postId }}">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary send-comment">Send</button>
             </div>
