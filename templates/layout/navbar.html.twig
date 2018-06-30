@@ -31,15 +31,15 @@
              </ul>
          {% else %}
              <ul class="navbar-nav mx-auto">
-                <form action="" method="POST" class="row">
+                <form action="{{ path("login") }}" method="POST" class="row">
                     <li class="nav-item col-sm">
                         <input name="email" type="text" class="form-control" placeholder="Email address" required>
                     </li>
                     <li class="nav-item col-sm">
-                        <input name="password" type="text" class="form-control" placeholder="Password" required>
+                        <input name="password" type="password" class="form-control" placeholder="Password" required>
                     </li>
                     <li class="nav-item col-sm">
-                        <button class="btn btn-primary">Log in</button>
+                        <button type="submit" class="btn btn-primary">Log in</button>
                     </li>
                 </form>
              </ul>

@@ -59,7 +59,7 @@ class SecurityController extends Controller
          $em->persist($user);
          $em->flush();
 
-         return $this->render('main/index.html.twig', []);
+         return $this->redirectToRoute('home');
       }
    }
 
@@ -68,6 +68,28 @@ class SecurityController extends Controller
     */
    public function login()
    {
-      // TODO
+      $loginErrors = [];
+
+      if (empty($_POST['email']) or !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+         $loginErrors[] = 'The email field cannot be empty.';
+      if (empty($_POST['password']))
+         $loginErrors[] = 'The password field cannot be empty.';
+
+      $requiredUser = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy([ 'email' => $_POST['email'] ]);
+
+      if (empty($requiredUser) or !password_verify($_POST['password'], $requiredUser->getPassword()))
+         $loginErrors[] = 'Wrong password or email address, please try again.';
+   
+      if ($loginErrors !== []) {
+
+         return $this->render('main/index.html.twig', [
+            'loginErrors' => $loginErrors
+         ]);
+      } else {
+
+         return $this->redirectToRoute('home');
+      } 
    }
 }

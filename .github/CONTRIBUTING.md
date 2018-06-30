@@ -67,6 +67,15 @@ server and making changes on it.
    ```
    Create the database
    ```php bin/console doctrine:database:create```
+
+   Make a migration
+   ```php bin/console make:migration```
+
+   Create tables 
+   ```php bin/console doctrine:migrations:migrate```
+
+   Hit ```y`` and now (if there are no errors), the database is up an ready.
+
 5. Go to ```localhost/fsberry/public/index.php/``` with your browser to see if everything is up and running.
 6. Change the code as you wish, like add a new feature, remove a bug.
 7. Write tests for your changes and try to test everything if possible.
