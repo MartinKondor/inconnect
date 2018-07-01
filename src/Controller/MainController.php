@@ -2,22 +2,37 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Post;
-use App\Entity\Action;
+use App\Form\UserSignUpType;
+use App\Entity\{ User, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends Controller 
 {
    /**
-    * @Route("/", name="index", methods={ "GET" })
+    * @Route("/", name="index", methods={ "GET", "POST" })
     */
-   public function index()
+   public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
    {
-      return $this->render('main/index.html.twig', []);
+      $user = new User();
+      $form = $this->createForm(UserSignUpType::class, $user, [
+            'action' => $this->generateUrl('index')
+      ]);
+
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+           return new JsonResponse($user);
+           // Save user
+      }
+
+      return $this->render('main/index.html.twig', [
+            'signup' => $form->createView()
+      ]);
    }
 
    /**
@@ -39,7 +54,7 @@ class MainController extends Controller
                   ->getRepository(Action::class)
                   ->findBy([ 'entity_id' => $posts[$i]->getPostId() ]);
 
-         $posts[$i]->setUploader($uploader->getName());
+         $posts[$i]->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
          $posts[$i]->setUploaderProfilePic($uploader->getProfilePic());
          $posts[$i]->setUploaderLink($uploader->getPermalink());
 

@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Entity\User;
-use App\Entity\Action;
+use App\Entity\{ User, Post, Action };
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,34 +15,35 @@ class PostsController extends Controller
     */
    public function viewPost(int $postid)
    {
-      $viewPost = $this->getDoctrine()->getRepository(Post::class)
+      $viewPost = $this->getDoctrine()
+                     ->getRepository(Post::class)
                      ->findOneBy([ 'post_id' => $postid ]);
-
-      if (empty($viewPost))
-         throw $this->createNotFoundException('The post does not exists.');
+      if (empty($viewPost)) throw $this->createNotFoundException('The post does not exists.');
 
       // Get the uploader of this post
-      $uploader = $this->getDoctrine()->getRepository(User::class)
+      $uploader = $this->getDoctrine()
+                     ->getRepository(User::class)
                      ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
-
-      if (empty($uploader))
-         throw $this->createNotFoundException('The uploader of this post does not exists.');
+      if (empty($uploader)) throw $this->createNotFoundException('The uploader of this post does not exists.');
 
       // Set some properties for the template
-      $viewPost->setUploader($uploader->getName());
+      $viewPost->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
       $viewPost->setUploaderProfilePic($uploader->getProfilePic());
       $viewPost->setUploaderLink($uploader->getPermalink());
 
       // Get the actions related to this post
-      $actions = $this->getDoctrine()->getRepository(Action::class)
+      $actions = $this->getDoctrine()
+                  ->getRepository(Action::class)
                   ->findBy([ 'entity_id' => $viewPost->getPostId() ]);
 
       $upvotes = 0;
       $comments = [];
-      \array_map(function($action) {
-         if ($action->getActionType() === 'comment') $comments[] = $action;
-         if ($action->getActionType() === 'upvote') $upvotes++;
-      }, $actions);
+      foreach ($actions as $action) {
+         if ($action->getActionType() === 'comment')
+            $comments[] = $action;
+         if ($action->getActionType() === 'upvote')
+            $upvotes++;
+      }
 
       if (empty($comments) or $comments === []) $comments = null;
       $viewPost->setComments($comments);
@@ -71,6 +69,6 @@ class PostsController extends Controller
       $em->persist($viewPost);
       $em->flush();
 
-      return new Response('ok');
+      return $this->render('main/home.html.twig');
    }
 }

@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,26 +20,38 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The first name field cannot be blank.")
      */
-    private $name;
+    private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The last name field cannot be blank.")
+     */
+    private $last_name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The email field cannot be blank.")
+     * @Assert\Email(message="Email must be a real email address.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="You cannot sign up without a password.")
      */
     private $password;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Please provide your birth date.")
      */
     private $birth_date;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please provide your gender.")
      */
     private $gender;
 
@@ -57,19 +70,38 @@ class User
      */
     private $permalink;
 
+    private $roles;
+
+    public function _construct()
+    {
+        $this->roles = [ 'ROLE_USER' ];
+    }
+
     public function getUserId()
     {
         return $this->user_id;
     }
 
-    public function getName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->name;
+        return $this->first_name;
     }
 
-    public function setName(string $name): self
+    public function setFirstName(string $first_name): self
     {
-        $this->name = $name;
+        $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): self
+    {
+        $this->last_name = $last_name;
 
         return $this;
     }
@@ -157,4 +189,22 @@ class User
 
         return $this;
     }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function eraseCredentials()
+    {}
 }
