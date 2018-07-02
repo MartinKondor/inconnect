@@ -22,34 +22,29 @@ class UserSignUpType extends AbstractType
             ->setAction($options['action'])
             ->add('first_name', TextType::class, [
                   'attr' => [
-                        'class' => 'form-control mb-1',
-                        'placeholder' => 'First name',
+                        'placeholder' => 'First name'
                   ],
                   'label' => false
             ])
             ->add('last_name', TextType::class, [
                   'attr' => [
-                        'class' => 'form-control mb-1',
-                        'placeholder' => 'Last name',
+                        'placeholder' => 'Last name'
                   ],
                   'label' => false
             ])
             ->add('email', EmailType::class, [
                   'attr' => [
-                        'class' => 'form-control mb-1',
-                        'placeholder' => 'Email',
+                        'placeholder' => 'Email'
                   ],
                   'label' => false
             ])
             ->add('password', PasswordType::class, [
                   'attr' => [
-                        'class' => 'form-control mb-1',
-                        'placeholder' => 'Password',
+                        'placeholder' => 'Password'
                   ],
                   'label' => false
             ])
             ->add('birth_date', DateType::class, [
-                  'attr' => [ 'class' => 'mb-1' ],
                   'years' => range(date('Y'), date('Y') - 100)
             ])
             ->add('gender', ChoiceType::class, [
