@@ -10,13 +10,20 @@ class MainControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testSignupPage()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/signup');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testHome()
+    public function testLoginPage()
     {
         $client = static::createClient();
-        $client->request('GET', '/home');
+        $client->request('GET', '/login');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }
