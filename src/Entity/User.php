@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email", message="This email address is already in use.")
  */
 class User implements UserInterface
 {
@@ -39,7 +41,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="You cannot sign up without a password.")
      */
     private $password;
 
@@ -71,6 +72,12 @@ class User implements UserInterface
     private $permalink;
 
     private $roles;
+
+    /**
+     * @Assert\NotBlank(message="You cannot sign up without a password.")
+     * @Assert\Length(max=4096)
+     */
+    private $plain_password;
 
     public function _construct()
     {
@@ -187,6 +194,17 @@ class User implements UserInterface
     {
         $this->permalink = $permalink;
 
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string 
+    {
+        return $this->plain_password;
+    }
+
+    public function setPlainPassword(string $plain_password)
+    {
+        $this->plain_password = $plain_password;
         return $this;
     }
 

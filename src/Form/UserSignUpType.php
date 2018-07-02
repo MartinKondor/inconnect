@@ -6,12 +6,14 @@ use App\Entity\{ User, Post, Action };
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\{
    TextType, EmailType,
    PasswordType, DateType,
-   ChoiceType, SubmitType
+   ChoiceType, CheckboxType,
+   SubmitType
 };
 
 class UserSignUpType extends AbstractType
@@ -38,7 +40,7 @@ class UserSignUpType extends AbstractType
                   ],
                   'label' => false
             ])
-            ->add('password', PasswordType::class, [
+            ->add('plain_password', PasswordType::class, [
                   'attr' => [
                         'placeholder' => 'Password'
                   ],
@@ -51,8 +53,13 @@ class UserSignUpType extends AbstractType
                   'choices' => [ 'female' => 'Female', 'male' => 'Male' ],
                   'label' => false
             ])
+            ->add('termsBox', CheckboxType::class, [
+                  'mapped' => false,
+                  'label' => 'I accept the',
+                  'constraints' => new IsTrue(),
+            ])
             ->add('Submit', SubmitType::class, [
-                  'attr' => [ 'class' => 'btn btn-primary btn-lg btn-block mb-1' ]
+                  'attr' => [ 'class' => 'btn btn-primary btn-lg btn-block mb-1 mt-2' ]
             ]);
     }
 

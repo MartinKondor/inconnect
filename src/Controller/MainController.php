@@ -8,7 +8,6 @@ use App\Entity\{ User, Post, Action };
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -26,8 +25,15 @@ class MainController extends Controller
 
       $form->handleRequest($request);
       if ($form->isSubmitted() && $form->isValid()) {
-           return new JsonResponse($user);
-           // Save user
+
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $user->setPermalink(explode('@', $user->getEmail())[0] . rand(0, 100));
+            
+            // Save user to the database
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
       }
 
       return $this->render('main/index.html.twig', [
