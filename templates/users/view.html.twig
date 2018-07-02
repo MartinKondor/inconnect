@@ -1,12 +1,14 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ viewUser.name }}{% endblock %}
+{% block title %}{{ viewUser.firstName ~' '~ viewUser.lastName }}{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
 <section class="row mt-2 mb-2 animated fadeIn">
    <div class="col-sm user-card-profile mb-5">
-      <img title="Profile picture of {{ viewUser.name }}" src="{{ asset('images/profiles/' ~ viewUser.profilePic) }}" alt="Profile picture of {{ viewUser.name }},">
+      <img title="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }}"ó
+         src="{{ asset('images/profiles/' ~ viewUser.profilePic) }}"
+         alt="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }},">
    </div>
    <div class="col-sm mt-5">
       <p class="text-uppercase font-weight-bold">Friends 0</p>
@@ -14,7 +16,7 @@
       <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
    </div>
    <div class="col-sm user-card-info mt-5">
-      <h1 class="font-weight-bold user-name">{{ viewUser.name }}</h1>
+      <h1 class="font-weight-bold user-name">{{ viewUser.firstName ~' '~ viewUser.lastName }}</h1>
       <p>{{ viewUser.about }}</p>
    </div>
 </section>

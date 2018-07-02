@@ -17,16 +17,13 @@ body {
 }
 
 @media screen and (max-width: 1000px) {
-   .signup-form {
+   .auth-form {
       margin-top: 2% !important;
       margin-left: 2% !important;
       margin-right: 2% !important;
    }
-   .newpost-card {
-      margin: 1vh 1vw 1vh 1vw !important;
-   }
-   .community-row {
-     display: none;
+   .community-row, #quote {
+     display: none !important;
    }
    .post {
       margin: 20px 0px 40px 0px !important;
@@ -40,7 +37,7 @@ body {
    }
 }
 
-.signup-form {
+.auth-form {
    margin-top: 5%;
    margin-left: 25%;
    margin-right: 25%;
@@ -114,10 +111,6 @@ footer ul li {
 }
 
 /* Home page related styles */
-
-.newpost-card {
-  margin: 5vh 17vw 5vh 17vw;
-}
 
 .newpost-card textarea[name="postContent"] {
   box-shadow: 1px 5px 15px #CDCDCD;

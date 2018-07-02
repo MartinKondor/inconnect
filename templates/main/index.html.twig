@@ -1,48 +1,87 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}Welcome!{% endblock %}
+{% block title %}Home{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-<section class="text-center mt-4">
-   {% if loginErrors is defined %}
-      {% for error in loginErrors %}
-         <div class="alert alert-dismissible alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>{{ error }}</strong>
+   <section class="row">
+      <div class="col-lg-7 newpost-card mx-auto ">
+         <form action="{{ asset('auth/newpost') }}" method="POST">
+            <textarea class="form-control mb-1" name="postContent" placeholder="Share something ..." required></textarea>
+            <button type="submit" class="btn btn-primary btn-block">Share</button>
+         </form>
+      </div>
+      <div id="quote" class="col-lg-5"></div>
+   </section>
+   <section class="row">
+      <div class="col-lg-7">
+         {% if posts is defined %}
+         {% for post in posts %}
+            <article class="post animated">
+               <div class="post-title">
+                  <span class="uploader">
+                     <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.uploaderProfilePic) }}" alt="Profile icon of {{ post.uploader }},">
+                     <a href="{{ asset('u/' ~ post.uploaderLink) }}">{{ post.uploader }}</a>
+                  </span>
+                  <span class="post-time">{{ post.dateOfUpload | date('Y-m-d G:i') }}</span>
+               </div>
+               <p class="post-content">{{ post.content }}</p>
+               <div class="post-info">
+                  <a class="upvote-icon feed-icon" href="{{ asset('auth/upvote-' ~ post.postId) }}" title="Upvote this post">
+                  {% if post.upvotedByUser %}
+                     <i class="fas fa-thumbs-up"></i>
+                  {% else %}
+                     <i class="far fa-thumbs-up"></i>
+                  {% endif %}
+                  {{ post.upvotes }}
+                  </a> 
+                  &middot;
+                  <a id="{{ 'post-' ~ post.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post"><i class="far fa-comment"></i> {{ post.comments | length }}</a>
+               </div>
+               <div id="{{ 'post-' ~ post.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
+               <form action="{{ asset('p/auth/newcomment') }}" method="POST">
+                  <div class="input-group">
+                     <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
+                     <input style="display:none;" type="text" name="postid" value="{{ post.postId }}">
+                     <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary send-comment">Send</button>
+                     </div>
+                  </div>
+               </form>
+                  {% if post.comments is not null %}
+                     {% for comment in post.comments %}
+                        <div class="comment">
+                           <div>
+                              <a href="{{ asset('u/' ~ comment.commenterLink) }}" class="comment-commenter">
+                                 <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.commenterProfile) }}" alt="Profile picture of {{ comment.commenter }},">
+                                 {{ comment.commenter }}
+                              </a>
+                              &middot;
+                              <span class="comment-time">{{ comment.time }}</span>
+                           </div>
+                           <span class="comment-content">{{ comment.comment }}</span>
+                        </div>
+                     {% endfor %}
+                  {% else %}
+                     <p class="h3 mt-1">There are no comments on this post...</p>
+                     <p>Be the first to comment on it</p>
+                  {% endif %}
+               </div>
+            </article>
+         {% endfor %}
+      {% else %}
+         <h1 class="mx-5 my-5">There are no post's to show!</h1>
+         <p style="margin-bottom:500px !important;">Please come back later ...</p>
+      {% endif %}
+      </div>
+      <div class="col-lg-5 animated fadeIn community-row">
+         <div class="affix">
+            Teams, chat ...
          </div>
-      {% endfor %}
-   {% endif %}
-
-   <div class="signup-form">
-      <h2>Sign up for free</h2>
-      {{ form_start(signup) }}
-         <div class="row mt-3">
-            <div class="col-sm">{{ form_row(signup.first_name) }}</div>
-            <div class="col-sm">{{ form_row(signup.last_name) }}</div>
-         </div>
-         {{ form_row(signup.email) }}
-         {{ form_row(signup.plain_password) }}
-         <div class="row mb-3 mt-3">
-            <div class="col-sm">
-               {{ form_row(signup.birth_date) }}
-            </div>
-            <div class="col-sm">
-               <label>Gender</label>
-               {{ form_row(signup.gender) }}
-            </div>
-         </div>
-         <span style="display:inline-block">
-            {{ form_row(signup.termsBox) }}
-         </span>
-         <span style="display:inline-block;font-size:20px;">
-            <a href="duckduckgo.com" class="btn btn-link" style="display:inline">terms and conditions.</a>
-         </span>
-         {{ form_row(signup.Submit) }}
-         {{ form_errors(signup) }}
-      {{ form_end(signup) }}
-   </div>
-</section>
+      </div>
+   </section>  
 {% endblock %}
 
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('javascripts/quote.js') }}"></script>
+{% endblock %}

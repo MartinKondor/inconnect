@@ -10,17 +10,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\{ AuthenticationUtils };
 
 class MainController extends Controller 
 {
    /**
-    * @Route("/", name="index", methods={ "GET", "POST" })
+    * @Route("/signup", name="signup", methods={ "GET", "POST" })
     */
-   public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+   public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder)
    {
       $user = new User();
       $form = $this->createForm(UserSignUpType::class, $user, [
-            'action' => $this->generateUrl('index')
+            'action' => $this->generateUrl('signup')
       ]);
 
       $form->handleRequest($request);
@@ -34,17 +35,39 @@ class MainController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            return $this->redirectToRoute('index');
       }
 
-      return $this->render('main/index.html.twig', [
+      return $this->render('main/signup.html.twig', [
             'signup' => $form->createView()
       ]);
    }
 
    /**
-    * @Route("/home", name="home", methods={ "GET" })
+    * @Route("/login", name="login", methods={ "GET", "POST" })
     */
-   public function home()
+   public function login(Request $request, AuthenticationUtils $au)
+   {
+      $lastUsername = $au->getLastUsername();
+      $error = $au->getLastAuthenticationError();
+      
+      return $this->render('main/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error
+      ]);
+   }
+
+   /**
+    * @Route("/logout", name="logout")
+    */
+   public function logout()
+   {}
+
+   /**
+    * @Route("/", name="index", methods={ "GET" })
+    */
+   public function index()
    {
       // Get all posts from the database
       $posts = $this->getDoctrine()
@@ -83,7 +106,7 @@ class MainController extends Controller
          }
       }
 
-      return $this->render('main/home.html.twig', [
+      return $this->render('main/index.html.twig', [
          'posts' => $posts
       ]);
    }

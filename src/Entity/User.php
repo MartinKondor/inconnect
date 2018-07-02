@@ -79,11 +79,6 @@ class User implements UserInterface
      */
     private $plain_password;
 
-    public function _construct()
-    {
-        $this->roles = [ 'ROLE_USER' ];
-    }
-
     public function getUserId()
     {
         return $this->user_id;
@@ -220,7 +215,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return $this->roles;
+        return [ 'ROLE_USER' ];
     }
 
     public function eraseCredentials()

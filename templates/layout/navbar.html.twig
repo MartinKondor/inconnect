@@ -1,47 +1,33 @@
 <nav class="navbar navbar-expand-md navbar-light bg-main">
-      <a class="navbar-brand brand-logo" href="{{ asset('home') }}" title="Flying Strawberry">
+      <a class="navbar-brand brand-logo" href="{{ path('index') }}" title="Flying Strawberry">
          <img src="{{ asset('images/strawberry-logo.png') }}" alt="Strawberry logo">
       </a>
-       <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link brand-logo" href="">FSBerry</a>
-            </li>
-        </ul>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
      </button>
      <div class="collapse navbar-collapse" id="navbarContent">
-         {% if user is defined %}
+         {% if app.user is not null %}
             <ul class="navbar-nav mr-auto">
-                 <li class="mr-1"><a class="brand-logo" href="{{ asset('u/' ~ user.link) }}">{{ user.name }}</a></li>
+                 <li class="mr-1"><a class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
                  <li class="dropdown nav-item">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                     <img class="xs-profile" src="{{ asset('images/profiles/' ~ user.profilePic) }}" alt="Navigation bar profile picture"> 
+                     <img class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture"> 
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu mr-5">
-                         <li><a class="nav-link" href="{{ asset('u/' ~ user.link) }}"><i class="fas fa-user"></i> Profile</a></li>
-                         <li><a class="nav-link" href="{{ asset('settings') }}"><i class="fas fa-cogs"></i> Settings</a></li>
-                         <li><form action="{{ asset('auth/logout') }}" method="POST">
-                             <button class="btn btn-link nav-link" type="submit">
-                                 <i class="fas fa-sign-out-alt"></i> Log out
-                             </button>
-                         </form></li>
+                         <li><a class="nav-link" href="{{ asset('u/' ~ app.user.permalink) }}"><i class="fas fa-user"></i> Profile</a></li>
+                         <li><a class="nav-link" href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                         <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                      </ul>
                  </li>
              </ul>
          {% else %}
-             <ul class="navbar-nav mx-auto">
-                <form action="{{ path("login") }}" method="POST" class="row">
-                    <li class="nav-item col-sm">
-                        <input name="email" type="text" class="form-control" placeholder="Email address" required>
-                    </li>
-                    <li class="nav-item col-sm">
-                        <input name="password" type="password" class="form-control" placeholder="Password" required>
-                    </li>
-                    <li class="nav-item col-sm">
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                    </li>
-                </form>
+             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="{{ path("signup") }}" class="nav-link">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path("login") }}" class="nav-link">Log in</a>
+                </li>
              </ul>
          {% endif %}
      </div>

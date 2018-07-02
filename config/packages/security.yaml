@@ -3,16 +3,28 @@ security:
     encoders:
         App\Entity\User: bcrypt
     providers:
-        in_memory: { memory: ~ }
+        db_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            pattern: ^/
+            anonymous: ~
+            provider: db_provider
 
-            # activate different ways to authenticate
-
+            form_login:
+                login_path: login
+                check_path: login
+            
+            logout: 
+                path: /logout
+                target: /login
+                
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
@@ -23,4 +35,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
