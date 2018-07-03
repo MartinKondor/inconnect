@@ -61,52 +61,70 @@ class MainController extends Controller
    /**
     * @Route("/logout", name="logout")
     */
-   public function logout()
-   {}
+   public function logout() {}
 
    /**
     * @Route("/", name="index", methods={ "GET" })
     */
    public function index()
    {
-      // Get all posts from the database
+      // Get all posts and users from the database
       $posts = $this->getDoctrine()
                   ->getRepository(Post::class)
+                  ->findAll();
+      $uploaders = $this->getDoctrine()
+                  ->getRepository(User::class)
                   ->findAll();
 
       // Set posts for template
       foreach ($posts as $i => $post) {
-         $uploader = $this->getDoctrine()
-                  ->getRepository(User::class)
-                  ->findOneBy([ 'user_id' => $posts[$i]->getUserId() ]);
-         $actions = $this->getDoctrine()
-                  ->getRepository(Action::class)
-                  ->findBy([ 'entity_id' => $posts[$i]->getPostId() ]);
 
-         $posts[$i]->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
-         $posts[$i]->setUploaderProfilePic($uploader->getProfilePic());
-         $posts[$i]->setUploaderLink($uploader->getPermalink());
+          $upvoteCount = 0;
+          $comments = [];
 
-         if (isset($actions) and $actions !== []) {
-            $upvoteCount = 0;
-            $comments = [];
-            foreach ($actions as $action) {
-                if ($action->getActionType() === 'comment') $comments[] = $action;
-                if ($action->getActionType() === 'upvote') {
-                    $upvoteCount++;
-                    if ($action->getUserId() === $this->getUser()->getUserId())
-                        $post->setUpvotedByUser(true);
-                }
-            }
+          // Find the actions of this post
+          $actions = $this->getDoctrine()
+              ->getRepository(Action::class)
+              ->findBy([ 'entity_id' => $post->getPostId() ]);
 
-            if (empty($comments) or $comments === []) $comments = null;
-            $posts[$i]->setComments($comments);
-            $posts[$i]->setUpvotes($upvoteCount);
+          if (isset($actions)) {
+              foreach ($actions as $k => $action) {
+                  if ($action->getActionType() === 'comment') {
+                      $comments[] = $actions[$k];
+                  }
+                  if ($action->getActionType() === 'upvote') {
+                      $upvoteCount++;
+                      if ($action->getUserId() === $this->getUser()->getUserId()) {
+                          $post->setUpvotedByUser(true);
+                      }
+                  }
+              }
+          }
 
-         } else {
-            $posts[$i]->setComments(null);
-            $posts[$i]->setUpvotes(0);
-         }
+          // Find the uploader of this post
+          $postUploader = null;
+          foreach ($uploaders as $u) {
+              if ($post->getUserId() === $u->getUserId()) {
+                  $postUploader = $u;
+              }
+
+              // Also find uploaders of comments
+              // on this post and set them for the template
+              foreach ($comments as $j => $comment) {
+                  if ($comments[$j]->getUserId() === $u->getUserId()) {
+                      $comments[$j]->commenterLink = $u->getPermalink();
+                      $comments[$j]->commenterProfile = $u->getProfilePic();
+                      $comments[$j]->commenter = $u->getFirstName() . ' ' . $u->getLastName();
+                  }
+              }
+          }
+
+          // Set up post for template
+          $posts[$i]->setUploader($postUploader->getFirstName() . ' ' . $postUploader->getLastName());
+          $posts[$i]->setUploaderProfilePic($postUploader->getProfilePic());
+          $posts[$i]->setUploaderLink($postUploader->getPermalink());
+          $posts[$i]->setComments($comments);
+          $posts[$i]->setUpvotes($upvoteCount);
       }
 
       return $this->render('main/index.html.twig', [

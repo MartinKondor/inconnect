@@ -41,12 +41,17 @@ class Action
      * @ORM\Column(type="string", length=255)
      */
     private $action_type;
-    // Can be: upvote ...
+    // Can be: upvote, comment ...
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $content;
+
+    // Comment properties and only for templates
+    public $commenterLink;
+    public $commenterProfile;
+    public $commenter;
 
     public function getActionId()
     {

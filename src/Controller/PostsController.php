@@ -16,23 +16,16 @@ class PostsController extends Controller
     */
    public function viewPost($postid)
    {
+      // Get the uploader and the post from the database
       $viewPost = $this->getDoctrine()
                      ->getRepository(Post::class)
                      ->findOneBy([ 'post_id' => $postid ]);
-      if (empty($viewPost)) throw $this->createNotFoundException('The post does not exists.');
-
-      // Get the uploader of this post
       $uploader = $this->getDoctrine()
-                     ->getRepository(User::class)
-                     ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
-      if (empty($uploader)) throw $this->createNotFoundException('The uploader of this post does not exists.');
+                   ->getRepository(User::class)
+                   ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
+      if (empty($viewPost) or empty($uploader)) throw $this->createNotFoundException('The post does not exists.');
 
-      // Set some properties for the template
-      $viewPost->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
-      $viewPost->setUploaderProfilePic($uploader->getProfilePic());
-      $viewPost->setUploaderLink($uploader->getPermalink());
-
-      // Get the actions related to this post
+      // Getting the actions
       $actions = $this->getDoctrine()
                   ->getRepository(Action::class)
                   ->findBy([ 'entity_id' => $viewPost->getPostId() ]);
@@ -48,8 +41,22 @@ class PostsController extends Controller
                  $viewPost->setUpvotedByUser(true);
          }
       }
-
       if (empty($comments) or $comments === []) $comments = null;
+
+      $viewPost->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
+      $viewPost->setUploaderProfilePic($uploader->getProfilePic());
+      $viewPost->setUploaderLink($uploader->getPermalink());
+
+      // Set the comments
+      foreach ($comments as $j => $comment) {
+          $commentUploader = $this->getDoctrine()
+                  ->getRepository(User::class)
+                  ->findOneBy([ 'user_id' => $comment->getUserId() ]);
+          $comments[$j]->commenterLink = $commentUploader->getPermalink();
+          $comments[$j]->commenterProfile = $commentUploader->getProfilePic();
+          $comments[$j]->commenter = $commentUploader->getFirstName() . ' ' . $commentUploader->getLastName();
+      }
+
       $viewPost->setComments($comments);
       $viewPost->setUpvotes($upvotes);
 

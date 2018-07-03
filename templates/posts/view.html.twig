@@ -29,10 +29,9 @@
          </a>
       </div>
       <div id="{{ 'post-' ~ viewPost.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
-        <form action="{{ asset('p/auth/newcomment') }}" method="POST">
-          <div class="input-group">
+        <form action="{{ path('comment', { entityId: viewPost.postId }) }}" method="POST">
+          <div class="input-group comment-field">
             <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
-            <input style="display:none;" type="text" name="postid" value="{{ viewPost.postId }}">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary send-comment">Send</button>
             </div>
@@ -47,9 +46,9 @@
                         {{ comment.commenter }}
                      </a>
                      &middot;
-                     <span class="comment-time">{{ comment.time }}</span>
+                     <span class="comment-time">{{ comment.actionDate | date("Y-m-d") }}</span>
                   </div>
-                  <span class="comment-content">{{ comment.comment }}</span>
+                  <span class="comment-content">{{ comment.content }}</span>
                </div>
             {% endfor %}
          {% else %}

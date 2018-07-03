@@ -67,6 +67,22 @@ class ActionController extends Controller
      */
     public function comment($entityId)
     {
-        return new Response($entityId);
+        if (empty($_POST['comment'])) return new Response('failure');
+
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $userAction = new Action();
+        $userAction->setEntityId($entityId);
+        $userAction->setUserId($user->getUserId());
+        $userAction->setActionDate(new \DateTime());
+        $userAction->setEntityType('post');
+        $userAction->setActionType('comment');
+        $userAction->setContent($_POST['comment']);
+
+        $em->persist($userAction);
+        $em->flush();
+
+        return new Response('success');
     }
 }

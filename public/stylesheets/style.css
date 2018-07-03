@@ -188,6 +188,10 @@ footer ul li {
   width: 100%;
 }
 
+.comment-field {
+    margin-top: 10px;
+}
+
 .post-comments {
   font-size: 14px;
 }
