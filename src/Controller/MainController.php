@@ -71,7 +71,7 @@ class MainController extends Controller
       // Get all posts and users from the database
       $posts = $this->getDoctrine()
                   ->getRepository(Post::class)
-                  ->findAll();
+                  ->findBy([], [ 'date_of_upload' => 'DESC' ]);
       $uploaders = $this->getDoctrine()
                   ->getRepository(User::class)
                   ->findAll();

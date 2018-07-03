@@ -6,7 +6,7 @@ html, body {
   border: 0;
   height: 100vh;
   width: 100vw;
-} 
+}
 
 body {
    font-family: 'Roboto', sans-serif;
@@ -130,7 +130,7 @@ footer ul li {
 
 .post {
   font-size: 17px;
-  border-radius: 2px;
+  border-radius: 4px;
   /* margin: 22px 20vw 42px 20vw; */
   margin: 22px 0px 42px 0px;
   box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
@@ -157,13 +157,13 @@ footer ul li {
   color: #101010;
 }
 
-.post-title .uploader a {
+.post-title .uploader {
   text-decoration: none;
   color: #101010 !important;
 }
 
-.post-title .uploader a:hover,
-.post-title .uploader a:active {
+.post-title .uploader:hover,
+.post-title .uploader:active {
   text-decoration: none;
   color: #777777 !important;
 }
@@ -192,12 +192,13 @@ footer ul li {
     margin-top: 10px;
 }
 
-.post-comments {
-  font-size: 14px;
+.comment {
+  margin-top: 14px;
 }
 
-.post-comments .comment {
-  margin-top: 14px;
+.comment-content {
+  padding: 20px;
+  font-size: 16px;
 }
 
 .comment-commenter {

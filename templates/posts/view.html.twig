@@ -7,10 +7,10 @@
 <section>
    <article class="post animated" style="margin-bottom:400px;">
       <div class="post-title">
-         <span class="uploader">
-            <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.uploaderProfilePic) }}" alt="Profile icon of {{ viewPost.uploader }},">
-            <a href="{{ asset('u/' ~ viewPost.uploaderLink) }}">{{ viewPost.uploader }}</a>
-           </span>
+          <a class="uploader" href="{{ asset('u/' ~ viewPost.uploaderLink) }}">
+              <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.uploaderProfilePic) }}" alt="Profile icon of {{ viewPost.uploader }},">
+              {{ viewPost.uploader }}
+          </a>
          <span class="post-time">{{ viewPost.dateOfUpload | date('Y-m-d G:i') }}</span>
       </div>
       <p class="post-content">{{ viewPost.content }}</p>
@@ -28,7 +28,7 @@
           <i class="far fa-comment"></i> {{ viewPost.comments | length }}
          </a>
       </div>
-      <div id="{{ 'post-' ~ viewPost.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
+      <div id="{{ 'post-' ~ viewPost.postId ~ '-comments' }}" class="animated fadeIn" style="display:none;">
         <form action="{{ path('comment', { entityId: viewPost.postId }) }}" method="POST">
           <div class="input-group comment-field">
             <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
