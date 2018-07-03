@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-main">
+<nav class="navbar navbar-expand-lg navbar-light bg-main">
       <a class="navbar-brand brand-logo" href="{{ path('index') }}" title="Flying Strawberry">
          <img src="{{ asset('images/strawberry-logo.png') }}" alt="Strawberry logo">
       </a>
@@ -8,10 +8,10 @@
      <div class="collapse navbar-collapse" id="navbarContent">
          {% if app.user is not null %}
             <ul class="navbar-nav mr-auto">
-                 <li class="mr-1"><a class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
+                 <li class="mr-1"><a id="actual-user-name" class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
                  <li class="dropdown nav-item">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                     <img class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture"> 
+                     <img id="actual-user-profile-pic" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu mr-5">
                          <li><a class="nav-link" href="{{ asset('u/' ~ app.user.permalink) }}"><i class="fas fa-user"></i> Profile</a></li>

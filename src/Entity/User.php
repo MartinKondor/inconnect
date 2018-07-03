@@ -71,13 +71,16 @@ class User implements UserInterface
      */
     private $permalink;
 
-    private $roles;
-
     /**
      * @Assert\NotBlank(message="You cannot sign up without a password.")
      * @Assert\Length(max=4096)
      */
     private $plain_password;
+
+    // Not database value
+    private $friends;
+    private $isFriendOfUser = false;
+    private $isFriendRequestSent = false;
 
     public function getUserId()
     {
@@ -220,4 +223,38 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {}
+
+    public function getFriends(): ?array
+    {
+        return $this->friends;
+    }
+
+    public function setFriends($friends): self
+    {
+        $this->friends = $friends;
+        return $this;
+    }
+
+    public function isFriendOfUser(): bool
+    {
+        return $this->isFriendOfUser;
+    }
+
+    public function setFriendOfUser($isFriendOfUser): self
+    {
+        $this->isFriendOfUser = $isFriendOfUser;
+        return $this;
+    }
+
+    public function isFriendRequestSent(): bool
+    {
+        return $this->isFriendRequestSent;
+    }
+
+    public function setFriendRequestSent($isFriendRequestSent): self
+    {
+        $this->isFriendRequestSent = $isFriendRequestSent;
+        return $this;
+    }
+
 }

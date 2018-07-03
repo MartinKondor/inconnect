@@ -11,9 +11,18 @@
          alt="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }},">
    </div>
    <div class="col-sm mt-5">
-      <p class="text-uppercase font-weight-bold">Friends 0</p>
-      <p class="text-uppercase font-weight-bold">{{ viewUser.birthDate | date('Y-m-d') }}</p>
-      <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
+      {% if viewUser.isFriendOfUser or viewUser.userId == app.user.userId %}
+          <p class="text-uppercase font-weight-bold">{{ viewUser.birthDate | date('Y-m-d') }}</p>
+          <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
+      {% elseif viewUser.isFriendRequestSent %}
+          <button class="btn btn-primary disabled" href="#" disabled>
+              Friend request sent
+          </button>
+      {% else %}
+          <button class="btn btn-primary add-friend-btn" href="{{ path('add_friend', { user2Id: viewUser.userId }) }}">
+            Add Friend
+          </button>
+      {% endif %}
    </div>
    <div class="col-sm user-card-info mt-5">
       <h1 class="font-weight-bold user-name">{{ viewUser.firstName ~' '~ viewUser.lastName }}</h1>
@@ -22,7 +31,6 @@
 </section>
 <section class="row text-center">
    <div class="col-sm-6">
-      <a id="friends" href="#friends" class="btn btn-outline-primary btn-block">Friends</a>
       <section id="friend-list" style="display:none;">
          {% if viewUser.friends is defined %}
             <ul class="text-left animated bounceInLeft" style="list-style:none;">
@@ -39,7 +47,6 @@
       </section>
    </div>
    <div class="col-sm-6">
-      <a id="posts" href="#posts" class="btn btn-outline-primary btn-block">Posts</a>
       <section id="post-list" style="display:none;">
          {% if viewUser.posts is defined %}
             <ul class="text-right animated bounceInRight" style="list-style:none;">

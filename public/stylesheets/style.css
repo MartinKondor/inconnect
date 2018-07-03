@@ -62,7 +62,7 @@ header nav {
 }
 
 .xs-profile {
-   width: 30px !important;
+   width: 34px !important;
    height: auto !important;
    border-radius: 50%;
    box-shadow: 0px 0px 1px #373737;
@@ -70,7 +70,7 @@ header nav {
 }
 
 .xxs-profile {
-   width: 25px !important;
+   width: 30px !important;
    height: auto !important;
    border-radius: 50%;
    box-shadow: 0px 0px 1px #424242;

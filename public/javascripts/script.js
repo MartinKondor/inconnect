@@ -16,24 +16,6 @@
       }
    });
 
-   $('#friends').on('click', function(e) {
-      e.preventDefault();
-      if ($('#friend-list').css('display') === 'none') {
-         $('#friend-list').css('display', 'block');
-      } else {
-         $('#friend-list').css('display', 'none');
-      }
-   });
-
-   $('#posts').on('click', function(e) {
-      e.preventDefault();
-      if ($('#post-list').css('display') === 'none') {
-         $('#post-list').css('display', 'block');
-      } else {
-         $('#post-list').css('display', 'none');
-      }
-   });
-
    $('#deleteAccount').on('click', function(e) {
       if (confirm('Are you sure you want to delete your profile? Every message, pictures, posts, and data about you will be completely deleted.')) {
          e.preventDefault();
@@ -71,5 +53,60 @@
             $(this).html('<i class="far fa-thumbs-up"></i> ' + data.replace(/\D/g, ''));
       });
   });
+
+  $('.send-comment').on('click', function(e) {
+     e.preventDefault();
+     let url = $(this).attr('href');
+     let postId = url.split('/')[3];
+     let commentContent = $('#comment-area-' + postId).val();
+
+     if ($('#comment-area-' + url.split('/')[3]).val()) {
+         $.ajax({
+             method: 'POST',
+             url: url,
+             data: { comment: commentContent }
+         }).done((data) => {
+
+             // Place comment on the page
+             if (data === 'success') {
+                 let aUserName = $('#actual-user-name').html();
+                 let aUserLink = $('#actual-user-name').attr('href');
+                 let aUserProfilePic = $('#actual-user-profile-pic').attr('src');
+
+                 let wholeComment = `<div class="comment animated rotateIn">
+                      <div>
+                         <a href="${aUserLink}" class="comment-commenter">
+                            <img class="xxs-profile" src="${aUserProfilePic}">
+                            ${aUserName}
+                         </a>
+                         &middot;
+                         <span class="comment-time">Now</span>
+                      </div>
+                      <span class="comment-content">${commentContent}</span>
+                   </div>`;
+
+                 $('#post-' + postId + '-comments').append(wholeComment);
+                 $('#comment-area-' + postId).val('');
+             }
+         });
+     }
+  });
+
+    // Friend adding
+   $('.add-friend-btn').on('click', function(e) {
+       e.preventDefault();
+
+       $.ajax({
+           method: 'POST',
+           url: $(this).attr('href')
+       }).done((done) => {
+
+           if (done === 'success') {
+               $(this).html('Friend request sent');
+               $(this).addClass('disabled');
+               $(this).prop('disabled', true);
+           }
+       });
+   });
 
 })(jQuery);
