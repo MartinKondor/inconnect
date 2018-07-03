@@ -15,23 +15,20 @@
       </div>
       <p class="post-content">{{ viewPost.content }}</p>
       <div class="post-info">
-         {% if user is defined %}
-            <a class="upvote-icon feed-icon" href="upvote" title="Upvote this post">
+          <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: viewPost.postId }) }}" title="Upvote this post">
               {% if viewPost.upvotedByUser %}
                 <i class="fas fa-thumbs-up"></i>
               {% else %}
                 <i class="far fa-thumbs-up"></i>
               {% endif %}
               {{ viewPost.upvotes }}
-            </a> 
+          </a>
             &middot;
-          {% endif %}
          <a id="{{ 'post-' ~ viewPost.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
           <i class="far fa-comment"></i> {{ viewPost.comments | length }}
          </a>
       </div>
       <div id="{{ 'post-' ~ viewPost.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
-      {% if user is defined %}
         <form action="{{ asset('p/auth/newcomment') }}" method="POST">
           <div class="input-group">
             <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
@@ -41,7 +38,6 @@
             </div>
           </div>
         </form>
-      {% endif %}
          {% if viewPost.comments is not null %}
             {% for comment in viewPost.comments %}
                <div class="comment">
@@ -57,10 +53,8 @@
                </div>
             {% endfor %}
          {% else %}
-            <p class="h3 mt-1">There are no comments on this post ...</p>
-            {% if user is defined %}
-              <p>Be the first to comment on it</p>
-            {% endif %}
+             <p class="h3 mt-1">There are no comments on this post ...</p>
+             <p>Be the first to comment on it</p>
          {% endif %}
       </div>
    </article>

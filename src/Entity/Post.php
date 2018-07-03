@@ -42,6 +42,7 @@ class Post
     private $uploader_link;
 
     // From action table
+    private $isUpvotedByUser = false;
     private $comments;
     private $upvotes;
 
@@ -155,8 +156,14 @@ class Post
         return $this;
     }
 
+    public function setUpvotedByUser(bool $isUpvotedByUser): self
+    {
+        $this->isUpvotedByUser = $isUpvotedByUser;
+        return $this;
+    }
+
     public function isUpvotedByUser(): bool
     {
-        return true;
+        return $this->isUpvotedByUser;
     }
 }

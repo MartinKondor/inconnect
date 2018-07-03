@@ -45,7 +45,7 @@
             if (data === 'success') {
                 alert('Please log out.');
             } else {
-                alert('Server error, please try it later.');
+                alert('Server error, please try again it later.');
             }
          });
       }

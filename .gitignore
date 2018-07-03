@@ -6,6 +6,9 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+# IDE files
+.idea
+
 # Local test only
 test.php
 

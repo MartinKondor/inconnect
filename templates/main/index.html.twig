@@ -5,11 +5,11 @@
 
 {% block body %}
    <section class="row">
-      <div class="col-lg-7 newpost-card mx-auto ">
-         <form action="{{ asset('auth/newpost') }}" method="POST">
-            <textarea class="form-control mb-1" name="postContent" placeholder="Share something ..." required></textarea>
-            <button type="submit" class="btn btn-primary btn-block">Share</button>
-         </form>
+      <div class="col-lg-7 newpost-card mx-auto mt-5">
+          <form action="{{ path("new_post") }}" method="POST" name="new_post_form">
+              <textarea class="form-control mb-1" name="postContent" placeholder="Share something ..." required></textarea>
+              <button type="submit" class="btn btn-primary btn-block">Share</button>
+          </form>
       </div>
       <div id="quote" class="col-lg-5"></div>
    </section>
@@ -27,27 +27,27 @@
                </div>
                <p class="post-content">{{ post.content }}</p>
                <div class="post-info">
-                  <a class="upvote-icon feed-icon" href="{{ asset('auth/upvote-' ~ post.postId) }}" title="Upvote this post">
-                  {% if post.upvotedByUser %}
-                     <i class="fas fa-thumbs-up"></i>
-                  {% else %}
-                     <i class="far fa-thumbs-up"></i>
-                  {% endif %}
-                  {{ post.upvotes }}
+                  <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.postId }) }}" title="Upvote this post">
+                      {% if post.isUpvotedByUser %}
+                          <i class="fas fa-thumbs-up"></i>
+                      {% else %}
+                          <i class="far fa-thumbs-up"></i>
+                      {% endif %}
+                      {{ post.upvotes }}
                   </a> 
                   &middot;
-                  <a id="{{ 'post-' ~ post.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post"><i class="far fa-comment"></i> {{ post.comments | length }}</a>
+                  <a id="{{ 'post-' ~ post.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
+                     <i class="far fa-comment"></i> {{ post.comments | length }}
+                  </a>
                </div>
                <div id="{{ 'post-' ~ post.postId ~ '-comments' }}" class="post-comments animated fadeIn" style="display:none;">
-               <form action="{{ asset('p/auth/newcomment') }}" method="POST">
-                  <div class="input-group">
+                   <div class="input-group">
                      <textarea height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
                      <input style="display:none;" type="text" name="postid" value="{{ post.postId }}">
                      <div class="input-group-append">
                         <button type="submit" class="btn btn-primary send-comment">Send</button>
                      </div>
                   </div>
-               </form>
                   {% if post.comments is not null %}
                      {% for comment in post.comments %}
                         <div class="comment">

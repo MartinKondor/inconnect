@@ -88,17 +88,20 @@ class MainController extends Controller
          $posts[$i]->setUploaderLink($uploader->getPermalink());
 
          if (isset($actions) and $actions !== []) {
-            $upvotes = 0;
+            $upvoteCount = 0;
             $comments = [];
-            \array_map(function($action) {
-                  if ($action->getActionType() === 'comment') $comments[] = $action;
-                  if ($action->getActionType() === 'upvote') $upvotes++;
-            }, $actions);
+            foreach ($actions as $action) {
+                if ($action->getActionType() === 'comment') $comments[] = $action;
+                if ($action->getActionType() === 'upvote') {
+                    $upvoteCount++;
+                    if ($action->getUserId() === $this->getUser()->getUserId())
+                        $post->setUpvotedByUser(true);
+                }
+            }
 
             if (empty($comments) or $comments === []) $comments = null;
             $posts[$i]->setComments($comments);
-            $posts[$i]->setUpvotes($upvotes);
-            $posts[$i]->isUpvotedByUser();
+            $posts[$i]->setUpvotes($upvoteCount);
 
          } else {
             $posts[$i]->setComments(null);

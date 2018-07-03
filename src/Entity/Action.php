@@ -35,11 +35,13 @@ class Action
      * @ORM\Column(type="string", length=255)
      */
     private $entity_type;
+    // Can be: post ...
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $action_type;
+    // Can be: upvote ...
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

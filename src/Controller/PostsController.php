@@ -7,13 +7,14 @@ use App\Entity\{ User, Post, Action };
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 
 class PostsController extends Controller 
 {
    /**
     * @Route("/p/{postid}", name="view_post", methods={ "GET" })
     */
-   public function viewPost(int $postid)
+   public function viewPost($postid)
    {
       $viewPost = $this->getDoctrine()
                      ->getRepository(Post::class)
@@ -41,14 +42,16 @@ class PostsController extends Controller
       foreach ($actions as $action) {
          if ($action->getActionType() === 'comment')
             $comments[] = $action;
-         if ($action->getActionType() === 'upvote')
-            $upvotes++;
+         if ($action->getActionType() === 'upvote') {
+             $upvotes++;
+             if ($action->getUserId() === $this->getUser()->getUserId())
+                 $viewPost->setUpvotedByUser(true);
+         }
       }
 
       if (empty($comments) or $comments === []) $comments = null;
       $viewPost->setComments($comments);
       $viewPost->setUpvotes($upvotes);
-      $viewPost->isUpvotedByUser();
 
       return $this->render('posts/view.html.twig', [
          'viewPost' => $viewPost
@@ -58,17 +61,21 @@ class PostsController extends Controller
    /**
     * @Route("/p/new", name="new_post", methods={ "POST" })
     */
-   public function newPost() 
+   public function newPost(Request $request)
    {
-      $viewPost = new Post();
-      $viewPost->setUserId(1);
-      $viewPost->setContent('First post content ever');
-      $viewPost->setDateOfUpload(new \DateTime());
+       $user = $this->getUser();
 
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($viewPost);
-      $em->flush();
+       $viewPost = new Post();
+       $viewPost->setUserId($user->getUserId());
+       $viewPost->setContent($_POST['postContent']);
+       $viewPost->setDateOfUpload(new \DateTime());
 
-      return $this->render('main/home.html.twig');
+       // if (isset($post['image']))
+
+       $em = $this->getDoctrine()->getManager();
+       $em->persist($viewPost);
+       $em->flush();
+
+       return $this->redirectToRoute('index');
    }
 }
