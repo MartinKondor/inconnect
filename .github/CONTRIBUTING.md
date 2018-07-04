@@ -48,7 +48,7 @@ integration provider before being merged.
 These are the steps on how to set up your computer for running an FSBerry
 server and making changes on it.
 
-1. Star (very important ;)) & Fork this repository.
+1. Star (very important ;)) and Fork this repository.
 2. Clone your forked repository.
 3. If you doesnt have, install an Apache server, MySQL server, PHP, and Composer:
 
@@ -74,14 +74,39 @@ server and making changes on it.
    Create tables 
    ```php bin/console doctrine:migrations:migrate```
 
-   Hit ```y`` and now (if there are no errors), the database is up an ready.
+   Hit ```y```.
+
+   Load fixtures to make two default user what you can use for testing:
+   
+   ```php bin/console doctrine:fixtures:load -q -append```
 
 5. Go to ```localhost/fsberry/public/index.php/``` with your browser to see if everything is up and running.
-6. Change the code as you wish, like add a new feature, remove a bug.
-7. Write tests for your changes and try to test everything if possible.
+    
+    Log in to one of these users:
+    
+    ```
+    Email: test@clara.test
+    Password: test
+    Email: test@john.test
+    Password: test
+    ```
+    
+    Or Sign up and log in to your own user.
+    
+    The homepage with the two default user and a created post:
+    
+    ![Example](https://github.com/flyingstrawberry/fsberry/blob/master/src/DataFixtures/example1.png)
+
+    A test profile page:
+    
+    ![Example](https://github.com/flyingstrawberry/fsberry/blob/master/src/DataFixtures/example2.png)
+
+6. Change the code as you wish, like add a new feature, remove a bug, change the design and so on...
+7. Write tests for your changes and try to test everything what can be affected by your changes.
 8. Make sure that all the tests passing, run tests with ```php bin/phpunit```
 9. Create a pull request at this repository, wait for a feedback.
-10. If everything is fine then congrats! You are now officially contributed on FSBerry!
+10. If the community accepted your changes then congrats! You are now officially contributed on FSBerry!
+But anyway, thank you for making FSBerry better! 
 
 NOTE: If you use apache server on Windows, then you can
 set a virtual host on your computer to make the development process faster.
