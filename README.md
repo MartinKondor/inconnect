@@ -15,6 +15,7 @@ On the other hand, a social network must have some functions what could make it 
 
 * Unit and functional tests
 * Friend adding, removing and listing on profiles
+* Notification system
 * Images in posts
 * Profile picture change & user settings
 * Chat between users & teams

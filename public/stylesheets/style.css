@@ -88,26 +88,45 @@ header .brand-logo {
    font-size: 30px;
 }
 
+.nav-icon {
+   margin-top: 5px;
+   font-size: 27px;
+   transition: color 0.5s ease-out;
+   color: #909090;
+}
+
+.nav-icon:hover,
+.nav-icon:active {
+   transition: color 0.7s ease;
+   color: #373737;
+}
+
 header .brand-logo img {
    width: 42px;
    height: auto;
 }
 
 footer {
-   bottom: 0 !important;
-   position: relative;
-   width: 100vw;
-   background-color: #F4F4F4;
-   margin-top: 22%;
-   padding: 20px 20px 5px 20px;
+    font-size: 14px;
+    bottom: 0 !important;
+    position: relative;
+    width: 100vw;
+    background-color: #F4F4F4;
+    margin-top: 22%;
+    padding: 20px 20px 5px 20px;
 }
 
 footer ul {
-   list-style: none;
+    list-style: none;
 }
 
 footer ul li {
-   display: inline-block;
+    margin-top: 5px;
+}
+
+footer .copy {
+    font-size: 12px;
+    margin: 10px;
 }
 
 /* Home page related styles */
@@ -131,7 +150,6 @@ footer ul li {
 .post {
   font-size: 17px;
   border-radius: 4px;
-  /* margin: 22px 20vw 42px 20vw; */
   margin: 22px 0px 42px 0px;
   box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
   padding: 20px;
