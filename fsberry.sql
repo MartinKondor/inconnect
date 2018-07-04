@@ -34,8 +34,8 @@ CREATE TABLE action ( -- Actions like comment/upvotes/downvotes stored here
 
 CREATE TABLE friend (
   friend_id INT AUTO_INCREMENT NOT NULL,
-  user1_id INT NOT NULL,
-  user2_id INT NOT NULL,
+  user1_id INT NOT NULL, -- Request from this user
+  user2_id INT NOT NULL, -- To this
   status VARCHAR(100) NOT NULL, -- Can be friends, request ...
   PRIMARY KEY(friend_id, user1_id, user2_id)
 );

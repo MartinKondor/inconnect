@@ -19,7 +19,7 @@
          {% for post in posts %}
             <article class="post animated">
                <div class="post-title">
-                  <a class="uploader" href="{{ asset('u/' ~ post.uploaderLink) }}">
+                  <a class="uploader" href="{{ path('view_user', { permalink: post.uploaderLink }) }}">
                       <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.uploaderProfilePic) }}" alt="Profile icon of {{ post.uploader }},">
                       {{ post.uploader }}
                    </a>
@@ -51,7 +51,7 @@
                      {% for comment in post.comments %}
                         <div class="comment">
                            <div>
-                              <a href="{{ asset('u/' ~ comment.commenterLink) }}" class="comment-commenter">
+                              <a href="{{ path('view_user', { permalink: comment.commenterLink }) }}" class="comment-commenter">
                                  <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.commenterProfile) }}" alt="Profile picture of {{ comment.commenter }},">
                                  {{ comment.commenter }}
                               </a>

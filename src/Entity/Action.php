@@ -49,9 +49,9 @@ class Action
     private $content;
 
     // Comment properties and only for templates
-    public $commenterLink;
-    public $commenterProfile;
-    public $commenter;
+    private $commenterLink;
+    private $commenterProfile;
+    private $commenter;
 
     public function getActionId()
     {
@@ -127,6 +127,39 @@ class Action
     {
         $this->content = $content;
 
+        return $this;
+    }
+
+    public function getCommenterLink(): ?string
+    {
+        return $this->commenterLink;
+    }
+
+    public function setCommenterLink(?string $commenterLink): self
+    {
+        $this->commenterLink = $commenterLink;
+        return $this;
+    }
+
+    public function getCommenterProfile(): ?string
+    {
+        return $this->commenterProfile;
+    }
+
+    public function setCommenterProfile(?string $commenterProfile): self
+    {
+        $this->commenterProfile = $commenterProfile;
+        return $this;
+    }
+
+    public function getCommenter(): ?string
+    {
+        return $this->commenter;
+    }
+
+    public function setCommenter(?string $commenter): self
+    {
+        $this->commenter = $commenter;
         return $this;
     }
 }

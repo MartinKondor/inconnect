@@ -75,8 +75,11 @@
     "name" : "FSBerry",
 	"description" : "Open source social network for everyone.",
 	"keywords" : [
-		"fsberry",
-		"flyingstrawberry",
+		"fsb",
+        "fsberry",
+        "flying",
+		"strawberry",
+        "flyingstrawberry",
 		"php",
 		"symfony",
 		"social",

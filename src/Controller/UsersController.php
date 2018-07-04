@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Friend };
+use App\Entity\{ User, Friend, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,26 +21,77 @@ class UsersController extends Controller
       $viewUser = $this->getDoctrine()
                   ->getRepository(User::class)
                   ->findOneBy([ 'permalink' => $permalink ]);
+      if (empty($viewUser))
+          throw $this->createNotFoundException('The user does not exists.');
 
-      $friends = $this->getDoctrine()
+      $friendsOfViewedUser = $this->getDoctrine()
                   ->getRepository(Friend::class)
                   ->findBy([ 'user1_id' => $viewUser->getUserId() ]);
 
-      $viewUser->setFriends($friends);
+      // Setting up friends for template
+      foreach ($friendsOfViewedUser as $i => $friend) {
+          $friendProfile = $this->getDoctrine()
+                          ->getRepository(User::class)
+                          ->findOneBy([ 'user_id' => $friend->getUser2Id() ]);
+          $friendsOfViewedUser[$i]->setFriendName($friendProfile->getFirstName() . ' ' . $friendProfile->getLastName());
+          $friendsOfViewedUser[$i]->setLinkToFriend($friendProfile->getPermalink());
+          $friendsOfViewedUser[$i]->setFriendProfilePic($friendProfile->getProfilePic());
+      }
+      $viewUser->setFriends($friendsOfViewedUser);
 
-      // The current user sent the request?
-      $viewUser->setFriendRequestSent(false);
-      foreach ($friends as $friend) {
-          if ($friend->getUser1Id() === $user->getUserId() or $friend->getUser2Id() === $user->getUserId()) {
-              if ($friend->getStatus() === 'request')
-                  $viewUser->setFriendRequestSent(true);
-              elseif ($friend->getStatus() === 'friends')
-                  $viewUser->setFriendOfUser(true);
-          }
+      // What is the friend status between the viewed user and the logined in user?
+      // From the perspective of the logined in user.
+      $friendStatus = $this->getDoctrine()
+          ->getRepository(Friend::class)
+          ->findOneBy([
+              'user1_id' => $user->getUserId(),
+              'user2_id' => $viewUser->getUserId()
+          ]);
+      if (isset($friendStatus)) {
+          $viewUser->setFriendStatus($friendStatus->getStatus());
       }
 
-      if (empty($viewUser))
-         throw $this->createNotFoundException('The user does not exists.');
+      // Posts section
+      $postsOfViewedUser = $this->getDoctrine()
+                                ->getRepository(Post::class)
+                                ->findBy([ 'user_id' => $viewUser->getUserId() ],
+                                         [ 'date_of_upload' => 'DESC' ]);
+
+      // Setting up posts of user
+      foreach ($postsOfViewedUser as $i => $post) {
+          $actions = $this->getDoctrine()
+                      ->getRepository(Action::class)
+                      ->findBy([
+                          'entity_id' => $post->getPostId()
+                      ]);
+          $upvotes = 0;
+          $comments = null;
+
+          foreach ($actions as $j => $action) {
+              if ($action->getActionType() === 'upvote') $upvotes++;
+              if ($action->getActionType() === 'comment') {
+
+                 // Setting up comments
+                 $commentUploader = $this->getDoctrine()
+                      ->getRepository(User::class)
+                      ->findOneBy([ 'user_id' => $actions[$j]->getUserId() ]);
+
+                 $actions[$j]->setCommenterLink($commentUploader->getPermalink());
+                 $actions[$j]->setCommenterProfile($commentUploader->getProfilePic());
+                 $actions[$j]->setCommenter($commentUploader->getFirstName() . ' ' . $commentUploader->getLastName());
+                 $comments[] = $actions[$j];
+              }
+          }
+
+          $postsOfViewedUser[$i]->setUploader($viewUser->getFirstName() . ' ' . $viewUser->getLastName());
+          $postsOfViewedUser[$i]->setUploaderLink($viewUser->getPermalink());
+          $postsOfViewedUser[$i]->setUploaderProfilePic($viewUser->getProfilePic());
+          $postsOfViewedUser[$i]->setUpvotes($upvotes);
+          $postsOfViewedUser[$i]->setComments($comments);
+      }
+
+      $viewUser->setPosts($postsOfViewedUser);
+
 
       return $this->render('users/view.html.twig', [
          'viewUser' => $viewUser
@@ -53,6 +104,23 @@ class UsersController extends Controller
    public function addFriend($user2Id)
    {
         // Create a new friend request
+        $user = $this->getUser();
+        $requestedUser = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->findOneBy([ 'user_id' => $user2Id ]);
+        if (empty($requestedUser))
+            return new Response('fail');
+
+        $em = $this->getDoctrine()
+                        ->getManager();
+
+        $fr = new Friend();
+        $fr->setUser1Id($user->getUserId());
+        $fr->setUser2Id($requestedUser->getUserId());
+        $fr->setStatus('request');
+
+        $em->persist($fr);
+        $em->flush();
         return new Response('success');
    }
 }

@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/MartinKondor/fsberry/blob/master/public/images/strawberry-logo.png" width="122px" height="auto">
+<img src="https://github.com/flyingstrawberry/fsberry/blob/master/public/images/strawberry-logo.png" width="122px" height="auto">
 </p>
 <h1 align="center">FSBerry, the social network</h1>
 <h3 align="center">
@@ -9,7 +9,7 @@ Free, open source, built by a community, built for everyone.
 [![Build Status](https://travis-ci.org/flyingstrawberry/fsberry.svg?branch=master)](https://travis-ci.org/flyingstrawberry/fsberry)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-The main mission of this project FSBerry (or FlyingStrawberry), is to create and maintain a social network which is available for everyone, free to use, as secure as possible and built by a community. On the community, we mean both the developers and the users who can recommend different functionalities and/or contribute on FlyingStrawberry.
+The main mission of FSBerry (or FlyingStrawberry), is to create and maintain a social network which is available for everyone, free to use, as secure as possible and built by a community. On the community, we mean both the developers and the users who can recommend different functionalities and/or contribute on FlyingStrawberry.
 
 On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 

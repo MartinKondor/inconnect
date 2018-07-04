@@ -79,8 +79,8 @@ class User implements UserInterface
 
     // Not database value
     private $friends;
-    private $isFriendOfUser = false;
-    private $isFriendRequestSent = false;
+    private $friendStatus = null;
+    private $posts;
 
     public function getUserId()
     {
@@ -94,8 +94,7 @@ class User implements UserInterface
 
     public function setFirstName(string $first_name): self
     {
-        $this->first_name = $first_name;
-
+        $this->first_name = ucfirst(strtolower(trim($first_name)));
         return $this;
     }
 
@@ -106,8 +105,7 @@ class User implements UserInterface
 
     public function setLastName(string $last_name): self
     {
-        $this->last_name = $last_name;
-
+        $this->last_name = ucfirst(strtolower(trim($last_name)));
         return $this;
     }
 
@@ -229,32 +227,31 @@ class User implements UserInterface
         return $this->friends;
     }
 
-    public function setFriends($friends): self
+    public function setFriends(array $friends): self
     {
         $this->friends = $friends;
         return $this;
     }
 
-    public function isFriendOfUser(): bool
+    public function getFriendStatus(): ?string
     {
-        return $this->isFriendOfUser;
+        return $this->friendStatus;
     }
 
-    public function setFriendOfUser($isFriendOfUser): self
+    public function setFriendStatus(string $friendStatus): self
     {
-        $this->isFriendOfUser = $isFriendOfUser;
+        $this->friendStatus = $friendStatus;
         return $this;
     }
 
-    public function isFriendRequestSent(): bool
+    public function getPosts(): ?array
     {
-        return $this->isFriendRequestSent;
+        return $this->posts;
     }
 
-    public function setFriendRequestSent($isFriendRequestSent): self
+    public function setPosts(array $posts): self
     {
-        $this->isFriendRequestSent = $isFriendRequestSent;
+        $this->posts = $posts;
         return $this;
     }
-
 }

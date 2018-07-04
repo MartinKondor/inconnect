@@ -1,6 +1,6 @@
 # Contributing to FSBerry
 Thank you for your interest in contributing to FSBerry! We believe that only 
-through community involvement can FlyingStrawberry be the best it can be. There are a whole
+through community involvement can FSBerry be the best it can be. There are a whole
 host of ways to contribute, and every single one is appreciated. The major 
 sections of this document are linked below:
 
@@ -82,3 +82,35 @@ server and making changes on it.
 8. Make sure that all the tests passing, run tests with ```php bin/phpunit```
 9. Create a pull request at this repository, wait for a feedback.
 10. If everything is fine then congrats! You are now officially contributed on FSBerry!
+
+NOTE: If you use apache server on Windows, then you can
+set a virtual host on your computer to make the development process faster.
+Follow these steps:
+
+1. Paste this into your ```apache/conf/extra/httpd-vhosts.conf``` file:
+```
+<VirtualHost *:80>
+    ServerName fsberry.local
+    DocumentRoot "E:/Programs/xamp/htdocs/fsberry/public"
+    DirectoryIndex index.php
+    <Directory "E:/Programs/xamp/htdocs/fsberry/public/">
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ /index.php [QSA,L]
+        </IfModule>
+    </Directory>
+</VirtualHost>
+```
+
+2. Open the file ```Windows/System32/drivers/etc/hosts``` as administrator on your computer and append this to it:
+```
+    127.0.0.1 fsberry.local
+```
+
+3. From now you can access the site in the browser with simply typing in the above url.
+(and you will don't need to write index.php before a path every time.)

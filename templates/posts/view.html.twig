@@ -7,7 +7,7 @@
 <section>
    <article class="post animated" style="margin-bottom:400px;">
       <div class="post-title">
-          <a class="uploader" href="{{ asset('u/' ~ viewPost.uploaderLink) }}">
+          <a class="uploader" href="{{ path('view_user', { permalink: viewPost.uploaderLink }) }}">
               <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.uploaderProfilePic) }}" alt="Profile icon of {{ viewPost.uploader }},">
               {{ viewPost.uploader }}
           </a>
@@ -35,11 +35,11 @@
                <button href="{{ path('comment', { entityId: viewPost.postId }) }}" type="submit" class="btn btn-info send-comment">Send</button>
            </div>
          </div>
-         {% if viewPost.comments is not null %}
+         {% if viewPost.comments is defined %}
             {% for comment in viewPost.comments %}
                <div class="comment">
                   <div>
-                     <a href="{{ asset('u/' ~ comment.commenterLink) }}" class="comment-commenter">
+                     <a href="{{ path('view_user', { permalink: comment.commenterLink }) }}" class="comment-commenter">
                         <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.commenterProfile) }}" alt="Profile picture of {{ comment.commenter }},">
                         {{ comment.commenter }}
                      </a>

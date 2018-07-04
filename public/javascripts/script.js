@@ -1,6 +1,6 @@
 'use strict';
 (function($) {
-   console.log('Contribute on the FlyingStrawberry: ' + 'https://github.com/MartinKondor/flyingstrawberry.com');
+   console.log('Help us, to make the most out of FSBerry: ' + 'https://github.com/flyingstrawberry/fsberry');
 
    $('.comment-link').on('click', function(e) {
       e.preventDefault();

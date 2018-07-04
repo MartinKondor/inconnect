@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 class PostsController extends Controller 
 {
    /**
-    * @Route("/p/{postid}", name="view_post", methods={ "GET" })
+    * @Route("/p/{postId}", name="view_post", methods={ "GET" })
     */
-   public function viewPost($postid)
+   public function viewPost($postId)
    {
       // Get the uploader and the post from the database
       $viewPost = $this->getDoctrine()
                      ->getRepository(Post::class)
-                     ->findOneBy([ 'post_id' => $postid ]);
+                     ->findOneBy([ 'post_id' => $postId ]);
       $uploader = $this->getDoctrine()
                    ->getRepository(User::class)
                    ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
@@ -41,20 +41,23 @@ class PostsController extends Controller
                  $viewPost->setUpvotedByUser(true);
          }
       }
-      if (empty($comments) or $comments === []) $comments = null;
 
       $viewPost->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
       $viewPost->setUploaderProfilePic($uploader->getProfilePic());
       $viewPost->setUploaderLink($uploader->getPermalink());
 
       // Set the comments
-      foreach ($comments as $j => $comment) {
-          $commentUploader = $this->getDoctrine()
-                  ->getRepository(User::class)
-                  ->findOneBy([ 'user_id' => $comment->getUserId() ]);
-          $comments[$j]->commenterLink = $commentUploader->getPermalink();
-          $comments[$j]->commenterProfile = $commentUploader->getProfilePic();
-          $comments[$j]->commenter = $commentUploader->getFirstName() . ' ' . $commentUploader->getLastName();
+      if (empty($comments) or $comments === []) {
+          $comments = null;
+      } else {
+           foreach ($comments as $j => $comment) {
+               $commentUploader = $this->getDoctrine()
+                   ->getRepository(User::class)
+                   ->findOneBy([ 'user_id' => $comment->getUserId() ]);
+               $comments[$j]->setCommenterLink($commentUploader->getPermalink());
+               $comments[$j]->setCommenterProfile($commentUploader->getProfilePic());
+               $comments[$j]->setCommenter($commentUploader->getFirstName() . ' ' . $commentUploader->getLastName());
+           }
       }
 
       $viewPost->setComments($comments);

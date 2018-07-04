@@ -11,10 +11,10 @@
          alt="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }},">
    </div>
    <div class="col-sm mt-5">
-      {% if viewUser.isFriendOfUser or viewUser.userId == app.user.userId %}
+      {% if viewUser.friendStatus == 'friends' or viewUser.userId == app.user.userId %}
           <p class="text-uppercase font-weight-bold">{{ viewUser.birthDate | date('Y-m-d') }}</p>
           <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
-      {% elseif viewUser.isFriendRequestSent %}
+      {% elseif viewUser.friendStatus == 'request' %}
           <button class="btn btn-primary disabled" href="#" disabled>
               Friend request sent
           </button>
@@ -30,15 +30,16 @@
    </div>
 </section>
 <section class="row text-center">
-   <div class="col-sm-6">
-      <section id="friend-list" style="display:none;">
+   <div class="col-sm-4">
+      <section id="friend-list">
+         <h4 class="text-muted font-weight-bold h4 mt-5 mb-4">Friends</h4>
          {% if viewUser.friends is defined %}
             <ul class="text-left animated bounceInLeft" style="list-style:none;">
             {% for friend in viewUser.friends %}
                <li class="friend-list-item">
-                  <a href="{{ asset('u/' ~ friend.link) }}">
-                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.profile) }}" alt="Profile picture of {{ friend.profile }},">
-                     <span> &middot; {{ friend.name }}<span>
+                  <a href="{{ path('view_user', { permalink: friend.linkToFriend }) }}">
+                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.friendProfilePic) }}" alt="Profile picture of {{ friend.friendName }},">
+                     <span> &middot; {{ friend.friendName }}</span>
                   </a>
                </li>
             {% endfor %}
@@ -46,17 +47,62 @@
          {% endif %}
       </section>
    </div>
-   <div class="col-sm-6">
-      <section id="post-list" style="display:none;">
+   <div class="col-sm-8">
+      <h4 class="text-muted font-weight-bold h4 mt-5 mb-4">Posts</h4>
+      <section id="post-list">
          {% if viewUser.posts is defined %}
-            <ul class="text-right animated bounceInRight" style="list-style:none;">
+            <ul class="text-left" style="list-style:none;">
             {% for post in viewUser.posts %}
-               <li class="post-list-item">
-                  <a href="{{ asset('p/' ~ post.post_id) }}">
-                     <span>{{ post.introspection }}</span>
-                     <span class="time">{{ post.time }}</span>
-                  </a>
-               </li>
+                <article class="post animated">
+                    <div class="post-title">
+                        <a class="uploader" href="{{ path('view_user', { permalink: post.uploaderLink }) }}">
+                            <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.uploaderProfilePic) }}" alt="Profile icon of {{ post.uploader }},">
+                            {{ post.uploader }}
+                        </a>
+                        <span class="post-time">{{ post.dateOfUpload | date('Y-m-d G:i') }}</span>
+                    </div>
+                    <p class="post-content">{{ post.content }}</p>
+                    <div class="post-info">
+                        <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.postId }) }}" title="Upvote this post">
+                            {% if post.isUpvotedByUser %}
+                                <i class="fas fa-thumbs-up"></i>
+                            {% else %}
+                                <i class="far fa-thumbs-up"></i>
+                            {% endif %}
+                            {{ post.upvotes }}
+                        </a>
+                        &middot;
+                        <a id="{{ 'post-' ~ post.postId ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
+                            <i class="far fa-comment"></i> {{ post.comments | length }}
+                        </a>
+                    </div>
+                    <div id="{{ 'post-' ~ post.postId ~ '-comments' }}" class="animated fadeIn" style="display:none;">
+                        <div class="input-group comment-field">
+                            <textarea id="{{ 'comment-area-' ~ post.postId }}" height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
+                            <div class="input-group-append">
+                                <button href="{{ path('comment', { entityId: post.postId }) }}" type="submit" class="btn btn-info send-comment">Send</button>
+                            </div>
+                        </div>
+                        {% if post.comments is not null %}
+                            {% for comment in post.comments %}
+                                <div class="comment">
+                                    <div>
+                                        <a href="{{ path('view_user', { permalink: comment.commenterLink }) }}" class="comment-commenter">
+                                            <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.commenterProfile) }}" alt="Profile picture of {{ comment.commenter }},">
+                                            {{ comment.commenter }}
+                                        </a>
+                                        &middot;
+                                        <span class="comment-time">{{ comment.actionDate | date("Y-m-d") }}</span>
+                                    </div>
+                                    <span class="comment-content">{{ comment.content }}</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="h3 mt-1">There are no comments on this post...</p>
+                            <p>Be the first to comment on it</p>
+                        {% endif %}
+                    </div>
+                </article>
             {% endfor %}
             </ul>
          {% endif %}

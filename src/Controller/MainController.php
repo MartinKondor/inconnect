@@ -112,9 +112,9 @@ class MainController extends Controller
               // on this post and set them for the template
               foreach ($comments as $j => $comment) {
                   if ($comments[$j]->getUserId() === $u->getUserId()) {
-                      $comments[$j]->commenterLink = $u->getPermalink();
-                      $comments[$j]->commenterProfile = $u->getProfilePic();
-                      $comments[$j]->commenter = $u->getFirstName() . ' ' . $u->getLastName();
+                      $comments[$j]->setCommenterLink($u->getPermalink());
+                      $comments[$j]->setCommenterProfile($u->getProfilePic());
+                      $comments[$j]->setCommenter($u->getFirstName() . ' ' . $u->getLastName());
                   }
               }
           }
