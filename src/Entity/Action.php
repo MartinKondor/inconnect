@@ -27,6 +27,11 @@ class Action
     private $user_id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $to_user_id;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $action_date;
@@ -47,6 +52,11 @@ class Action
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $content;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $seen_by_user;
 
     // Comment properties and only for templates
     private $commenterLink;
@@ -78,6 +88,18 @@ class Action
     public function setUserId(int $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getToUserId(): ?int
+    {
+        return $this->to_user_id;
+    }
+
+    public function setToUserId(int $to_user_id): self
+    {
+        $this->to_user_id = $to_user_id;
 
         return $this;
     }
@@ -115,6 +137,17 @@ class Action
     {
         $this->action_type = $action_type;
 
+        return $this;
+    }
+
+    public function getSeenByUser(): ?string
+    {
+        return $this->seen_by_user;
+    }
+
+    public function setSeenByUser(string $seen_by_user): self
+    {
+        $this->seen_by_user = $seen_by_user;
         return $this;
     }
 

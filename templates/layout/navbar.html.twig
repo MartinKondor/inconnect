@@ -26,20 +26,26 @@
                          <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                      </ul>
                 </li>
+                {# Friend Notifications #}
                 <li class="dropdown nav-item">
-                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+                    <a id="friend-notification-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                       href="{{ path("notification_friends", { userId: app.user.userId }) }}">
                         <i class="fas fa-user-friends nav-icon"></i>
                     </a>
                     <ul id="friend-notification-list" class="dropdown-menu mr-5"></ul>
                 </li>
+                {# Messages #}
                 <li class="dropdown nav-item">
-                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+                    <a id="message-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                       href="{{ path("messages", { userId: app.user.userId }) }}">
                         <i class="far fa-envelope nav-icon"></i>
                     </a>
                     <ul id="message-list" class="dropdown-menu mr-5"></ul>
                 </li>
+                {# Other Notifications #}
                 <li class="dropdown nav-item">
-                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+                    <a id="notification-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                       href="{{ path("notification", { userId: app.user.userId }) }}">
                         <i class="far fa-bell nav-icon"></i>
                     </a>
                     <ul id="notification-list" class="dropdown-menu mr-5"></ul>

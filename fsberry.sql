@@ -28,6 +28,8 @@ CREATE TABLE action ( -- Actions like comment/upvotes/downvotes stored here
    action_date DATETIME NOT NULL, -- When it happened
    entity_type VARCHAR(100) NOT NULL, -- like post/user and ?
    action_type VARCHAR(100) NOT NULL, -- comment/upvote/downvote and ?
+   seen_by_user VARCHAR(100) NOT NULL, -- To user seen it or not?
+   to_user_id INT NOT NULL,
    content TEXT NULL, -- Only relevant when the type is comment
    PRIMARY KEY(user_id, post_id, action_id)
 );

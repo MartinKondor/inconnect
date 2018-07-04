@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 class ActionController extends Controller
 {
     /**
-     * @Route("/action/upvote/{entityId}", name="upvote", methods={ "POST" })
+     * @Route("/action/upvote/{entityId}/{toUserId}", name="upvote", methods={ "POST" })
      */
-    public function upvote($entityId, Request $request)
+    public function upvote($entityId, $toUserId, Request $request)
     {
         $user = $this->getUser();
 
@@ -52,6 +52,7 @@ class ActionController extends Controller
         $userAction = new Action();
         $userAction->setEntityId($entityId);
         $userAction->setUserId($user->getUserId());
+        $userAction->setToUserId($toUserId);
         $userAction->setActionDate(new \DateTime());
         $userAction->setEntityType('post');
         $userAction->setActionType('upvote');
@@ -63,9 +64,9 @@ class ActionController extends Controller
     }
 
     /**
-     * @Route("/action/comment/{entityId}", name="comment", methods={ "POST" })
+     * @Route("/action/comment/{entityId}/{toUserId}", name="comment", methods={ "POST" })
      */
-    public function comment($entityId)
+    public function comment($entityId, $toUserId)
     {
         if (empty($_POST['comment'])) return new Response('failure');
 
@@ -75,6 +76,7 @@ class ActionController extends Controller
         $userAction = new Action();
         $userAction->setEntityId($entityId);
         $userAction->setUserId($user->getUserId());
+        $userAction->setToUserId($toUserId);
         $userAction->setActionDate(new \DateTime());
         $userAction->setEntityType('post');
         $userAction->setActionType('comment');
