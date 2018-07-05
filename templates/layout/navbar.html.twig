@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-main pl-5 pr-5 pt-0 pb-0">
+<nav class="navbar navbar-expand-lg navbar-light bg-light pl-4 pr-4 pt-1 pb-1">
       <a class="navbar-brand brand-logo" href="{{ path('index') }}" title="Flying Strawberry">
           InConnect
       </a>
@@ -8,17 +8,11 @@
      <div class="collapse navbar-collapse" id="navbarContent">
          {% if app.user is not null %}
             <ul class="navbar-nav mr-auto">
-                <form action="#" class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button style="display:none" type="submit"></button>
-                </form>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="dropdown nav-item">
+                <li class="dropdown nav-item ml-1 mr-4">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                          <img id="actual-user-profile-pic" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
                      </a>
-                     <ul class="dropdown-menu mr-5">
+                     <ul class="dropdown-menu">
                          <li><a class="nav-link" href="{{ asset('u/' ~ app.user.permalink) }}"><i class="fas fa-user"></i> Profile</a></li>
                          <li><a class="nav-link" href="#"><i class="fas fa-cogs"></i> Settings</a></li>
                          <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
@@ -26,7 +20,7 @@
                 </li>
 
                 {# Friend Notifications #}
-                <li class="dropdown nav-item ml-5">
+                <li title="Friend notifications" class="dropdown nav-item ml-1">
                     <a id="notification-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
                        href="{{ path("notification", { userId: app.user.userId }) }}">
                         <i class="fas fa-user-friends nav-icon"></i>
@@ -36,24 +30,38 @@
                 </li>
 
                 {# Messages #}
-                <li class="dropdown nav-item ml-2">
+                <li title="Messages" class="dropdown nav-item ml-1">
                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-envelope nav-icon"></i>
+                        <i class="fas fa-envelope nav-icon"></i>
                         <span id="message-notification-counter" class="badge badge-success"></span>
                     </a>
                     <ul id="message-list" class="dropdown-menu mr-5"></ul>
                 </li>
 
                 {# Other Notifications #}
-                <li class="dropdown nav-item ml-2 mr-5">
+                <li title="Notifications" class="dropdown nav-item ml-1">
                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell nav-icon"></i>
+                        <i class="fas fa-bell nav-icon"></i>
                         <span id="general-notification-counter" class="badge badge-success"></span>
                     </a>
                     <ul id="notification-list" class="dropdown-menu mr-5"></ul>
                 </li>
-
-                <li class="ml-5 mr-2"><a id="actual-user-name" class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
+            </ul>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item nav-link"><a href="{{ path('index') }}">News</a></li>
+                <li class="nav-item nav-link"><a href="#">Messages</a></li>
+                <li class="nav-item nav-link"><a href="#">Events</a></li>
+                <li class="nav-item nav-link"><a href="#">Photos</a></li>
+                <li class="nav-item nav-link"><a href="#">Find Friends</a></li>
+            </ul>
+            <ul class="navbar-nav mr-auto">
+                <form action="#" class="form-inline input-group">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <li class="navbar-brand" style="display: none;"><a id="actual-user-name" class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
             </ul>
          {% else %}
              <ul class="navbar-nav mr-auto">

@@ -5,13 +5,6 @@
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
 
-            if (data = []) {
-                $('#friend-notification-list').html('<div class="mx-2 my-2">There are no friend requests to show.</div>');
-                $('#message-list').html('<div class="mx-2 my-2">There are no messages to show.</div>');
-                $('#notification-list').html('<div class="mx-2 my-2">There are no notifications to show.</div>');
-                return null;
-            }
-
             let friendsData = '<div>';
             let messageData = '<div>';
             let generalData = '';
@@ -19,7 +12,18 @@
             for (let i in data) {
 
                 if (i === 'friend') {
-                    friendsData += ``;
+                    for (let friend of data[i]) {
+                        friendsData += `
+                        <li class="mb-1 pl-1 pr-1">
+                            <a href="${friend['link']}">
+                                <button class="btn btn-link">
+                                    <img src="/images/profiles/${friend['pic']}" class="xs-profile"
+                                        alt="Profile picture of ${friend['name']}">
+                                    <span class="font-weight-bold mt-1 mb-1">Friend request from ${friend['name']}</span>
+                                </button>
+                            </a>
+                        </li>`;
+                    }
                 }
 
                 if (i === 'message') {
@@ -29,13 +33,7 @@
                 if (i === 'general') {
                     for (let general of data[i]) {
 
-                        let when = '';
-                        if (general['when'].h === 0 && general['when'].i === 0)
-                            when = `Just now.`;
-                        else if (general['when'].h === 0 && general['when'].i >= 1)
-                            when = `${general['when'].i} minutes ago.`;
-                        else
-                            when = `${general['when'].h} hour and ${general['when'].i} minutes ago.`;
+                        let when = formatDate(general);
 
                         let what = '';
                         if (general['what'] === 'comment') what = 'You got a new Comment!';
@@ -72,6 +70,15 @@
         });
     }
 
-    notificator();
+    if ($('#notification-link').attr('href')) notificator();
+
+    function formatDate(date) {
+        if (date['when'].h === 0 && date['when'].i === 0)
+            return `Just now.`;
+        else if (date['when'].h === 0 && date['when'].i >= 1)
+            return `${date['when'].i} minutes ago.`;
+        else
+            return `${date['when'].h} hour and ${date['when'].i} minutes ago.`;
+    }
 
 })(jQuery);

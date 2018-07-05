@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Caveat|Roboto:200,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Orbitron:400|Roboto:200,400,500,700');
 
 html, body {
   margin: 0;
@@ -95,22 +95,22 @@ header nav {
 
 header .brand-logo {
    text-decoration: none;
-   color: #373737;
-   font-family: 'Caveat', sans-serif;
-   font-size: 30px;
+   color: #777777 !important;
+   font-family: 'Orbitron', sans-serif;
+   font-size: 29px;
 }
 
 .nav-icon {
    margin-top: 5px;
-   font-size: 27px;
-   transition: color 0.5s ease-out;
-   color: #909090;
+   font-size: 22px;
+   transition: color 0.7s ease-out;
+   color: #909092;
 }
 
 .nav-icon:hover,
 .nav-icon:active {
-   transition: color 0.7s ease;
-   color: #373737;
+   transition: color 0.5s ease;
+   color: #373739;
 }
 
 header .brand-logo img {
@@ -154,7 +154,7 @@ footer .copy {
 .feed-icon {
   font-size: 20px;
   transition: color 0.4s ease-out;
-  color: #74A9B8 !important;
+  color: #11836D !important;
   text-decoration: none;
 }
 
@@ -162,7 +162,7 @@ footer .copy {
 .feed-icon:active {
   text-decoration: none;
   transition: color 0.4s ease;
-  color: rgb(58, 108, 122) !important;
+  color: #85de94 !important;
 }
 
 .post {
@@ -272,7 +272,7 @@ footer .copy {
 .user-card-info .user-name {
   font-size: 44px;
   color: #373737;
-  font-family: 'Caveat', sans-serif;
+  font-family: 'Orbitron', sans-serif;
 }
 
 #post-list .post-list-item,

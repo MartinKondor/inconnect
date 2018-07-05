@@ -14,14 +14,21 @@ class UsersController extends Controller
    /**
     * @Route("/u/{permalink}", name="view_user", methods={ "GET" })
     */
-   public function viewUser(string $permalink)
+   public function viewUser($permalink)
    {
       $user = $this->getUser();
 
-      $viewUser = $this->getDoctrine()
-                  ->getRepository(User::class)
-                  ->findOneBy([ 'permalink' => $permalink ]);
-      if (empty($viewUser))
+      $viewUser = null;
+      if (preg_match('/^\d*$/', $permalink)) {
+          $viewUser = $this->getDoctrine()
+              ->getRepository(User::class)
+              ->findOneBy([ 'user_id' => $permalink ]);
+      } else {
+          $viewUser = $this->getDoctrine()
+              ->getRepository(User::class)
+              ->findOneBy([ 'permalink' => $permalink ]);
+      }
+      if (empty($viewUser) || $viewUser == null)
           throw $this->createNotFoundException('The user does not exists.');
 
       // Getting the friends of the viewed user
