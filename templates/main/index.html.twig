@@ -14,7 +14,7 @@
         <div id="quote" class="col-lg-5"></div>
     </section>
     <section class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-12 mx-auto">
             {% if posts is defined %}
                 {% for post in posts %}
                     <article class="post animated">
@@ -72,11 +72,6 @@
                 <h1 class="mx-5 my-5">There are no post's to show!</h1>
                 <p style="margin-bottom:500px !important;">Please come back later ...</p>
             {% endif %}
-        </div>
-        <div class="col-lg-5 animated fadeIn community-row">
-            <div class="affix">
-                Teams, chat ...
-            </div>
         </div>
     </section>
 {% endblock %}

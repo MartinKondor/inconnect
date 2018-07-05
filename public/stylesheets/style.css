@@ -79,6 +79,7 @@ header nav {
    border-radius: 50%;
    box-shadow: 0px 0px 1px #373737;
    background-color: #FEFEFE;
+   transition: width 0.2s ease;
 }
 
 .xxs-profile {
@@ -87,6 +88,15 @@ header nav {
    border-radius: 50%;
    box-shadow: 0px 0px 1px #424242;
    background-color: #FEFEFE;
+   transition: width 0.2s ease;
+}
+
+.xs-profile:hover,
+.xs-profile:active,
+.xxs-profile:hover,
+.xxs-profile:active {
+    width: 42px !important;
+    transition: width 0.2s ease-out;
 }
 
 .bg-main {

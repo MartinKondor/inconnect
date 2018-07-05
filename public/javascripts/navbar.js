@@ -1,16 +1,13 @@
 'use strict';
 
 (function($) {
-
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
-
             let friendsData = '<div>';
             let messageData = '<div>';
             let generalData = '';
 
             for (let i in data) {
-
                 if (i === 'friend') {
                     for (let friend of data[i]) {
                         friendsData += `
@@ -25,11 +22,9 @@
                         </li>`;
                     }
                 }
-
                 if (i === 'message') {
                     messageData += ``;
                 }
-
                 if (i === 'general') {
                     for (let general of data[i]) {
 
@@ -51,14 +46,12 @@
                         </li>`;
                     }
                 }
-
                 if (i === 'counters') {
                     $('#friend-notification-counter').html(data[i]['friend'] === 0 ? '' : data[i]['friend']);
                     $('#message-notification-counter').html(data[i]['message'] === 0 ? '' : data[i]['message']);
                     $('#general-notification-counter').html(data[i]['general'] === 0 ? '' : data[i]['general']);
                 }
             }
-
             friendsData += '</div>';
             messageData += '</div>';
             generalData += '';
@@ -80,5 +73,4 @@
         else
             return `${date['when'].h} hour and ${date['when'].i} minutes ago.`;
     }
-
 })(jQuery);

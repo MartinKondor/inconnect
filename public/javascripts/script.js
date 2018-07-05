@@ -47,10 +47,10 @@
       }).done((data) => {
 
          if ((/^up-\d*$/gi).test(data))
-            $(this).html('<i class="fas fa-thumbs-up"></i> ' + data.replace(/\D/g, ''));
+            $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> ' + data.replace(/\D/g, ''));
 
          if ((/^down-\d*$/gi).test(data))
-            $(this).html('<i class="far fa-thumbs-up"></i> ' + data.replace(/\D/g, ''));
+            $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> ' + data.replace(/\D/g, ''));
       });
   });
 
