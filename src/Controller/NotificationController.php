@@ -23,10 +23,21 @@ class NotificationController extends Controller
              ], [ 'action_date' => 'DESC' ]);
 
         if (isset($actions)) {
-            $responseJson = ['friend' => [], 'message' => [], 'general' => []];
-
+            $responseJson = [
+                'friend' => [],
+                'message' => [],
+                'general' => [],
+                'counters' => [ 'friend' => 0, 'message' => 0, 'general' => 0 ]
+            ];
             foreach ($actions as $action) {
+                if ($action->getActionType() === 'friend') {
+                    $responseJson['counters']['friend']++;
+                }
+                if ($action->getActionType() === 'message') {
+                    $responseJson['counters']['message']++;
+                }
                 if ($action->getActionType() === 'upvote' or $action->getActionType() === 'comment') {
+                    $responseJson['counters']['general']++;
                     $responseJson['general'][] = [
                         'link' => $this->generateUrl('view_post', [ 'postId' => $action->getEntityId() ]),
                         'when' => $action->getActionDate()->diff(new \DateTime()),
@@ -34,10 +45,8 @@ class NotificationController extends Controller
                     ];
                 }
             }
-
             return new JsonResponse($responseJson);
         }
-
         return new JsonResponse([]);
     }
 }

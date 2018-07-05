@@ -13,7 +13,6 @@ The main mission of FSBerry (or FlyingStrawberry), is to create and maintain a s
 
 On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 
-* Unit and functional tests
 * Friend adding, removing and listing on profiles
 * Notification system
 * Images in posts

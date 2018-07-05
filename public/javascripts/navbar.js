@@ -5,6 +5,13 @@
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
 
+            if (data = []) {
+                $('#friend-notification-list').html('<div class="mx-2 my-2">There are no friend requests to show.</div>');
+                $('#message-list').html('<div class="mx-2 my-2">There are no messages to show.</div>');
+                $('#notification-list').html('<div class="mx-2 my-2">There are no notifications to show.</div>');
+                return null;
+            }
+
             let friendsData = '<div>';
             let messageData = '<div>';
             let generalData = '';
@@ -45,6 +52,12 @@
                             </a>
                         </li>`;
                     }
+                }
+
+                if (i === 'counters') {
+                    $('#friend-notification-counter').html(data[i]['friend'] === 0 ? '' : data[i]['friend']);
+                    $('#message-notification-counter').html(data[i]['message'] === 0 ? '' : data[i]['message']);
+                    $('#general-notification-counter').html(data[i]['general'] === 0 ? '' : data[i]['general']);
                 }
             }
 
