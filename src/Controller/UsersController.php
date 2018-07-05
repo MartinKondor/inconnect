@@ -33,7 +33,6 @@ class UsersController extends Controller
                                             WHERE friend.user1_id = 24 AND friend.status = 'friend'");
       $friendQuery->execute([ ':user1_id' => $viewUser->getUserId() ]);
       $friendsOfViewedUser = $friendQuery->fetchAll();
-
       $viewUser->setFriends($friendsOfViewedUser);
 
       // What is the friend status between the viewed user and the logined in user?
@@ -50,44 +49,43 @@ class UsersController extends Controller
           }
       }
 
-      // Posts section
-      $postsOfViewedUser = $this->getDoctrine()
-                                ->getRepository(Post::class)
-                                ->findBy([ 'user_id' => $viewUser->getUserId() ],
-                                         [ 'date_of_upload' => 'DESC' ]);
+      // Getting the posts
+      $postsOfViewedUser = $connection->prepare("SELECT * FROM post
+                                                LEFT JOIN user
+                                                ON post.user_id = user.user_id
+                                                WHERE post.user_id = :user_id");
+      $postsOfViewedUser->execute([ ':user_id' => $viewUser->getUserId() ]);
+      $posts = $postsOfViewedUser->fetchAll();
 
-      // Setting up posts of user
-      foreach ($postsOfViewedUser as $i => $post) {
-          $actions = $this->getDoctrine()
-                      ->getRepository(Action::class)
-                      ->findBy([ 'entity_id' => $post->getPostId() ]);
+      // Get the actions of each posts
+      foreach ($posts as $i => $post) {
+          $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
+                                                user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+                                                FROM `action` RIGHT JOIN user
+                                                ON `action`.`user_id` = user.user_id
+                                                WHERE `action`.`entity_id` = :entity_id");
+          $postQuery->execute([
+              ':entity_id' => $post['post_id']
+          ]);
+          $actions = $postQuery->fetchAll();
 
           $upvotes = 0;
           $comments = null;
-          foreach ($actions as $j => $action) {
-              if ($action->getActionType() === 'upvote') $upvotes++;
-              if ($action->getActionType() === 'comment') {
+          $posts[$i]['isUpvotedByUser'] = false;
 
-                 // Setting up comments
-                 $commentUploader = $this->getDoctrine()
-                      ->getRepository(User::class)
-                      ->findOneBy([ 'user_id' => $actions[$j]->getUserId() ]);
-
-                 $actions[$j]->setCommenterLink($commentUploader->getPermalink());
-                 $actions[$j]->setCommenterProfile($commentUploader->getProfilePic());
-                 $actions[$j]->setCommenter($commentUploader->getFirstName() . ' ' . $commentUploader->getLastName());
-                 $comments[] = $actions[$j];
+          foreach ($actions as $action) {
+              if ($action['action_type'] === 'comment') $comments[] = $action;
+              if ($action['action_type'] === 'upvote') {
+                  $upvotes++;
+                  if ($user->getUserId() == $action['user_id'])
+                      $posts[$i]['isUpvotedByUser'] = true;
               }
           }
 
-          $postsOfViewedUser[$i]->setUploader($viewUser->getFirstName() . ' ' . $viewUser->getLastName());
-          $postsOfViewedUser[$i]->setUploaderLink($viewUser->getPermalink());
-          $postsOfViewedUser[$i]->setUploaderProfilePic($viewUser->getProfilePic());
-          $postsOfViewedUser[$i]->setUpvotes($upvotes);
-          $postsOfViewedUser[$i]->setComments($comments);
+          $posts[$i]['upvotes'] = $upvotes;
+          $posts[$i]['comments'] = $comments;
       }
-
-      $viewUser->setPosts($postsOfViewedUser);
+      $viewUser->setPosts($posts);
 
 
       return $this->render('users/view.html.twig', [
