@@ -28,6 +28,8 @@ class PostsController extends Controller
                                         WHERE post.post_id = :post_id");
        $query->execute([ ':post_id' => $postId ]);
        $post = $query->fetch();
+       if (empty($post))
+           throw $this->createNotFoundException('The post does not exists.');
 
        $actionQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
                                             user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`

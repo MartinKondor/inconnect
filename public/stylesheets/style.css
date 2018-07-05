@@ -8,6 +8,15 @@ html, body {
   width: 100vw;
 }
 
+a {
+    transition: color 0.2s ease-out;
+}
+
+a:hover,
+a:active {
+    transition: color 0.2s ease;
+}
+
 body {
    font-family: 'Roboto', sans-serif;
    font-size: 100%;
@@ -17,6 +26,9 @@ body {
 }
 
 @media screen and (max-width: 1000px) {
+   #actual-user-name {
+       display: none;
+   }
    .auth-form {
       margin-top: 2% !important;
       margin-left: 2% !important;
@@ -104,6 +116,10 @@ header .brand-logo {
 header .brand-logo img {
    width: 42px;
    height: auto;
+}
+
+.dropdown-toggle:after {
+    content: none
 }
 
 footer {

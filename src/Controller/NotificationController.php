@@ -11,49 +11,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class NotificationController extends Controller
 {
     /**
-     * @Route("/notification/friends/{userId}", name="notification_friends", methods={ "POST" })
+     * @Route("/notification/{userId}", name="notification", methods={ "POST" })
      */
-    public function notificationFriends($userId)
+    public function notificationUpdater($userId)
     {
         $actions = $this->getDoctrine()
              ->getRepository(Action::class)
              ->findBy([
                  'to_user_id' => $userId,
                  'seen_by_user' => null
-             ]);
+             ], [ 'action_date' => 'DESC' ]);
 
         if (isset($actions)) {
-            $responseJson = [];
+            $responseJson = ['friend' => [], 'message' => [], 'general' => []];
+
             foreach ($actions as $action) {
-                $responseJson[] = [
-                    'entity_id' => $action->getEntityId(),
-                    'entity_type' => $action->getEntityType(),
-                    'action_type' => $action->getActionType(),
-                    'action_date' => $action->getActionDate()->diff(new \DateTime())
-                ];
+                if ($action->getActionType() === 'upvote' or $action->getActionType() === 'comment') {
+                    $responseJson['general'][] = [
+                        'link' => $this->generateUrl('view_post', [ 'postId' => $action->getEntityId() ]),
+                        'when' => $action->getActionDate()->diff(new \DateTime()),
+                        'what' => $action->getActionType()
+                    ];
+                }
             }
+
             return new JsonResponse($responseJson);
         }
-
-        return new JsonResponse([]);
-    }
-
-    /**
-     * @Route("/notification/messages/{userId}", name="messages", methods={ "POST" })
-     */
-    public function messages($userId)
-    {
-
-
-        return new JsonResponse([]);
-    }
-
-    /**
-     * @Route("/notification/general/{userId}", name="notification", methods={ "POST" })
-     */
-    public function notification($userId)
-    {
-
 
         return new JsonResponse([]);
     }

@@ -2,70 +2,63 @@
 
 (function($) {
 
-    function friendNotificator() {
-        $.post($('#friend-notification-list-link').attr('href'), function(data) {
+    function notificator() {
+        $.post($('#notification-link').attr('href'), function(data) {
 
-            let preparedData = '<div class="text-danger">';
+            let friendsData = '<div>';
+            let messageData = '<div>';
+            let generalData = '';
 
-            for (let notification of data) {
+            for (let i in data) {
 
-                let date = '';
+                if (i === 'friend') {
+                    friendsData += ``;
+                }
 
-                // Format date
-                let days = notification['action_date'].d;
-                let minutes = notification['action_date'].i;
+                if (i === 'message') {
+                    messageData += ``;
+                }
 
-                date += days === 0 ? 'Today ' +minutes+ ' minutes ago' : days + ' day and '+minutes+' ago';
+                if (i === 'general') {
+                    for (let general of data[i]) {
 
-                preparedData += `
-                    <p>When: ${date}</p>
-                    <p>What: ${notification['action_type']}</p>
-                    <p>On: ${notification['entity_type']}</p>
-                    <p>Where: ${notification['entity_id']}</p>
-                `;
+                        let when = '';
+                        if (general['when'].h === 0 && general['when'].i === 0)
+                            when = `Just now.`;
+                        else if (general['when'].h === 0 && general['when'].i >= 1)
+                            when = `${general['when'].i} minutes ago.`;
+                        else
+                            when = `${general['when'].h} hour and ${general['when'].i} minutes ago.`;
+
+                        let what = '';
+                        if (general['what'] === 'comment') what = 'You got a new Comment!';
+                        if (general['what'] === 'upvote') what = 'You got a new Upvote!';
+
+                        generalData += `
+                        <li class="mb-4 pl-1 pr-1">
+                            <a href="${general['link']}">
+                                <button class="btn btn-link">
+                                    <span class="font-weight-bold mt-1 mb-1">${what}</span>
+                                    <br/>
+                                    <span class="text-muted">${when}</span>
+                                </button>
+                            </a>
+                        </li>`;
+                    }
+                }
             }
-            preparedData += '</div>';
 
-            $('#friend-notification-list').html(preparedData);
-            //setTimeout(friendNotificator, 120000);
+            friendsData += '</div>';
+            messageData += '</div>';
+            generalData += '';
+            $('#friend-notification-list').html(friendsData);
+            $('#message-list').html(messageData);
+            $('#notification-list').html(generalData);
+
+            setTimeout(notificator, 120000);
         });
     }
 
-    function messageNotificator() {
-        $.post($('#message-list-link').attr('href'), function(data) {
-            $('#message-list').html(data);
+    notificator();
 
-            //setTimeout(messageNotificator, 120000);
-        });
-    }
-
-    function generalNotificator() {
-        $.post($('#notification-list-link').attr('href'), function(data) {
-            $('#notification-list').html(data);
-
-            //setTimeout(generalNotificator, 120000);
-        });
-    }
-
-    friendNotificator();
-    messageNotificator();
-    generalNotificator();
-
-    // Friend Notification menu
-    $('#friend-notification-list-link').on('click', function(e) {
-        e.preventDefault();
-
-    });
-
-    // Message menu
-    $('#message-list-link').on('click', function(e) {
-        e.preventDefault();
-
-    });
-
-    // Notification menu
-    $('#notification-list-link').on('click', function(e) {
-        e.preventDefault();
-
-    });
 })(jQuery);

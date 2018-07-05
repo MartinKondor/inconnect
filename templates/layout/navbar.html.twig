@@ -17,7 +17,6 @@
             <ul class="navbar-nav ml-auto">
                 <li class="dropdown nav-item">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                         <span class="caret"></span>
                          <img id="actual-user-profile-pic" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
                      </a>
                      <ul class="dropdown-menu mr-5">
@@ -26,31 +25,33 @@
                          <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                      </ul>
                 </li>
+
                 {# Friend Notifications #}
-                <li class="dropdown nav-item">
-                    <a id="friend-notification-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                       href="{{ path("notification_friends", { userId: app.user.userId }) }}">
+                <li class="dropdown nav-item ml-5">
+                    <a id="notification-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                       href="{{ path("notification", { userId: app.user.userId }) }}">
                         <i class="fas fa-user-friends nav-icon"></i>
                     </a>
-                    <ul id="friend-notification-list" class="dropdown-menu mr-5"></ul>
+                    <ul id="friend-notification-list" style="list-style:none;" class="dropdown-menu mr-5"></ul>
                 </li>
+
                 {# Messages #}
-                <li class="dropdown nav-item">
-                    <a id="message-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                       href="{{ path("messages", { userId: app.user.userId }) }}">
+                <li class="dropdown nav-item ml-2">
+                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-envelope nav-icon"></i>
                     </a>
                     <ul id="message-list" class="dropdown-menu mr-5"></ul>
                 </li>
+
                 {# Other Notifications #}
-                <li class="dropdown nav-item">
-                    <a id="notification-list-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                       href="{{ path("notification", { userId: app.user.userId }) }}">
+                <li class="dropdown nav-item ml-2 mr-5">
+                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell nav-icon"></i>
                     </a>
                     <ul id="notification-list" class="dropdown-menu mr-5"></ul>
                 </li>
-                <li class="ml-5"><a id="actual-user-name" class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
+
+                <li class="ml-5 mr-2"><a id="actual-user-name" class="brand-logo" href="{{ asset('u/' ~ app.user.permalink) }}">{{ app.user.firstName ~' '~ app.user.lastName}}</a></li>
             </ul>
          {% else %}
              <ul class="navbar-nav mr-auto">
