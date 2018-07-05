@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/in-connect/inconnect/blob/master/public/images/ic-banner.png" width="122px" height="auto">
+<img src="https://github.com/in-connect/inconnect/blob/master/public/images/ic-banner.png" width="270px" height="auto">
 </p>
 <h1 align="center">InConnect, the social network</h1>
 <h3 align="center">
