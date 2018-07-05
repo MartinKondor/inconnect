@@ -16,56 +16,47 @@ class PostsController extends Controller
     */
    public function viewPost($postId)
    {
-      // Get the uploader and the post from the database
-      $viewPost = $this->getDoctrine()
-                     ->getRepository(Post::class)
-                     ->findOneBy([ 'post_id' => $postId ]);
-      $uploader = $this->getDoctrine()
-                   ->getRepository(User::class)
-                   ->findOneBy([ 'user_id' => $viewPost->getUserId() ]);
-      if (empty($viewPost) or empty($uploader)) throw $this->createNotFoundException('The post does not exists.');
+       $user = $this->getUser();
 
-      // Getting the actions
-      $actions = $this->getDoctrine()
-                  ->getRepository(Action::class)
-                  ->findBy([ 'entity_id' => $viewPost->getPostId() ]);
+       $em = $this->getDoctrine()->getManager();
+       $connection = $em->getConnection();
 
-      $upvotes = 0;
-      $comments = [];
-      foreach ($actions as $action) {
-         if ($action->getActionType() === 'comment')
-            $comments[] = $action;
-         if ($action->getActionType() === 'upvote') {
-             $upvotes++;
-             if ($action->getUserId() === $this->getUser()->getUserId())
-                 $viewPost->setUpvotedByUser(true);
-         }
-      }
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
+                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic
+                                        FROM post RIGHT JOIN user
+                                        ON post.user_id = user.user_id
+                                        WHERE post.post_id = :post_id");
+       $query->execute([ ':post_id' => $postId ]);
+       $post = $query->fetch();
 
-      $viewPost->setUploader($uploader->getFirstName() . ' ' . $uploader->getLastName());
-      $viewPost->setUploaderProfilePic($uploader->getProfilePic());
-      $viewPost->setUploaderLink($uploader->getPermalink());
+       $actionQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
+                                            user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+                                            FROM `action` 
+                                            RIGHT JOIN user
+                                            ON `action`.`user_id` = user.user_id
+                                            WHERE `action`.`entity_id` = :entity_id");
+       $actionQuery->execute([ ':entity_id' => $postId ]);
+       $postActions = $actionQuery->fetchAll();
 
-      // Set the comments
-      if (empty($comments) or $comments === []) {
-          $comments = null;
-      } else {
-           foreach ($comments as $j => $comment) {
-               $commentUploader = $this->getDoctrine()
-                   ->getRepository(User::class)
-                   ->findOneBy([ 'user_id' => $comment->getUserId() ]);
-               $comments[$j]->setCommenterLink($commentUploader->getPermalink());
-               $comments[$j]->setCommenterProfile($commentUploader->getProfilePic());
-               $comments[$j]->setCommenter($commentUploader->getFirstName() . ' ' . $commentUploader->getLastName());
+       $upvotes = 0;
+       $comments = null;
+       $post['isUpvotedByUser'] = false;
+
+       foreach ($postActions as $action) {
+           if ($action['action_type'] === 'comment') $comments[] = $action;
+           if ($action['action_type'] === 'upvote') {
+               $upvotes++;
+               if ($user->getUserId() == $action['user_id'])
+                   $post['isUpvotedByUser'] = true;
            }
-      }
+       }
 
-      $viewPost->setComments($comments);
-      $viewPost->setUpvotes($upvotes);
+       $post['upvotes'] = $upvotes;
+       $post['comments'] = $comments;
 
-      return $this->render('posts/view.html.twig', [
-         'viewPost' => $viewPost
-      ]);
+       return $this->render('posts/view.html.twig', [
+           'viewPost' => $post
+       ]);
    }
 
    /**

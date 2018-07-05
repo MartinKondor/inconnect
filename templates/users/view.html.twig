@@ -37,9 +37,9 @@
             <ul class="text-left animated bounceInLeft" style="list-style:none;">
             {% for friend in viewUser.friends %}
                <li class="friend-list-item">
-                  <a href="{{ path('view_user', { permalink: friend.linkToFriend }) }}">
-                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.friendProfilePic) }}" alt="Profile picture of {{ friend.friendName }},">
-                     <span> &middot; {{ friend.friendName }}</span>
+                  <a href="{{ path('view_user', { permalink: friend.permalink }) }}">
+                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.profile_pic) }}" alt="Profile picture of {{ friend.first_name ~ ' ' ~ friend.last_name }},">
+                     <span> &middot; {{ friend.first_name ~ ' ' ~ friend.last_name }}</span>
                   </a>
                </li>
             {% endfor %}

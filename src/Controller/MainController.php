@@ -68,67 +68,51 @@ class MainController extends Controller
     */
    public function index()
    {
-      // Get all posts and users from the database
-      $posts = $this->getDoctrine()
-                  ->getRepository(Post::class)
-                  ->findBy([], [ 'date_of_upload' => 'DESC' ]);
-      $uploaders = $this->getDoctrine()
-                  ->getRepository(User::class)
-                  ->findAll();
+       $user = $this->getUser();
 
-      // Set posts for template
-      foreach ($posts as $i => $post) {
+       $em = $this->getDoctrine()->getManager();
+       $connection = $em->getConnection();
+       $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
+                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic
+                                        FROM post RIGHT JOIN user
+                                        ON post.user_id = user.user_id
+                                        WHERE post.content IS NOT NULL)
+                                        ORDER BY post.date_of_upload DESC
+                                        LIMIT 100");
+       $query->execute();
+       $posts = $query->fetchAll();
 
-          $upvoteCount = 0;
-          $comments = [];
+       // Set up the post with the comments and upvotes
+       foreach ($posts as $i => $post) {
+           $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
+                                                user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+                                                FROM `action` RIGHT JOIN user
+                                                ON `action`.`user_id` = user.user_id
+                                                WHERE `action`.`entity_id` = :entity_id");
+           $postQuery->execute([
+               ':entity_id' => $post['post_id']
+           ]);
+           $actions = $postQuery->fetchAll();
 
-          // Find the actions of this post
-          $actions = $this->getDoctrine()
-              ->getRepository(Action::class)
-              ->findBy([ 'entity_id' => $post->getPostId() ]);
+           $upvotes = 0;
+           $comments = null;
+           $posts[$i]['isUpvotedByUser'] = false;
 
-          if (isset($actions)) {
-              foreach ($actions as $k => $action) {
-                  if ($action->getActionType() === 'comment') {
-                      $comments[] = $actions[$k];
-                  }
-                  if ($action->getActionType() === 'upvote') {
-                      $upvoteCount++;
-                      if ($action->getUserId() === $this->getUser()->getUserId()) {
-                          $post->setUpvotedByUser(true);
-                      }
-                  }
-              }
-          }
+           foreach ($actions as $action) {
+               if ($action['action_type'] === 'comment') $comments[] = $action;
+               if ($action['action_type'] === 'upvote') {
+                   $upvotes++;
+                   if ($user->getUserId() == $action['user_id'])
+                       $posts[$i]['isUpvotedByUser'] = true;
+               }
+           }
 
-          // Find the uploader of this post
-          $postUploader = null;
-          foreach ($uploaders as $u) {
-              if ($post->getUserId() === $u->getUserId()) {
-                  $postUploader = $u;
-              }
+           $posts[$i]['upvotes'] = $upvotes;
+           $posts[$i]['comments'] = $comments;
+       }
 
-              // Also find uploaders of comments
-              // on this post and set them for the template
-              foreach ($comments as $j => $comment) {
-                  if ($comments[$j]->getUserId() === $u->getUserId()) {
-                      $comments[$j]->setCommenterLink($u->getPermalink());
-                      $comments[$j]->setCommenterProfile($u->getProfilePic());
-                      $comments[$j]->setCommenter($u->getFirstName() . ' ' . $u->getLastName());
-                  }
-              }
-          }
-
-          // Set up post for template
-          $posts[$i]->setUploader($postUploader->getFirstName() . ' ' . $postUploader->getLastName());
-          $posts[$i]->setUploaderProfilePic($postUploader->getProfilePic());
-          $posts[$i]->setUploaderLink($postUploader->getPermalink());
-          $posts[$i]->setComments($comments);
-          $posts[$i]->setUpvotes($upvoteCount);
-      }
-
-      return $this->render('main/index.html.twig', [
-         'posts' => $posts
-      ]);
+       return $this->render('main/index.html.twig', [
+           'posts' => $posts
+       ]);
    }
 }

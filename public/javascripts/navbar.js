@@ -27,7 +27,7 @@
             preparedData += '</div>';
 
             $('#friend-notification-list').html(preparedData);
-            setTimeout(friendNotificator, 60000);
+            //setTimeout(friendNotificator, 120000);
         });
     }
 
@@ -35,7 +35,7 @@
         $.post($('#message-list-link').attr('href'), function(data) {
             $('#message-list').html(data);
 
-            setTimeout(messageNotificator, 60000);
+            //setTimeout(messageNotificator, 120000);
         });
     }
 
@@ -43,7 +43,7 @@
         $.post($('#notification-list-link').attr('href'), function(data) {
             $('#notification-list').html(data);
 
-            setTimeout(generalNotificator, 60000);
+            //setTimeout(generalNotificator, 120000);
         });
     }
 

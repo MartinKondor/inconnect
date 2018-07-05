@@ -137,6 +137,7 @@ footer .copy {
 
 .feed-icon {
   font-size: 20px;
+  transition: color 0.4s ease-out;
   color: #74A9B8 !important;
   text-decoration: none;
 }
@@ -144,6 +145,7 @@ footer .copy {
 .feed-icon:hover,
 .feed-icon:active {
   text-decoration: none;
+  transition: color 0.4s ease;
   color: rgb(58, 108, 122) !important;
 }
 
@@ -177,12 +179,14 @@ footer .copy {
 
 .post-title .uploader {
   text-decoration: none;
+  transition: color 0.4s ease-out;
   color: #101010 !important;
 }
 
 .post-title .uploader:hover,
 .post-title .uploader:active {
   text-decoration: none;
+  transition: color 0.3s ease;
   color: #777777 !important;
 }
 

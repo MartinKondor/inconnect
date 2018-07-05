@@ -24,31 +24,30 @@ class UsersController extends Controller
       if (empty($viewUser))
           throw $this->createNotFoundException('The user does not exists.');
 
-      $friendsOfViewedUser = $this->getDoctrine()
-                  ->getRepository(Friend::class)
-                  ->findBy([ 'user1_id' => $viewUser->getUserId() ]);
+      // Getting the friends of the viewed user
+      $em = $this->getDoctrine()->getManager();
+      $connection = $em->getConnection();
+      $friendQuery = $connection->prepare("SELECT * FROM friend
+                                            RIGHT JOIN user
+                                            ON friend.user2_id = user.user_id
+                                            WHERE friend.user1_id = 24 AND friend.status = 'friend'");
+      $friendQuery->execute([ ':user1_id' => $viewUser->getUserId() ]);
+      $friendsOfViewedUser = $friendQuery->fetchAll();
 
-      // Setting up friends for template
-      foreach ($friendsOfViewedUser as $i => $friend) {
-          $friendProfile = $this->getDoctrine()
-                          ->getRepository(User::class)
-                          ->findOneBy([ 'user_id' => $friend->getUser2Id() ]);
-          $friendsOfViewedUser[$i]->setFriendName($friendProfile->getFirstName() . ' ' . $friendProfile->getLastName());
-          $friendsOfViewedUser[$i]->setLinkToFriend($friendProfile->getPermalink());
-          $friendsOfViewedUser[$i]->setFriendProfilePic($friendProfile->getProfilePic());
-      }
       $viewUser->setFriends($friendsOfViewedUser);
 
       // What is the friend status between the viewed user and the logined in user?
       // From the perspective of the logined in user.
-      $friendStatus = $this->getDoctrine()
-          ->getRepository(Friend::class)
-          ->findOneBy([
-              'user1_id' => $user->getUserId(),
-              'user2_id' => $viewUser->getUserId()
-          ]);
-      if (isset($friendStatus)) {
-          $viewUser->setFriendStatus($friendStatus->getStatus());
+      if (isset($friendsOfViewedUser)) {
+          $friendStatus = $this->getDoctrine()
+              ->getRepository(Friend::class)
+              ->findOneBy([
+                  'user1_id' => $user->getUserId(),
+                  'user2_id' => $viewUser->getUserId()
+              ]);
+          if (isset($friendStatus)) {
+              $viewUser->setFriendStatus($friendStatus->getStatus());
+          }
       }
 
       // Posts section
@@ -61,12 +60,10 @@ class UsersController extends Controller
       foreach ($postsOfViewedUser as $i => $post) {
           $actions = $this->getDoctrine()
                       ->getRepository(Action::class)
-                      ->findBy([
-                          'entity_id' => $post->getPostId()
-                      ]);
+                      ->findBy([ 'entity_id' => $post->getPostId() ]);
+
           $upvotes = 0;
           $comments = null;
-
           foreach ($actions as $j => $action) {
               if ($action->getActionType() === 'upvote') $upvotes++;
               if ($action->getActionType() === 'comment') {
