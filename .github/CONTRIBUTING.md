@@ -1,6 +1,6 @@
-# Contributing to FSBerry
-Thank you for your interest in contributing to FSBerry! We believe that only 
-through community involvement can FSBerry be the best it can be. There are a whole
+# Contributing to InConnect
+Thank you for your interest in contributing to InConnect! We believe that only 
+through community involvement can InConnect be the best it can be. There are a whole
 host of ways to contribute, and every single one is appreciated. The major 
 sections of this document are linked below:
 
@@ -9,11 +9,11 @@ sections of this document are linked below:
 - [Pull Requests](#pull-requests)
 - [Steps](#steps)
 
-All contributions to FSBerry should be in keeping with our 
-[Code of Conduct](https://github.com/flyingstrawberry/fsberry/blob/master/.github/CODE_OF_CONDUCT.md).
+All contributions to InConnect should be in keeping with our 
+[Code of Conduct](https://github.com/in-connect/inconnect/blob/master/.github/CODE_OF_CONDUCT.md).
 
 ## Feature Enhancements
-If you feel like you have a suggestion for a change to the way that FSBerry works
+If you feel like you have a suggestion for a change to the way that InConnect works
 as a social network, please open an issue in this repository.
 
 ## Bug Reports
@@ -23,21 +23,21 @@ about, so report as many bugs as you can by opening an issue. If you're not sure
 is a bug, file it anyway.
 
 **If you are concerned that your bug publicly presents a security risk to the
-users of FSBerry, please contact 
+users of InConnect, please contact 
 [martinkondor@gmail.com](mailto://martinkondor@gmail.com).**
 
 ## Pull Requests
-Pull Requests are the primary method for making changes to FSBerry. GitHub has 
+Pull Requests are the primary method for making changes to InConnect. GitHub has 
 [fantastic documentation](https://help.github.com/articles/about-pull-requests/)
-on using the pull request feature. FSBerry uses the 'fork-and-pull' model of 
+on using the pull request feature. InConnect uses the 'fork-and-pull' model of 
 development. It is as described 
 [here](https://help.github.com/articles/about-collaborative-development-models/)
 and involves people pushing changes to their own fork and creating pull requests
-to bring those changes into the main FSBerry repository.
+to bring those changes into the main InConnect repository.
 
 Please make all pull requests against the `master` branch.
 
-Every pull request for FSBerry is reviewed by another person. You'll get a 
+Every pull request for InConnect is reviewed by another person. You'll get a 
 reviewer from the core team assigned at random, but feel free to ask for a 
 specific person if you've dealt with them in a certain area before. 
 
@@ -45,7 +45,7 @@ Once the reviewer approves your pull request it will be tested by our continuous
 integration provider before being merged.
 
 ## Steps
-These are the steps on how to set up your computer for running an FSBerry
+These are the steps on how to set up your computer for running an InConnect
 server and making changes on it.
 
 1. Star (very important ;)) and Fork this repository.
@@ -80,7 +80,7 @@ server and making changes on it.
    
    ```php bin/console doctrine:fixtures:load -q -append```
 
-5. Go to ```localhost/fsberry/public/index.php/``` with your browser to see if everything is up and running.
+5. Go to ```localhost/inconnect/public/index.php/``` with your browser to see if everything is up and running.
     
     Log in to one of these users:
     
@@ -95,18 +95,18 @@ server and making changes on it.
     
     The homepage with the two default user and a created post:
     
-    ![Example](https://github.com/flyingstrawberry/fsberry/blob/master/src/DataFixtures/example1.png)
+    ![Example](https://github.com/in-connect/inconnect/blob/master/src/DataFixtures/example1.png)
 
     A test profile page:
     
-    ![Example](https://github.com/flyingstrawberry/fsberry/blob/master/src/DataFixtures/example2.png)
+    ![Example](https://github.com/in-connect/inconnect/blob/master/src/DataFixtures/example2.png)
 
 6. Change the code as you wish, like add a new feature, remove a bug, change the design and so on...
 7. Write tests for your changes and try to test everything what can be affected by your changes.
 8. Make sure that all the tests passing, run tests with ```php bin/phpunit```
 9. Create a pull request at this repository, wait for a feedback.
-10. If the community accepted your changes then congrats! You are now officially contributed on FSBerry!
-But anyway, thank you for making FSBerry better! 
+10. If the community accepted your changes then congrats! You are now officially contributed on InConnect!
+But anyway, thank you for making InConnect better! 
 
 NOTE: If you use apache server on Windows, then you can
 set a virtual host on your computer to make the development process faster.
@@ -115,10 +115,10 @@ Follow these steps:
 1. Paste this into your ```apache/conf/extra/httpd-vhosts.conf``` file:
 ```
 <VirtualHost *:80>
-    ServerName fsberry.local
-    DocumentRoot "E:/Programs/xamp/htdocs/fsberry/public"
+    ServerName InConnect.local
+    DocumentRoot "E:/Programs/xamp/htdocs/inconnect/public"
     DirectoryIndex index.php
-    <Directory "E:/Programs/xamp/htdocs/fsberry/public/">
+    <Directory "E:/Programs/xamp/htdocs/inconnect/public/">
         Options Indexes FollowSymLinks MultiViews
         AllowOverride None
         Order allow,deny
@@ -134,7 +134,7 @@ Follow these steps:
 
 2. Open the file ```Windows/System32/drivers/etc/hosts``` as administrator on your computer and append this to it:
 ```
-    127.0.0.1 fsberry.local
+    127.0.0.1 inconnect.local
 ```
 
 3. From now you can access the site in the browser with simply typing in the above url.

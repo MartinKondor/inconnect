@@ -1,6 +1,6 @@
 'use strict';
 (function($) {
-   console.log('Help us, to make the most out of FSBerry: ' + 'https://github.com/flyingstrawberry/fsberry');
+   console.log('Help us, to make the most out of InConnect: ' + 'https://github.com/in-connect/inconnect');
 
    $('.comment-link').on('click', function(e) {
       e.preventDefault();

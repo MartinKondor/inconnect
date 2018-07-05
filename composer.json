@@ -72,14 +72,12 @@
             "allow-contrib": false
         }
     },
-    "name" : "FSBerry",
-	"description" : "Open source social network for everyone.",
+    "name" : "InConnect",
+	"description" : "InConnect, Open source social network for everyone.",
 	"keywords" : [
-		"fsb",
-        "fsberry",
-        "flying",
-		"strawberry",
-        "flyingstrawberry",
+		"connect",
+        "inconnect",
+        "in-connect",
 		"php",
 		"symfony",
 		"social",
