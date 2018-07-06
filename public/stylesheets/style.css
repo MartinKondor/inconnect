@@ -133,13 +133,13 @@ header .brand-logo {
    margin-top: 5px;
    font-size: 22px;
    transition: color 0.7s ease-out;
-   color: #909092;
+   color: #11836D !important;
 }
 
 .nav-icon:hover,
 .nav-icon:active {
    transition: color 0.5s ease;
-   color: #373739;
+   color: #009e61 !important;
 }
 
 header .brand-logo img {
@@ -181,7 +181,7 @@ footer .copy {
 }
 
 .feed-icon {
-  font-size: 20px;
+  font-size: 18px;
   transition: color 0.4s ease-out;
   color: #11836D !important;
   text-decoration: none;
@@ -191,7 +191,7 @@ footer .copy {
 .feed-icon:active {
   text-decoration: none;
   transition: color 0.4s ease;
-  color: #85de94 !important;
+  color: #009e61 !important;
 }
 
 .post {
@@ -243,10 +243,14 @@ footer .copy {
 }
 
 .post-content {
-  overflow: visible;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  margin-top: 5px;
+  font-size: 17px;
+}
+
+.comment-content,
+.post-content {
+    white-space: pre-line;
+    margin-top: 5px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .post-info {
@@ -264,7 +268,7 @@ footer .copy {
 }
 
 .comment-content {
-  padding: 20px;
+  padding: 2px;
   font-size: 16px;
 }
 

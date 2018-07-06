@@ -49,7 +49,7 @@ class Action
     // Can be: upvote, comment ...
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $content;
 

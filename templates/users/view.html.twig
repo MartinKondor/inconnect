@@ -61,7 +61,7 @@
                         </a>
                         <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
                     </div>
-                    <p class="post-content">{{ post.content }}</p>
+                    <pre class="post-content">{{ post.content }}</pre>
                     <div class="post-info">
                         <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">
                             {% if post.isUpvotedByUser %}
@@ -94,7 +94,7 @@
                                         &middot;
                                         <span class="comment-time">{{ comment.action_date | date("Y-m-d") }}</span>
                                     </div>
-                                    <span class="comment-content">{{ comment.content }}</span>
+                                    <pre class="comment-content">{{ comment.content }}</pre>
                                 </div>
                             {% endfor %}
                         {% else %}
