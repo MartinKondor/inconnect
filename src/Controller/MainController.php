@@ -63,56 +63,64 @@ class MainController extends Controller
     */
    public function logout() {}
 
-   /**
-    * @Route("/", name="index", methods={ "GET" })
-    */
-   public function index()
-   {
-       $user = $this->getUser();
+    /**
+     * @Route("/", name="index", methods={ "GET" })
+     */
+    public function index()
+    {
+        $user = $this->getUser();
 
-       $em = $this->getDoctrine()->getManager();
-       $connection = $em->getConnection();
-       $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
-                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic
-                                        FROM post RIGHT JOIN user
-                                        ON post.user_id = user.user_id
-                                        WHERE post.content IS NOT NULL)
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+
+        // Getting all posts from the friends of the user, and also from the user her/himself
+        $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
+                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
+                                        FROM user
+                                        INNER JOIN friend
+                                        ON friend.user2_id = user.user_id
+                                        INNER JOIN post
+                                        ON post.user_id = friend.user2_id
+                                        WHERE friend.user1_id = :user_id
+                                        AND friend.status = 'friends'
+                                        AND post.content IS NOT NULL
+                                        OR post.user_id = :user_id)
                                         ORDER BY post.date_of_upload DESC
-                                        LIMIT 100");
-       $query->execute();
-       $posts = $query->fetchAll();
+                                        LIMIT 50");
+        $query->execute([ ':user_id' => $this->getUser()->getUserId() ]);
+        $posts = $query->fetchAll();
 
-       // Set up the post with the comments and upvotes
-       foreach ($posts as $i => $post) {
-           $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
+        // Set up the post with the comments and upvotes
+        foreach ($posts as $i => $post) {
+            $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
                                                 user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
                                                 FROM `action` RIGHT JOIN user
                                                 ON `action`.`user_id` = user.user_id
                                                 WHERE `action`.`entity_id` = :entity_id");
-           $postQuery->execute([
-               ':entity_id' => $post['post_id']
-           ]);
-           $actions = $postQuery->fetchAll();
+            $postQuery->execute([
+                ':entity_id' => $post['post_id']
+            ]);
+            $actions = $postQuery->fetchAll();
 
-           $upvotes = 0;
-           $comments = null;
-           $posts[$i]['isUpvotedByUser'] = false;
+            $upvotes = 0;
+            $comments = null;
+            $posts[$i]['isUpvotedByUser'] = false;
 
-           foreach ($actions as $action) {
-               if ($action['action_type'] === 'comment') $comments[] = $action;
-               if ($action['action_type'] === 'upvote') {
-                   $upvotes++;
-                   if ($user->getUserId() == $action['user_id'])
-                       $posts[$i]['isUpvotedByUser'] = true;
-               }
-           }
+            foreach ($actions as $action) {
+                if ($action['action_type'] === 'comment') $comments[] = $action;
+                if ($action['action_type'] === 'upvote') {
+                    $upvotes++;
+                    if ($user->getUserId() == $action['user_id'])
+                        $posts[$i]['isUpvotedByUser'] = true;
+                }
+            }
 
-           $posts[$i]['upvotes'] = $upvotes;
-           $posts[$i]['comments'] = $comments;
-       }
+            $posts[$i]['upvotes'] = $upvotes;
+            $posts[$i]['comments'] = $comments;
+        }
 
-       return $this->render('main/index.html.twig', [
-           'posts' => $posts
-       ]);
-   }
+        return $this->render('main/index.html.twig', [
+            'posts' => $posts
+        ]);
+    }
 }
