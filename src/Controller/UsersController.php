@@ -37,7 +37,7 @@ class UsersController extends Controller
       $friendQuery = $connection->prepare("SELECT * FROM friend
                                             RIGHT JOIN user
                                             ON friend.user2_id = user.user_id
-                                            WHERE friend.user1_id = 24 AND friend.status = 'friend'");
+                                            WHERE friend.user1_id = :user1_id AND friend.status = 'friends'");
       $friendQuery->execute([ ':user1_id' => $viewUser->getUserId() ]);
       $friendsOfViewedUser = $friendQuery->fetchAll();
       $viewUser->setFriends($friendsOfViewedUser);
@@ -98,31 +98,5 @@ class UsersController extends Controller
       return $this->render('users/view.html.twig', [
          'viewUser' => $viewUser
       ]);
-   }
-
-    /**
-     * @Route("/u/new/{user2Id}", name="add_friend", methods={ "POST" })
-     */
-   public function addFriend($user2Id)
-   {
-        // Create a new friend request
-        $user = $this->getUser();
-        $requestedUser = $this->getDoctrine()
-                        ->getRepository(User::class)
-                        ->findOneBy([ 'user_id' => $user2Id ]);
-        if (empty($requestedUser))
-            return new Response('fail');
-
-        $em = $this->getDoctrine()
-                        ->getManager();
-
-        $fr = new Friend();
-        $fr->setUser1Id($user->getUserId());
-        $fr->setUser2Id($requestedUser->getUserId());
-        $fr->setStatus('request');
-
-        $em->persist($fr);
-        $em->flush();
-        return new Response('success');
    }
 }

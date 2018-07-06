@@ -47,7 +47,9 @@ class NotificationController extends Controller
                     $responseJson['friend'][] = [
                         'link' => $this->generateUrl('view_user', [ 'permalink' => $fr['permalink'] ]),
                         'pic' => $fr['profile_pic'],
-                        'name' => $fr['first_name'] . ' ' . $fr['last_name']
+                        'name' => $fr['first_name'] . ' ' . $fr['last_name'],
+                        'acceptLink' => $this->generateUrl('friend_request_accept', [ 'userId' => $fr['user_id'] ]),
+                        'declineLink' => $this->generateUrl('friend_request_decline', [ 'userId' => $fr['user_id'] ])
                     ];
                 }
             }

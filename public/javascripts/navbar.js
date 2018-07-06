@@ -3,8 +3,8 @@
 (function($) {
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
-            let friendsData = '<div>';
-            let messageData = '<div>';
+            let friendsData = '';
+            let messageData = '';
             let generalData = '';
 
             for (let i in data) {
@@ -19,7 +19,13 @@
                                     <span class="font-weight-bold mt-1 mb-1">Friend request from ${friend['name']}</span>
                                 </button>
                             </a>
-                        </li>`;
+                            <form method="POST" action="${friend['acceptLink']}" style="display: inline-block">
+                                <button class="btn btn-link friend-accept-link" type="submit" >Accept</button>
+                            </form>
+                            <form method="POST" action="${friend['declineLink']}" style="display: inline-block">
+                                <button class="btn btn-link text-danger friend-decline-link" type="submit">Decline</button>
+                            </form>
+                        </li><hr>`;
                     }
                 }
                 if (i === 'message') {
@@ -35,10 +41,11 @@
                         if (general['what'] === 'upvote') what = 'You got a new Upvote!';
 
                         generalData += `
-                        <li class="mb-4 pl-1 pr-1">
+                        <li class="mb-3 pl-1 pr-1">
+                            <button class="btn btn-link text-danger mb-0 mt-0">X</button>
                             <a href="${general['link']}">
                                 <button class="btn btn-link">
-                                    <span class="font-weight-bold mt-1 mb-1">${what}</span>
+                                    <span class="font-weight-bold">${what}</span>
                                     <br/>
                                     <span class="text-muted">${when}</span>
                                 </button>
@@ -52,8 +59,8 @@
                     $('#general-notification-counter').html(data[i]['general'] === 0 ? '' : data[i]['general']);
                 }
             }
-            friendsData += '</div>';
-            messageData += '</div>';
+            friendsData += '';
+            messageData += '';
             generalData += '';
             $('#friend-notification-list').html(friendsData);
             $('#message-list').html(messageData);
@@ -73,4 +80,5 @@
         else
             return `${date['when'].h} hour and ${date['when'].i} minutes ago.`;
     }
+
 })(jQuery);
