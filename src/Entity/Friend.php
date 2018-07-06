@@ -19,12 +19,12 @@ class Friend
     /**
      * @ORM\Column(type="integer")
      */
-    private $user1_id;
+    private $from_user_id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $user2_id;
+    private $to_user_id;
 
     /**
      * @ORM\Column(type="string")
@@ -42,25 +42,25 @@ class Friend
         return $this->friend_id;
     }
 
-    public function getUser1Id(): ?int
+    public function getFromUserId(): ?int
     {
-        return $this->user1_id;
+        return $this->from_user_id;
     }
 
-    public function setUser1Id(int $user1_id): self
+    public function setFromUserId(int $from_user_id): self
     {
-        $this->user1_id = $user1_id;
+        $this->from_user_id = $from_user_id;
         return $this;
     }
 
-    public function getUser2Id(): ?int
+    public function getToUserId(): ?int
     {
-        return $this->user2_id;
+        return $this->to_user_id;
     }
 
-    public function setUser2Id(int $user2_id): self
+    public function setToUserId(int $to_user_id): self
     {
-        $this->user2_id = $user2_id;
+        $this->to_user_id = $to_user_id;
         return $this;
     }
 

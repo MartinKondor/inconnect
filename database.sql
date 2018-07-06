@@ -1,12 +1,12 @@
 -- This is not the final database structure
 
 CREATE TABLE user (
-   user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-   first_name VARCHAR(100) NOT NULL,
-   last_name VARCHAR(100) NOT NULL,
-   email VARCHAR(100) NOT NULL,
-   password VARCHAR(100) NOT NULL, -- Hash of the encrypted password
-   birth_date DATETIME NOT NULL,
+  user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL, -- Hash of the encrypted password
+  birth_date DATETIME NOT NULL,
 	gender VARCHAR(100) NOT NULL,
 	profile_pic VARCHAR(100) DEFAULT 'default.png', -- File name for public/images/profiles
 	about TEXT NULL
@@ -36,8 +36,8 @@ CREATE TABLE action ( -- Actions like comment/upvotes/downvotes stored here
 
 CREATE TABLE friend (
   friend_id INT AUTO_INCREMENT NOT NULL,
-  user1_id INT NOT NULL, -- Request from this user
-  user2_id INT NOT NULL, -- To this
+  from_user_id INT NOT NULL, -- Request from this user
+  to_user_id INT NOT NULL, -- To this user
   status VARCHAR(100) NOT NULL, -- Can be friends, request ...
   PRIMARY KEY(friend_id, user1_id, user2_id)
 );

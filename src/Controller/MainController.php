@@ -78,10 +78,10 @@ class MainController extends Controller
                                         user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
                                         FROM user
                                         INNER JOIN friend
-                                        ON friend.user2_id = user.user_id
+                                        ON friend.to_user_id = user.user_id
                                         INNER JOIN post
-                                        ON post.user_id = friend.user2_id
-                                        WHERE friend.user1_id = :user_id
+                                        ON post.user_id = friend.to_user_id
+                                        WHERE friend.from_user_id = :user_id
                                         AND friend.status = 'friends'
                                         AND post.content IS NOT NULL
                                         OR post.user_id = :user_id

@@ -36,9 +36,9 @@ class UsersController extends Controller
       $connection = $em->getConnection();
       $friendQuery = $connection->prepare("SELECT * FROM friend
                                             RIGHT JOIN user
-                                            ON friend.user2_id = user.user_id
-                                            WHERE friend.user1_id = :user1_id AND friend.status = 'friends'");
-      $friendQuery->execute([ ':user1_id' => $viewUser->getUserId() ]);
+                                            ON friend.to_user_id = user.user_id
+                                            WHERE friend.from_user_id = :from_user_id AND friend.status = 'friends'");
+      $friendQuery->execute([ ':from_user_id' => $viewUser->getUserId() ]);
       $friendsOfViewedUser = $friendQuery->fetchAll();
       $viewUser->setFriends($friendsOfViewedUser);
 
@@ -48,8 +48,8 @@ class UsersController extends Controller
           $friendStatus = $this->getDoctrine()
               ->getRepository(Friend::class)
               ->findOneBy([
-                  'user1_id' => $user->getUserId(),
-                  'user2_id' => $viewUser->getUserId()
+                  'from_user_id' => $user->getUserId(),
+                  'to_user_id' => $viewUser->getUserId()
               ]);
           if (isset($friendStatus)) {
               $viewUser->setFriendStatus($friendStatus->getStatus());

@@ -25,8 +25,8 @@ class FriendController extends Controller
         // Logined User as a friend then this friend adding equals to a friend request acception
         $user2Request = $em->getRepository(Friend::class)
                             ->findOneBy([
-                                'user1_id' => $user2Id,
-                                'user2_id' => $user->getUserId()
+                                'from_user_id' => $user2Id,
+                                'to_user_id' => $user->getUserId()
                             ]);
         if (isset($user2Request)) {
             if ($user2Request->getStatus() === 'request') {
@@ -36,8 +36,8 @@ class FriendController extends Controller
                 $em->flush();
 
                 $fr = new Friend();
-                $fr->setUser1Id($user->getUserId());
-                $fr->setUser2Id($user2Id);
+                $fr->setFromUserId($user->getUserId());
+                $fr->setToUserId($user2Id);
                 $fr->setStatus('friends');
                 $em->persist($fr);
                 $em->flush();
@@ -47,8 +47,8 @@ class FriendController extends Controller
         }
 
         $fr = new Friend();
-        $fr->setUser1Id($user->getUserId());
-        $fr->setUser2Id($user2Id);
+        $fr->setFromUserId($user->getUserId());
+        $fr->setToUserId($user2Id);
         $fr->setStatus('request');
         $em->persist($fr);
         $em->flush();
@@ -64,15 +64,15 @@ class FriendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $friendRequest = $em->getRepository(Friend::class)
             ->findOneBy([
-                'user1_id' => $userId,
-                'user2_id' => $user->getUserId()
+                'from_user_id' => $userId,
+                'to_user_id' => $user->getUserId()
             ]);
         $friendRequest->setStatus('friends');
         $em->flush();
 
         $fr = new Friend();
-        $fr->setUser1Id($user->getUserId());
-        $fr->setUser2Id($userId);
+        $fr->setFromUserId($user->getUserId());
+        $fr->setToUserId($userId);
         $fr->setStatus('friends');
         $em->persist($fr);
         $em->flush();
@@ -89,8 +89,8 @@ class FriendController extends Controller
         $em = $this->getDoctrine()->getManager();
         $friendRequest = $em->getRepository(Friend::class)
             ->findOneBy([
-                'user1_id' => $userId,
-                'user2_id' => $user->getUserId()
+                'from_user_id' => $userId,
+                'to_user_id' => $user->getUserId()
             ]);
         $em->remove($friendRequest);
         $em->flush();

@@ -25,10 +25,10 @@ class NotificationController extends Controller
         $con = $this->getDoctrine()->getManager()->getConnection();
         $friendsQuery = $con->prepare("SELECT * FROM friend 
                                     LEFT JOIN user 
-                                    ON friend.user1_id = user.user_id
+                                    ON friend.from_user_id = user.user_id
                                     WHERE friend.status = 'request'
-                                    AND friend.user2_id = :user_id");
-        $friendsQuery->execute([ 'user_id' => $userId ]);
+                                    AND friend.to_user_id = :to_user_id");
+        $friendsQuery->execute([ ':to_user_id' => $userId ]);
         $friendRequests = $friendsQuery->fetchAll();
 
         if (isset($actions)) {
@@ -40,19 +40,21 @@ class NotificationController extends Controller
             ];
 
             if (isset($friendRequests)) {
-                foreach ($friendRequests as $fr) {
+                foreach ($friendRequests as $friend) {
                     $responseJson['counters']['friend']++;
                     $responseJson['friend'][] = [
-                        'link' => $this->generateUrl('view_user', [ 'permalink' => $fr['permalink'] ]),
-                        'pic' => $fr['profile_pic'],
-                        'name' => $fr['first_name'] . ' ' . $fr['last_name'],
-                        'acceptLink' => $this->generateUrl('friend_request_accept', [ 'userId' => $fr['user_id'] ]),
-                        'declineLink' => $this->generateUrl('friend_request_decline', [ 'userId' => $fr['user_id'] ])
+                        'link' => $this->generateUrl('view_user', [ 'permalink' => $friend['permalink'] ]),
+                        'pic' => $friend['profile_pic'],
+                        'name' => $friend['first_name'] . ' ' . $friend['last_name'],
+                        'acceptLink' => $this->generateUrl('friend_request_accept', [ 'userId' => $friend['user_id'] ]),
+                        'declineLink' => $this->generateUrl('friend_request_decline', [ 'userId' => $friend['user_id'] ])
                     ];
                 }
             }
 
             foreach ($actions as $action) {
+                // The event is not from the logined user
+                if ($action->getUserId() === $this->getUser()->getUserId()) continue;
                 if ($action->getActionType() === 'message') {
                     $responseJson['counters']['message']++;
                 }
