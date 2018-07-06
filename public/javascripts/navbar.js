@@ -1,5 +1,4 @@
 'use strict';
-
 (function($) {
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
@@ -80,5 +79,4 @@
         else
             return `${date['when'].h} hour and ${date['when'].i} minutes ago.`;
     }
-
 })(jQuery);

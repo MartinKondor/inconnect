@@ -9,6 +9,24 @@ use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 class InfoController extends Controller
 {
     /**
+     * @Route("/search", name="search", methods={ "POST" })
+     */
+    public function search()
+    {
+        $query = $this->getDoctrine()->getManager()->getConnection()->prepare("SELECT profile_pic, permalink,
+                                                                      first_name, last_name FROM user
+                                                                      WHERE first_name LIKE :queryFirst OR 
+                                                                      last_name LIKE :queryLast LIMIT 5;");
+        if (preg_match('/.*\s{1}.*/', $_POST['query'])) {
+            list($queryFirst, $queryLast) = explode(' ', $_POST['query']);
+            $query->execute([ ':queryFirst' => "%$queryFirst%", ':queryLast' => "%$queryLast%" ]);
+        } else {
+            $query->execute([ ':queryFirst' => "%{$_POST['query']}%", ':queryLast' => "%{$_POST['query']}%" ]);
+        }
+        return new JsonResponse([ 'result' => $query->fetchAll() ]);
+    }
+
+    /**
      * @Route("/info/news", name="news", methods={ "GET" })
      */
     public function news()

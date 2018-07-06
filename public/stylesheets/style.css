@@ -9,11 +9,13 @@ html, body {
 }
 
 a {
+    text-decoration: none;
     transition: color 0.3s ease-out;
 }
 
 a:hover,
 a:active {
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
@@ -57,6 +59,23 @@ body {
 
 header {
    top: 0;
+}
+
+header #search-list {
+    list-style: none;
+    position: absolute;
+    z-index: 10;
+    background-color: #FCFCFC;
+    border-radius: 5px;
+    padding: 20px;
+    width: 227px;
+    box-shadow: 2px 5px 10px #979797;
+    display: none;
+}
+
+header #search-list li {
+    margin-bottom: 15px;
+    border-bottom: solid 1px #F0F0F0;
 }
 
 header nav {

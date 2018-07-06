@@ -1,6 +1,5 @@
 'use strict';
 (function($) {
-
    // Get quote from api
    $.getJSON('https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=?', (response) => {
         $('#quote').html(`
@@ -17,5 +16,4 @@
             </div>
         `);
    });
-
 })(jQuery);
