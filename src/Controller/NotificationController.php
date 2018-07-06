@@ -2,13 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\{ Friend, Action };
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\{ Action };
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Flex\Response;
+use Symfony\Component\HttpFoundation\{ JsonResponse, Response };
+use Symfony\Component\Routing\Annotation\Route;
 
-// The cachers of these are in the navbar.js
 class NotificationController extends Controller
 {
     /**
@@ -61,6 +59,7 @@ class NotificationController extends Controller
                 if ($action->getActionType() === 'upvote' or $action->getActionType() === 'comment') {
                     $responseJson['counters']['general']++;
                     $responseJson['general'][] = [
+                        'deleteLink' => $this->generateUrl('mute_notification', [ 'actionId' => $action->getActionId() ]),
                         'link' => $this->generateUrl('view_post', [ 'postId' => $action->getEntityId() ]),
                         'when' => $action->getActionDate()->diff(new \DateTime()),
                         'what' => $action->getActionType()
@@ -70,5 +69,19 @@ class NotificationController extends Controller
             return new JsonResponse($responseJson);
         }
         return new JsonResponse([]);
+    }
+
+    /**
+     * @Route("/notification/mute/{actionId}", name="mute_notification", methods={ "POST" })
+     */
+    public function muteNotification($actionId)
+    {
+        $em = $this->getDoctrine()
+                ->getManager();
+        $action = $em->getRepository(Action::class)
+                ->findOneBy([ 'action_id' => $actionId ]);
+        $action->setSeenByUser('seen');
+        $em->flush();
+        return $this->redirectToRoute('index');
     }
 }

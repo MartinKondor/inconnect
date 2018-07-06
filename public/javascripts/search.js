@@ -3,7 +3,7 @@
     let keyCounter = 0;
 
     $('#search-field').keypress(function() {
-        if (keyCounter % 2 !== 0 && $(this).val().length > 4) {
+        if (keyCounter % 2 !== 0 && $(this).val().length >= 2) {
             $.ajax({
                 method: 'POST',
                 url: $(this).attr('href'),

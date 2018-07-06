@@ -84,7 +84,8 @@ class MainController extends Controller
                                         WHERE friend.user1_id = :user_id
                                         AND friend.status = 'friends'
                                         AND post.content IS NOT NULL
-                                        OR post.user_id = :user_id)
+                                        OR post.user_id = :user_id
+                                        GROUP BY post.post_id)
                                         ORDER BY post.date_of_upload DESC
                                         LIMIT 50");
         $query->execute([ ':user_id' => $this->getUser()->getUserId() ]);

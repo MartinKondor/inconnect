@@ -50,7 +50,7 @@ server and making changes on it.
 
 1. Star (very important ;)) and Fork this repository.
 2. Clone your forked repository.
-3. If you doesnt have, install an Apache server, MySQL server, PHP, and Composer:
+3. If you does'nt have, install an Apache server, MySQL server, PHP, and Composer:
 
    The easiest way of doing this is by downloading and installing [XAMP](https://www.apachefriends.org/hu/index.html),
    and [Composer](https://getcomposer.org/).
@@ -68,11 +68,8 @@ server and making changes on it.
    Create the database
    ```php bin/console doctrine:database:create```
 
-   Make a migration
-   ```php bin/console make:migration```
-
-   Create tables 
-   ```php bin/console doctrine:migrations:migrate```
+   Create schema
+   ```php bin/console doctrine:schema:create```
 
    Hit ```y```.
 
@@ -87,11 +84,14 @@ server and making changes on it.
     ```
     Email: test@clara.test
     Password: test
+    -
     Email: test@john.test
     Password: test
     ```
     
     Or Sign up and log in to your own user.
+    
+    Examples (Not final design):
     
     The homepage with the two default user and a created post:
     

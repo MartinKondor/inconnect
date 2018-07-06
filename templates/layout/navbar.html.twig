@@ -58,10 +58,7 @@
             <ul class="navbar-nav mr-auto">
                 <li>
                     <form class="form-inline input-group" method="POST">
-                        <input id="search-field" href="{{ path('search') }}" class="form-control" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
-                        </div>
+                        <input id="search-field" href="{{ path('search') }}" class="form-control" type="search" placeholder="Search" aria-label="Search" autocomplete="off">
                     </form>
                     <ul id="search-list" class="mr-5"></ul>
                 </li>

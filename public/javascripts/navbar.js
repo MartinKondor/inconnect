@@ -39,9 +39,13 @@
                         if (general['what'] === 'comment') what = 'You got a new Comment!';
                         if (general['what'] === 'upvote') what = 'You got a new Upvote!';
 
+                        console.log(general['deleteLink'])
+
                         generalData += `
                         <li class="mb-3 pl-1 pr-1">
-                            <button class="btn btn-link text-danger mb-0 mt-0">X</button>
+                            <form action="${general['deleteLink']}" method="POST">
+                                <button type="submit" class="btn btn-link text-danger mb-0 mt-0">X</button>
+                            </form>
                             <a href="${general['link']}">
                                 <button class="btn btn-link">
                                     <span class="font-weight-bold">${what}</span>
