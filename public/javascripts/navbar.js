@@ -39,8 +39,6 @@
                         if (general['what'] === 'comment') what = 'You got a new Comment!';
                         if (general['what'] === 'upvote') what = 'You got a new Upvote!';
 
-                        console.log(general['deleteLink'])
-
                         generalData += `
                         <li class="mb-3 pl-1 pr-1">
                             <form action="${general['deleteLink']}" method="POST">

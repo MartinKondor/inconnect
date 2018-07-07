@@ -17,56 +17,7 @@
         <div class="col-lg-12 mx-auto">
             {% if posts is defined %}
                 {% for post in posts %}
-                    <article class="post animated">
-                        <div class="post-title">
-                            <a class="uploader" href="{{ path('view_user', { permalink: post.permalink }) }}">
-                                <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.profile_pic) }}" alt="Profile icon of {{ post.first_name ~ ' ' ~ post.last_name }},">
-                                {{ post.first_name ~ ' ' ~ post.last_name }}
-                            </a>
-                            <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
-                        </div>
-                        <pre class="post-content">{{ post.content }}</pre>
-                        <div class="post-info">
-                            <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">
-                                {% if post.isUpvotedByUser %}
-                                    <i class="fas fa-thumbs-up"></i>
-                                {% else %}
-                                    <i class="far fa-thumbs-up"></i>
-                                {% endif %}
-                                {{ post.upvotes }}
-                            </a>
-                            &middot;
-                            <a id="{{ 'post-' ~ post.post_id ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
-                                <i class="far fa-comment"></i> {{ post.comments | length }}
-                            </a>
-                        </div>
-                        <div id="{{ 'post-' ~ post.post_id ~ '-comments' }}" class="animated fadeIn" style="display:none;">
-                            <div class="input-group comment-field">
-                                <textarea id="{{ 'comment-area-' ~ post.post_id }}" height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
-                                <div class="input-group-append">
-                                    <button href="{{ path('comment', { entityId: post.post_id, toUserId: post.user_id }) }}" type="submit" class="btn btn-info send-comment">Send</button>
-                                </div>
-                            </div>
-                            {% if post.comments is not null %}
-                                {% for comment in post.comments %}
-                                    <div class="comment">
-                                        <div>
-                                            <a href="{{ path('view_user', { permalink: comment.permalink }) }}" class="comment-commenter">
-                                                <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.profile_pic) }}" alt="Profile picture of {{ comment.first_name ~ ' ' ~ comment.last_name }},">
-                                                {{ comment.first_name ~ ' ' ~ comment.last_name }}
-                                            </a>
-                                            &middot;
-                                            <span class="comment-time">{{ comment.action_date | date("Y-m-d") }}</span>
-                                        </div>
-                                        <pre class="comment-content">{{ comment.content }}</pre>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <p class="h3 mt-1">There are no comments on this post...</p>
-                                <p>Be the first to comment on it</p>
-                            {% endif %}
-                        </div>
-                    </article>
+                    {% include 'elements/post.html.twig' %}
                 {% endfor %}
             {% else %}
                 <h1 class="mx-5 my-5">There are no post's to show!</h1>

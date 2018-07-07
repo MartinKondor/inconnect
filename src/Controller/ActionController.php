@@ -43,7 +43,7 @@ class ActionController extends Controller
                     $em->flush();
 
                     // The ternary op. is to pervent upvotes showing up like -1
-                    return new Response("down-" . ($upvoteCount - 1));
+                    return new JsonResponse([ 'way' => 'down', 'upvoteCount' => ($upvoteCount - 1) ]);
                 }
             }
         }
@@ -60,7 +60,7 @@ class ActionController extends Controller
         $em->persist($userAction);
         $em->flush();
 
-        return new Response("up-" . ($upvoteCount + 1));
+        return new JsonResponse([ 'way' => 'up', 'upvoteCount' => ($upvoteCount + 1) ]);
     }
 
     /**
@@ -68,7 +68,7 @@ class ActionController extends Controller
      */
     public function comment($entityId, $toUserId)
     {
-        if (empty($_POST['comment'])) return new Response('failure');
+        if (empty($_POST['comment'])) return new JsonResponse([ 'status' => 'failure' ]);
 
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -85,6 +85,11 @@ class ActionController extends Controller
         $em->persist($userAction);
         $em->flush();
 
-        return new Response('success');
+        return new JsonResponse([
+            'status' => 'success',
+            'actualUserFullName' => $user->getFirstName() . ' ' . $user->getLastName(),
+            'actualUserLink' => $this->generateUrl('view_user', [ 'permalink' => $user->getPermalink() ]),
+            'actualUserProfilePic' => $user->getProfilePic()
+        ]);
     }
 }

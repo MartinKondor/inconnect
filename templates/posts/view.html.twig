@@ -1,60 +1,11 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ viewPost.first_name ~ ' ' ~ viewPost.last_name }}{% endblock %}
+{% block title %}{{ post.first_name ~ ' ' ~ post.last_name }}{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
     <section>
-        <article class="post animated" style="margin-bottom:400px;">
-            <div class="post-title">
-                <a class="uploader" href="{{ path('view_user', { permalink: viewPost.permalink }) }}">
-                    <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ viewPost.profile_pic) }}" alt="Profile icon of {{ viewPost.first_name ~ ' ' ~ viewPost.last_name }},">
-                    {{ viewPost.first_name ~ ' ' ~ viewPost.last_name }}
-                </a>
-                <span class="post-time">{{ viewPost.date_of_upload | date('Y-m-d G:i') }}</span>
-            </div>
-            <pre class="post-content">{{ viewPost.content }}</pre>
-            <div class="post-info">
-                <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: viewPost.post_id, toUserId: viewPost.user_id }) }}" title="Upvote this post">
-                    {% if viewPost.isUpvotedByUser %}
-                        <i class="fas fa-thumbs-up"></i>
-                    {% else %}
-                        <i class="far fa-thumbs-up"></i>
-                    {% endif %}
-                    {{ viewPost.upvotes }}
-                </a>
-                &middot;
-                <a id="{{ 'post-' ~ viewPost.post_id ~ '-link'}}" class="feed-icon comment-link" href="#" title="Show the comments of this post">
-                    <i class="far fa-comment"></i> {{ viewPost.comments | length }}
-                </a>
-            </div>
-            <div id="{{ 'post-' ~ viewPost.post_id ~ '-comments' }}" class="animated fadeIn" style="display:block;">
-                <div class="input-group comment-field">
-                    <textarea id="{{ 'comment-area-' ~ viewPost.post_id }}" height="42" class="form-control" name="comment" placeholder="Write a comment here ..." required></textarea>
-                    <div class="input-group-append">
-                        <button href="{{ path('comment', { entityId: viewPost.post_id, toUserId: viewPost.user_id }) }}" type="submit" class="btn btn-info send-comment">Send</button>
-                    </div>
-                </div>
-                {% if viewPost.comments is defined %}
-                    {% for comment in viewPost.comments %}
-                        <div class="comment">
-                            <div>
-                                <a href="{{ path('view_user', { permalink: comment.permalink }) }}" class="comment-commenter">
-                                    <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.profile_pic) }}" alt="Profile picture of {{ comment.first_name ~ ' ' ~ comment.last_name }},">
-                                    {{ comment.first_name ~ ' ' ~ comment.last_name }}
-                                </a>
-                                &middot;
-                                <span class="comment-time">{{ comment.action_date | date("Y-m-d") }}</span>
-                            </div>
-                            <pre class="comment-content">{{ comment.content }}</pre>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="h3 mt-1">There are no comments on this post ...</p>
-                    <p>Be the first to comment on it</p>
-                {% endif %}
-            </div>
-        </article>
+        {% include 'elements/post.html.twig' %}
     </section>
 {% endblock %}
 

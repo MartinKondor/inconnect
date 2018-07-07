@@ -1,0 +1,50 @@
+<article class="post animated">
+    <div class="post-title">
+        <a class="uploader" href="{{ path('view_user', { permalink: post.permalink }) }}">
+            <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.profile_pic) }}" alt="Profile icon of {{ post.first_name ~ ' ' ~ post.last_name }},">
+            {{ post.first_name ~ ' ' ~ post.last_name }}
+        </a>
+        &middot;
+        <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
+    </div>
+    <pre class="post-content">{{ post.content }}</pre>
+    <div class="post-info">
+        <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">
+            {% if post.isUpvotedByUser %}
+                <i class="fas fa-thumbs-up"></i>
+            {% else %}
+                <i class="far fa-thumbs-up"></i>
+            {% endif %}
+            Upvote {{ post.upvotes }}
+        </a>
+        <a id="{{ 'post-' ~ post.post_id ~ '-link'}}" class="feed-icon ml-2 comment-link" href="#" title="Show the comments of this post">
+            <i class="far fa-comment"></i> Comment {{ post.comments | length }}
+        </a>
+    </div>
+    <div id="{{ 'post-' ~ post.post_id ~ '-comments' }}" class="animated fadeIn" style="display:none;">
+        {% if post.comments is not null %}
+            {% for comment in post.comments %}
+                <div class="comment">
+                    <div>
+                        <a href="{{ path('view_user', { permalink: comment.permalink }) }}" class="comment-commenter">
+                            <img class="xxs-profile" src="{{ asset('images/profiles/' ~ comment.profile_pic) }}" alt="Profile picture of {{ comment.first_name ~ ' ' ~ comment.last_name }},">
+                            {{ comment.first_name ~ ' ' ~ comment.last_name }}
+                        </a>
+                        &middot;
+                        <span class="comment-time">{{ comment.action_date | date("Y-m-d") }}</span>
+                    </div>
+                    <pre class="comment-content">{{ comment.content }}</pre>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="h3 mt-1">There are no comments on this post...</p>
+            <p>Be the first to comment on it</p>
+        {% endif %}
+    </div>
+    <div id="{{ 'post-' ~ post.post_id ~ '-comment-field' }}" class="animated fadeIn input-group comment-field" style="display:none;">
+        <textarea id="{{ 'comment-area-' ~ post.post_id }}" height="42" class="form-control" placeholder="Write a comment ..."></textarea>
+        <div class="input-group-append">
+            <button href="{{ path('comment', { entityId: post.post_id, toUserId: post.user_id }) }}" class="btn btn-info btn-lg send-comment"><i class="fas fa-angle-right"></i></button>
+        </div>
+    </div>
+</article>

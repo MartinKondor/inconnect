@@ -1,41 +1,24 @@
 'use strict';
 (function($) {
-   console.log('Help us, to make the most out of InConnect: ' + 'https://github.com/in-connect/inconnect');
+   console.log('Help us, to make the most out of InConnect: https://github.com/in-connect/inconnect');
 
    $('.comment-link').on('click', function(e) {
       e.preventDefault();
+
+      // Get the id of the post from the id of the comment link
       let id = $(this).attr('id').replace(/\-link$/gi, '').trim();
 
       // Toggle comments 
       if ($(`#${id}-comments`).css('display') === 'none') {
          $('#' + $(this).attr('id') + ' i').addClass('fas').removeClass('far');
          $(`#${id}-comments`).css('display', 'block');
+         $(`#${id}-comment-field`).css('display', 'flex');
       } else {
          $('#' + $(this).attr('id') + ' i').addClass('far').removeClass('fas');
          $(`#${id}-comments`).css('display', 'none');
+         $(`#${id}-comment-field`).css('display', 'none');
       }
    });
-
-   $('#deleteAccount').on('click', function(e) {
-      if (confirm('Are you sure you want to delete your profile? Every message, pictures, posts, and data about you will be completely deleted.')) {
-         e.preventDefault();
-
-         $.ajax({
-             method: 'POST',
-             url: $(this).attr('href')
-         }).done((data) => {
-            if (data === 'success') {
-                alert('Please log out.');
-            } else {
-                alert('Server error, please try again it later.');
-            }
-         });
-      }
-   });
-
-   setTimeout(() => {
-      $('header .brand-logo img').addClass('animated rubberBand');
-   }, 2222);
 
    // Upvote 
    $('.upvote-icon').on('click', function(e) {
@@ -46,11 +29,11 @@
           url: $(this).attr('href')
       }).done((data) => {
 
-         if ((/^up-\d*$/gi).test(data))
-            $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> ' + data.replace(/\D/g, ''));
+          if (data['way'] === 'up')
+              $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> Upvote ' + data['upvoteCount']);
 
-         if ((/^down-\d*$/gi).test(data))
-            $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> ' + data.replace(/\D/g, ''));
+          if (data['way'] === 'down')
+              $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> Upvote ' + data['upvoteCount']);
       });
   });
 
@@ -68,24 +51,25 @@
          }).done((data) => {
 
              // Place comment on the page
-             if (data === 'success') {
-                 let aUserName = $('#actual-user-name').html();
-                 let aUserLink = $('#actual-user-name').attr('href');
-                 let aUserProfilePic = $('#actual-user-profile-pic').attr('src');
+             if (data['status'] === 'success') {
+                 let aUserName = data['actualUserFullName'];
+                 let aUserLink = data['actualUserLink'];
+                 let aUserProfilePic = data['actualUserProfilePic'];
 
-                 let wholeComment = `<div class="comment animated rotateIn">
-                      <div>
-                         <a href="${aUserLink}" class="comment-commenter">
-                            <img class="xxs-profile" src="${aUserProfilePic}">
-                            ${aUserName}
-                         </a>
-                         &middot;
-                         <span class="comment-time">Now</span>
-                      </div>
-                      <span class="comment-content">${commentContent}</span>
-                   </div>`;
+                 let commentHtml = `
+                        <div class="comment animated rotateIn">
+                            <div>
+                                <a href="${aUserLink}" class="comment-commenter">
+                                    <img class="xxs-profile" src="/images/profiles/${aUserProfilePic}" alt="Profile picture of ${aUserName},">
+                                    ${aUserName}
+                                </a>
+                                &middot;
+                                <span class="comment-time">Now</span>
+                            </div>
+                            <pre class="comment-content">${commentContent}</pre>
+                        </div>`;
 
-                 $('#post-' + postId + '-comments').append(wholeComment);
+                 $('#post-' + postId + '-comments').append(commentHtml);
                  $('#comment-area-' + postId).val('');
              }
          });

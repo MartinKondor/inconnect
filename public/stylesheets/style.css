@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Orbitron:400|Roboto:200,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Orbitron:400,700|Roboto:200,400,500,700');
+
+html {
+    --main-color: #279B61;
+    --secondary-color: #A3E496;
+}
 
 html, body {
   margin: 0;
@@ -6,6 +11,15 @@ html, body {
   border: 0;
   height: 100vh;
   width: 100vw;
+}
+
+.navbar a {
+    color: #cad9c9;
+}
+
+.navbar a:hover,
+.navbar a:active {
+    color: #fdfdfd;
 }
 
 a {
@@ -116,12 +130,13 @@ header nav {
 }
 
 .bg-main {
-   background-color: rgb(226, 245, 233) !important;
+   background-color: var(--main-color) !important;
 }
 
 header .brand-logo {
    text-decoration: none;
-   color: #777777 !important;
+   color: #fefefe !important;
+   font-weight: 700;
    font-family: 'Orbitron', sans-serif;
    font-size: 27px;
 }
@@ -130,13 +145,13 @@ header .brand-logo {
    margin-top: 5px;
    font-size: 22px;
    transition: color 0.7s ease-out;
-   color: #11836D !important;
+   color: #115f49 !important;
 }
 
 .nav-icon:hover,
 .nav-icon:active {
    transition: color 0.5s ease;
-   color: #009e61 !important;
+   color: var(--secondary-color) !important;
 }
 
 header .brand-logo img {
@@ -178,9 +193,9 @@ footer .copy {
 }
 
 .feed-icon {
-  font-size: 18px;
+  font-size: 14px;
   transition: color 0.4s ease-out;
-  color: #11836D !important;
+  color: var(--main-color) !important;
   text-decoration: none;
 }
 
@@ -188,7 +203,7 @@ footer .copy {
 .feed-icon:active {
   text-decoration: none;
   transition: color 0.4s ease;
-  color: #009e61 !important;
+  color: #00bf77 !important;
 }
 
 .post {
@@ -233,8 +248,6 @@ footer .copy {
 }
 
 .post-title .post-time {
-  margin-top: 2px;
-  display: block !important;
   opacity: 0.7;
   font-size: 11px;
 }
@@ -246,13 +259,13 @@ footer .copy {
 .comment-content,
 .post-content {
     white-space: pre-line;
-    margin-top: 5px;
+    margin-top: 7px;
     font-family: 'Roboto', sans-serif;
 }
 
 .post-info {
-  border-top: 1px solid #DADADA;
   padding-top: 2px;
+  padding-bottom: 2px;
   width: 100%;
 }
 
@@ -261,7 +274,9 @@ footer .copy {
 }
 
 .comment {
-  margin-top: 14px;
+  margin-top: 5px;
+  padding-top: 2px;
+  border-bottom: solid 1px #e0e0e0;
 }
 
 .comment-content {

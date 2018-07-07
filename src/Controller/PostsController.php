@@ -57,7 +57,7 @@ class PostsController extends Controller
        $post['comments'] = $comments;
 
        return $this->render('posts/view.html.twig', [
-           'viewPost' => $post
+           'post' => $post
        ]);
    }
 
