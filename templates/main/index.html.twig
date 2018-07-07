@@ -4,14 +4,28 @@
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-    <section class="row">
-        <div class="col-lg-7 newpost-card mx-auto mt-5 animated zoomIn">
+    <section class="row mt-4 animated jackInTheBox">
+        <div class="col-sm-2">
+            <h3 class="font-weight-light">Hi {{ app.user.lastName }}</h3>
+        </div>
+        <div class="col-sm-10">
             <form action="{{ path("new_post") }}" method="POST" name="new_post_form">
                 <textarea class="form-control mb-1" name="postContent" placeholder="Share something ..." required></textarea>
-                <button type="submit" class="btn btn-primary btn-block">Share</button>
+                <div class="row">
+                    <div class="ml-auto col-sm-10">
+                        <span class="text-muted">Attach: </span>
+                        <label title="Upload a photo" for="post-photo">
+                            <i class="ml-1 icon-lg fas fa-images"></i>
+                            <span id="selected-post-photo-name"></span>
+                        </label>
+                        <input id="post-photo" style="display:none;" type="file" name="postimage" accept="image/*">
+                    </div>
+                    <div class="mr-auto col-sm-2">
+                        <button type="submit" class="btn btn-primary">Share</button>
+                    </div>
+                </div>
             </form>
         </div>
-        <div id="quote" class="col-lg-5"></div>
     </section>
     <section class="row">
         <div class="col-lg-12 mx-auto">

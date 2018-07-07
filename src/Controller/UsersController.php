@@ -99,4 +99,12 @@ class UsersController extends Controller
          'viewUser' => $viewUser
       ]);
    }
+
+   /**
+    * @Route("/info/settings", name="settings", methods={ "GET" })
+    */
+   public function settings()
+   {
+        return $this->render('users/settings.html.twig', []);
+   }
 }

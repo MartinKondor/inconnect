@@ -41,16 +41,22 @@
 
                         generalData += `
                         <li class="mb-3 pl-1 pr-1">
-                            <form action="${general['deleteLink']}" method="POST">
-                                <button type="submit" class="btn btn-link text-danger mb-0 mt-0">X</button>
-                            </form>
-                            <a href="${general['link']}">
-                                <button class="btn btn-link">
-                                    <span class="font-weight-bold">${what}</span>
-                                    <br/>
-                                    <span class="text-muted">${when}</span>
-                                </button>
-                            </a>
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <form action="${general['deleteLink']}" method="POST">
+                                        <button type="submit" class="btn btn-link text-danger mb-0 mt-0">X</button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-11">
+                                    <a href="${general['link']}">
+                                        <button class="btn btn-link">
+                                            <span class="font-weight-bold">${what}</span>
+                                            <br/>
+                                            <span class="text-muted">${when}</span>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
                         </li>`;
                     }
                 }

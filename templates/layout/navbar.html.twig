@@ -2,8 +2,8 @@
       <a class="navbar-brand brand-logo" href="{{ path('index') }}" title="InConnect">
           InConnect
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
+      <button style="border:none;" class="navbar-toggler" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+         <i style="font-size:34px;color:white;" class="fas fa-arrow-circle-down"></i>
      </button>
      <div class="collapse navbar-collapse" id="navbarContent">
          {% if app.user is not null %}
@@ -14,7 +14,7 @@
                      </a>
                      <ul class="dropdown-menu">
                          <li><a class="nav-link" href="{{ asset('u/' ~ app.user.permalink) }}"><i class="fas fa-user"></i> Profile</a></li>
-                         <li><a class="nav-link" href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                         <li><a class="nav-link" href="{{ path('settings') }}"><i class="fas fa-cogs"></i> Settings</a></li>
                          <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                      </ul>
                 </li>
@@ -24,7 +24,7 @@
                     <a id="notification-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
                        href="{{ path("notification", { userId: app.user.userId }) }}">
                         <i class="fas fa-user-friends nav-icon"></i>
-                        <span id="friend-notification-counter" class="badge badge-success"></span>
+                        <span id="friend-notification-counter" class="badge badge-warning"></span>
                     </a>
 
                     <ul id="friend-notification-list" style="list-style:none;" class="dropdown-menu mr-5"></ul>
@@ -34,7 +34,7 @@
                 <li title="Messages" class="dropdown nav-item ml-1">
                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-envelope nav-icon"></i>
-                        <span id="message-notification-counter" class="badge badge-success"></span>
+                        <span id="message-notification-counter" class="badge badge-warning"></span>
                     </a>
                     <ul id="message-list" class="dropdown-menu mr-5"></ul>
                 </li>
@@ -43,10 +43,11 @@
                 <li title="Notifications" class="dropdown nav-item ml-1">
                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-bell nav-icon"></i>
-                        <span id="general-notification-counter" class="badge badge-success"></span>
+                        <span id="general-notification-counter" class="badge badge-warning"></span>
                     </a>
                     <ul id="notification-list" class="dropdown-menu mr-5"></ul>
                 </li>
+
             </ul>
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item nav-link"><a href="{{ path('news') }}">News</a></li>
@@ -66,12 +67,8 @@
             </ul>
          {% else %}
              <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a href="{{ path("signup") }}" class="nav-link">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path("login") }}" class="nav-link">Log in</a>
-                </li>
+                <li class="nav-item nav-link"><a href="{{ path("signup") }}">Sign up</a></li>
+                <li class="nav-item nav-link"><a href="{{ path("login") }}">Log in</a></li>
              </ul>
          {% endif %}
      </div>

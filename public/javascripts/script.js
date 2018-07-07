@@ -92,4 +92,10 @@
            }
        });
    });
+
+
+    $('#post-photo').change(function() {
+        $('#selected-post-photo-name').html($(this).prop('files')[0].name);
+    });
+
 })(jQuery);

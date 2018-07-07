@@ -12,6 +12,7 @@
     <meta property='og:title' content= title>
     <meta property="og:description" content="InConnect. Free to use open source social network for everyone.">
     <title>InConnect - {% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ asset("images/ic-icon.png") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/normalize.css") }}"> 
     <link rel="stylesheet" href="{{ asset("assets/css/theme.min.css") }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -23,7 +24,7 @@
 <header>
     {% include 'layout/navbar.html.twig' %}
 </header>
-<main class="container"> 
+<main class="container">
     {% block body %}
     {% endblock %}
 </main>

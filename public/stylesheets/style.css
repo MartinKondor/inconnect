@@ -69,6 +69,9 @@ body {
    margin-top: 5%;
    margin-left: 25%;
    margin-right: 25%;
+   box-shadow: 0 1px 50px var(--secondary-color);
+   border-radius: 5px;
+   padding: 20px;
 }
 
 header {
@@ -188,10 +191,6 @@ footer .copy {
 
 /* Home page related styles */
 
-.newpost-card textarea[name="postContent"] {
-  box-shadow: 1px 5px 15px #CDCDCD;
-}
-
 .feed-icon {
   font-size: 14px;
   transition: color 0.4s ease-out;
@@ -204,6 +203,11 @@ footer .copy {
   text-decoration: none;
   transition: color 0.4s ease;
   color: #00bf77 !important;
+}
+
+.icon-lg {
+    font-size: 30px;
+    color: var(--main-color);
 }
 
 .post {

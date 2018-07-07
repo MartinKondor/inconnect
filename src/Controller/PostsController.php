@@ -73,7 +73,11 @@ class PostsController extends Controller
        $viewPost->setContent($_POST['postContent']);
        $viewPost->setDateOfUpload(new \DateTime());
 
-       // if (isset($post['image']))
+       if (isset($_POST['postimage']) and false) {
+
+           // TODO: Save the uploaded photo
+
+       }
 
        $em = $this->getDoctrine()->getManager();
        $em->persist($viewPost);
