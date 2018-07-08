@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Form\UserSignUpType;
+use App\Form\{ UserSignUpType, PostType };
 use App\Entity\{ User, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -64,9 +63,9 @@ class MainController extends Controller
    public function logout() {}
 
     /**
-     * @Route("/", name="index", methods={ "GET" })
+     * @Route("/", name="index", methods={ "GET", "POST" })
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = $this->getUser();
 
@@ -74,8 +73,8 @@ class MainController extends Controller
         $connection = $em->getConnection();
 
         // Getting all posts from the friends of the user, and also from the user her/himself
-        $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
-                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
+        $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, post.image, 
+                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
                                         FROM user
                                         INNER JOIN friend
                                         ON friend.to_user_id = user.user_id
@@ -103,6 +102,13 @@ class MainController extends Controller
             ]);
             $actions = $postQuery->fetchAll();
 
+            // Make a pad for long posts
+            if (strlen($post['content']) > 250) {
+                $posts[$i]['content'] = substr($posts[$i]['content'], 0, 249).' ...';
+                // Mark the post for template
+                $posts[$i]['longPost'] = true;
+            }
+
             $upvotes = 0;
             $comments = null;
             $posts[$i]['isUpvotedByUser'] = false;
@@ -120,8 +126,42 @@ class MainController extends Controller
             $posts[$i]['comments'] = $comments;
         }
 
+        /**
+         * New post form
+         */
+        // Create form
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post, [
+            'action' => $this->generateUrl('index')
+        ]);
+        $form->handleRequest($request);
+
+        // Handle new post request
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $post->setUserId($user->getUserId());
+            $post->setDateOfUpload(new \DateTime());
+
+            // If defined save the post's image
+            if (!is_null($post->getImage())) {
+
+                $file = $post->getImage();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                // Move the file to the posts directory
+                $file->move($this->getParameter('post_images_directory'), $fileName);
+                $post->setImage($fileName);
+            }
+            $em->persist($post);
+            $em->flush();
+
+            return $this->redirectToRoute('index');
+        }
+
         return $this->render('main/index.html.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'new_post' => $form->createView()
         ]);
     }
 }

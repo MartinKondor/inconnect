@@ -9,22 +9,20 @@
             <h3 class="font-weight-light">Hi {{ app.user.lastName }}</h3>
         </div>
         <div class="col-sm-10">
-            <form action="{{ path("new_post") }}" method="POST" name="new_post_form">
-                <textarea class="form-control mb-1" name="postContent" placeholder="Share something ..." required></textarea>
+            {{ form_start(new_post) }}
+                {{ form_row(new_post.content) }}
                 <div class="row">
-                    <div class="ml-auto col-sm-10">
+                    <div class="ml-auto col-sm-2">
                         <span class="text-muted">Attach: </span>
-                        <label title="Upload a photo" for="post-photo">
-                            <i class="ml-1 icon-lg fas fa-images"></i>
-                            <span id="selected-post-photo-name"></span>
-                        </label>
-                        <input id="post-photo" style="display:none;" type="file" name="postimage" accept="image/*">
+                    </div>
+                    <div class="ml-auto col-sm-8">
+                        {{ form_row(new_post.image) }}
                     </div>
                     <div class="mr-auto col-sm-2">
-                        <button type="submit" class="btn btn-primary">Share</button>
+                        {{ form_row(new_post.Submit) }}
                     </div>
                 </div>
-            </form>
+            {{ form_end(new_post) }}
         </div>
     </section>
     <section class="row">

@@ -7,7 +7,14 @@
         &middot;
         <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
     </div>
-    <pre class="post-content">{{ post.content }}</pre>
+    {% if post.image is not null %}
+        <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+    {% endif %}
+    {% if post.longPost is defined %}
+        <pre class="post-content">{{ post.content }}<a style="display:inline-block;" href="#"> show more</a></pre>
+    {% else %}
+        <pre class="post-content">{{ post.content }}</pre>
+    {% endif %}
     <div class="post-info">
         <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">
             {% if post.isUpvotedByUser %}

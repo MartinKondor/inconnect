@@ -60,29 +60,4 @@ class PostsController extends Controller
            'post' => $post
        ]);
    }
-
-   /**
-    * @Route("/p/new", name="new_post", methods={ "POST" })
-    */
-   public function newPost(Request $request)
-   {
-       $user = $this->getUser();
-
-       $viewPost = new Post();
-       $viewPost->setUserId($user->getUserId());
-       $viewPost->setContent($_POST['postContent']);
-       $viewPost->setDateOfUpload(new \DateTime());
-
-       if (isset($_POST['postimage']) and false) {
-
-           // TODO: Save the uploaded photo
-
-       }
-
-       $em = $this->getDoctrine()->getManager();
-       $em->persist($viewPost);
-       $em->flush();
-
-       return $this->redirectToRoute('index');
-   }
 }

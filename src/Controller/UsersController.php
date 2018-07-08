@@ -94,7 +94,6 @@ class UsersController extends Controller
       }
       $viewUser->setPosts($posts);
 
-
       return $this->render('users/view.html.twig', [
          'viewUser' => $viewUser
       ]);
