@@ -22,7 +22,7 @@
                 {# Friend Notifications #}
                 <li title="Friend notifications" class="dropdown nav-item ml-1">
                     <a id="notification-link" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                       href="{{ path("notification", { userId: app.user.userId }) }}">
+                       href="{{ path("notification") }}">
                         <i class="fas fa-user-friends nav-icon"></i>
                         <span id="friend-notification-counter" class="badge badge-warning"></span>
                     </a>
@@ -51,7 +51,7 @@
             </ul>
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item nav-link"><a href="{{ path('news') }}">News</a></li>
-                <li class="nav-item nav-link"><a href="#">Messages</a></li>
+                <li class="nav-item nav-link"><a href="{{ path('messages') }}">Messages</a></li>
                 <li class="nav-item nav-link"><a href="{{ path('events') }}">Events</a></li>
                 <li class="nav-item nav-link"><a href="#">Photos</a></li>
                 <li class="nav-item nav-link"><a href="{{ path('find_friends') }}">Find Friends</a></li>

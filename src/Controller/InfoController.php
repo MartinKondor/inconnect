@@ -27,7 +27,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/news", name="news", methods={ "GET" })
+     * @Route("/news", name="news", methods={ "GET" })
      */
     public function news()
     {
@@ -35,7 +35,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/events", name="events", methods={ "GET" })
+     * @Route("/events", name="events", methods={ "GET" })
      */
     public function events()
     {
@@ -43,7 +43,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/findfriends", name="find_friends", methods={ "GET" })
+     * @Route("/findfriends", name="find_friends", methods={ "GET" })
      */
     public function findfriends()
     {
@@ -51,7 +51,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/about", name="about", methods={ "GET" })
+     * @Route("/about", name="about", methods={ "GET" })
      */
     public function about()
     {
@@ -59,7 +59,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/privacy", name="privacy", methods={ "GET" })
+     * @Route("/privacy", name="privacy", methods={ "GET" })
      */
     public function privacy()
     {
@@ -67,7 +67,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/terms", name="terms", methods={ "GET" })
+     * @Route("/terms", name="terms", methods={ "GET" })
      */
     public function terms()
     {
@@ -75,7 +75,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/cookies", name="cookies", methods={ "GET" })
+     * @Route("/cookies", name="cookies", methods={ "GET" })
      */
     public function cookies()
     {
@@ -83,7 +83,7 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/info/help", name="help", methods={ "GET" })
+     * @Route("/help", name="help", methods={ "GET" })
      */
     public function help()
     {

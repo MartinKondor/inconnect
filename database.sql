@@ -12,6 +12,24 @@ CREATE TABLE user (
 	about TEXT NULL
 );
 
+CREATE TABLE page (
+  page_id INT AUTO_INCREMENT NOT NULL,
+  creator_user_id INT NOT NULL,
+  password VARCHAR(100) NOT NULL, -- Hash of the encrypted password
+  page_name VARCHAR(100) NOT NULL,
+  page_type VARCHAR(100) NOT NULL, -- Like: business, organization, celebrity
+  date_of_creation DATETIME NOT NULL,
+  contact_email VARCHAR(100) NOT NULL,
+  contact_address VARCHAR(250) DEFAULT NULL,
+  contact_postal_code VARCHAR(100) DEFAULT NULL,
+  contact_phone VARCHAR(100) DEFAULT NULL,
+  page_pic VARCHAR(100) DEFAULT 'default_business.jpg',
+  page_cover_pic VARCHAR(100) DEFAULT NULL,
+  since_date DATETIME DEFAULT NULL, -- Date of the business not the creation
+  about TEXT DEFAULT NULL
+  PRIMARY KEY(page_id, creator_user_id)
+);
+
 CREATE TABLE post (
    post_id INT AUTO_INCREMENT NOT NULL,
    user_id INT NOT NULL, -- Owner of this post

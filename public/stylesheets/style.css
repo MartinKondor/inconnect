@@ -210,7 +210,7 @@ footer .copy {
 /* Home page related styles */
 
 .feed-icon {
-  font-size: 14px;
+  font-size: 15px;
   transition: color 0.4s ease-out;
   color: var(--main-color) !important;
   text-decoration: none;
@@ -231,9 +231,11 @@ footer .copy {
 .post {
   font-size: 17px;
   border-radius: 4px;
-  margin: 22px 0px 42px 0px;
+  /*margin: 22px 0px 42px 0px;*/
   box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
-  padding: 20px;
+  padding: 27px;
+  margin: 50px auto;
+  width: 590px;
 }
 
 .post:nth-child(even) {

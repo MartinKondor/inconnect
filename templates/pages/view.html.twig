@@ -1,0 +1,89 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Page name{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <h1 class="font-weight-bold user-name text-left mt-2">Page name</h1>
+    <section class="row pt-3">
+        <div class="user-profile-info bg-black text-white col-sm-2 text-center animated bounceInLeft">
+            <img class="lg-profile mt-2" title="Profile picture of Page name"
+                 src="{{ asset('images/pages/' ~ 'default_business.jpg') }}"
+                 alt="Profile picture of Page name,">
+            {# Page upvoted by user #}
+        </div>
+        <div id="post-list" class="col-sm-10">
+            posts
+        </div>
+    </section>
+
+    {# Page about modal #}
+    <div class="modal fade" id="page-about-modal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        About Page name
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span>Introduction: </span>
+                    <br>
+                    <p>about</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Page upvoters modal #}
+    <div class="modal fade" id="page-upvoters-modal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        Upvoters
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    upvoters
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Page photos modal #}
+    <div class="modal fade" id="page-photos-modal" tabindex="-1" role="dialog" aria-labelledby="photosModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        Photos of Page name
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    photos
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

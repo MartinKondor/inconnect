@@ -10,10 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class NotificationController extends Controller
 {
     /**
-     * @Route("/notification/{userId}", name="notification", methods={ "POST" })
+     * @Route("/notification", name="notification", methods={ "POST" })
      */
-    public function notificationUpdater($userId)
+    public function notificationUpdater()
     {
+        $user = $this->getUser();
+        $userId = $user->getUserId();
+
         $actions = $this->getDoctrine()
              ->getRepository(Action::class)
              ->findBy([
