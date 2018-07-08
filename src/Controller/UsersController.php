@@ -60,7 +60,8 @@ class UsersController extends Controller
       $postsOfViewedUser = $connection->prepare("SELECT * FROM post
                                                 LEFT JOIN user
                                                 ON post.user_id = user.user_id
-                                                WHERE post.user_id = :user_id");
+                                                WHERE post.user_id = :user_id
+                                                ORDER BY post.date_of_upload DESC");
       $postsOfViewedUser->execute([ ':user_id' => $viewUser->getUserId() ]);
       $posts = $postsOfViewedUser->fetchAll();
 

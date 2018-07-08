@@ -4,62 +4,126 @@
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-<section class="row mt-2 mb-2 animated fadeIn">
-   <div class="col-sm user-card-profile mb-5">
-      <img title="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }}"ó
-         src="{{ asset('images/profiles/' ~ viewUser.profilePic) }}"
-         alt="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }},">
-   </div>
-   <div class="col-sm mt-5">
-      {% if viewUser.friendStatus == 'friends' or viewUser.userId == app.user.userId %}
-          <p class="text-uppercase font-weight-bold">{{ viewUser.birthDate | date('Y-m-d') }}</p>
-          <p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
-      {% elseif viewUser.friendStatus == 'request' %}
-          <button class="btn btn-primary disabled" href="#" disabled>
-              Friend request sent
-          </button>
-      {% else %}
-          <button class="btn btn-primary add-friend-btn" href="{{ path('add_friend', { user2Id: viewUser.userId }) }}">
-            Add Friend
-          </button>
-      {% endif %}
-   </div>
-   <div class="col-sm user-card-info mt-5">
-      <h1 class="font-weight-bold user-name">{{ viewUser.firstName ~' '~ viewUser.lastName }}</h1>
-      <p>{{ viewUser.about }}</p>
-   </div>
-</section>
-<section class="row text-center">
-   <div class="col-sm-4">
-      <section id="friend-list">
-         <h4 class="text-muted font-weight-bold h4 mt-5 mb-4">Friends</h4>
-         {% if viewUser.friends is defined %}
-            <ul class="text-left animated bounceInLeft" style="list-style:none;">
-            {% for friend in viewUser.friends %}
-               <li class="friend-list-item">
-                  <a href="{{ path('view_user', { permalink: friend.permalink }) }}">
-                     <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.profile_pic) }}" alt="Profile picture of {{ friend.first_name ~ ' ' ~ friend.last_name }},">
-                     <span> &middot; {{ friend.first_name ~ ' ' ~ friend.last_name }}</span>
-                  </a>
-               </li>
-            {% endfor %}
-            </ul>
-         {% endif %}
-      </section>
-   </div>
-   <div class="col-sm-8">
-      <h4 class="text-muted font-weight-bold h4 mt-5 mb-4">Posts</h4>
-      <section id="post-list">
-         {% if viewUser.posts is defined %}
-            <ul class="text-left" style="list-style:none;">
-            {% for post in viewUser.posts %}
-                {% include 'elements/post.html.twig' %}
-            {% endfor %}
-            </ul>
-         {% endif %}
-      </section>
-   </div>
-</section>
+    <h1 class="font-weight-bold user-name text-left mt-2">{{ viewUser.firstName ~' '~ viewUser.lastName }}</h1>
+    <section class="row pt-3">
+        <div class="user-profile-info bg-black text-white col-sm-2 text-center animated bounceInLeft">
+            <img class="lg-profile mt-2" title="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }}"
+                 src="{{ asset('images/profiles/' ~ viewUser.profilePic) }}"
+                 alt="Profile picture of {{ viewUser.firstName ~' '~ viewUser.lastName }},">
+            {% if viewUser.friendStatus == 'friends' or viewUser.userId == app.user.userId %}
+                <div class="mt-3">
+                    <a class="btn-link h4" href="#" data-toggle="modal" data-target="#user-about-modal">About</a>
+                    <br><br>
+                    <a class="btn-link h4" href="#" data-toggle="modal" data-target="#user-friends-modal">Friends</a>
+                    <br><br>
+                    <a class="btn-link h4" href="#" data-toggle="modal" data-target="#user-photos-modal">Photos</a>
+                </div>
+            {% elseif viewUser.friendStatus == 'request' %}
+                <button class="mt-2 mb-2 btn btn-primary disabled" href="#" disabled>
+                    Friend request sent
+                </button>
+            {% else %}
+                <button class="mt-2 mb-2 btn btn-primary add-friend-btn" href="{{ path('add_friend', { user2Id: viewUser.userId }) }}">
+                    Add Friend
+                </button>
+            {% endif %}
+        </div>
+        <div id="post-list" class="col-sm-10">
+            {% if viewUser.posts is defined %}
+                <ul class="text-left" style="list-style:none;">
+                   {% for post in viewUser.posts %}
+                       {% include 'elements/post.html.twig' %}
+                   {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+
+    {# User about modal #}
+    <div class="modal fade" id="user-about-modal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        About {{ viewUser.firstName ~' '~ viewUser.lastName }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if viewUser.about is not null %}
+                        <span>Introduction: </span>
+                        <br>
+                        <p>{{ viewUser.about }}</p>
+                        <hr>
+                    {% endif %}
+                    <span>Birth Date: </span><p class="text-uppercase font-weight-bold">{{ viewUser.birthDate | date('Y-m-d') }}</p>
+                    <span>Gender: </span><p class="text-uppercase font-weight-bold">{{ viewUser.gender }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# User about modal #}
+    <div class="modal fade" id="user-friends-modal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        Friends of {{ viewUser.firstName ~' '~ viewUser.lastName }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section id="friend-list">
+                        {% if viewUser.friends is defined %}
+                            <ul class="text-left" style="list-style:none;">
+                                {% for friend in viewUser.friends %}
+                                    <li class="friend-list-item">
+                                        <a href="{{ path('view_user', { permalink: friend.permalink }) }}">
+                                            <img class="m-profile" src="{{ asset('images/profiles/' ~ friend.profile_pic) }}" alt="Profile picture of {{ friend.first_name ~ ' ' ~ friend.last_name }},">
+                                            <span> &middot; {{ friend.first_name ~ ' ' ~ friend.last_name }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# User photos modal #}
+    <div class="modal fade" id="user-photos-modal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalTitle">
+                        Photos of {{ viewUser.firstName ~' '~ viewUser.lastName }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}{% endblock %}

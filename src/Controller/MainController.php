@@ -102,12 +102,9 @@ class MainController extends Controller
             ]);
             $actions = $postQuery->fetchAll();
 
-            // Make a pad for long posts
-            if (strlen($post['content']) > 250) {
-                $posts[$i]['content'] = substr($posts[$i]['content'], 0, 249).' ...';
-                // Mark the post for template
-                $posts[$i]['longPost'] = true;
-            }
+            // Mark long post for template
+            if (strlen($post['content']) > 250)
+                $posts[$i]['shortContent'] = substr($posts[$i]['content'], 0, 249).' ...';
 
             $upvotes = 0;
             $comments = null;
