@@ -21,8 +21,8 @@ class PostsController extends Controller
        $em = $this->getDoctrine()->getManager();
        $connection = $em->getConnection();
 
-       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.content, user.first_name,
-                                        user.last_name, user.permalink, post.date_of_upload, user.profile_pic
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.image, post.content,
+                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic
                                         FROM post RIGHT JOIN user
                                         ON post.user_id = user.user_id
                                         WHERE post.post_id = :post_id");
