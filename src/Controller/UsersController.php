@@ -28,7 +28,7 @@ class UsersController extends Controller
               ->getRepository(User::class)
               ->findOneBy([ 'permalink' => $permalink ]);
       }
-      if (empty($viewUser) || $viewUser == null)
+      if (empty($viewUser))
           throw $this->createNotFoundException('The user does not exists.');
 
       // Getting the friends of the viewed user
@@ -71,7 +71,9 @@ class UsersController extends Controller
                                                 user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
                                                 FROM `action` RIGHT JOIN user
                                                 ON `action`.`user_id` = user.user_id
-                                                WHERE `action`.`entity_id` = :entity_id");
+                                                WHERE `action`.`entity_id` = :entity_id
+                                                AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
+                                                AND `action`.`entity_type` = 'post'");
           $postQuery->execute([
               ':entity_id' => $post['post_id']
           ]);

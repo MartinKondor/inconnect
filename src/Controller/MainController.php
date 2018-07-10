@@ -96,7 +96,9 @@ class MainController extends Controller
                                                 user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
                                                 FROM `action` RIGHT JOIN user
                                                 ON `action`.`user_id` = user.user_id
-                                                WHERE `action`.`entity_id` = :entity_id");
+                                                WHERE `action`.`entity_id` = :entity_id
+                                                AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
+                                                AND `action`.`entity_type` = 'post'");
             $postQuery->execute([
                 ':entity_id' => $post['post_id']
             ]);

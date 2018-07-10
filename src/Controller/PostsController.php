@@ -36,7 +36,9 @@ class PostsController extends Controller
                                             FROM `action` 
                                             RIGHT JOIN user
                                             ON `action`.`user_id` = user.user_id
-                                            WHERE `action`.`entity_id` = :entity_id");
+                                            WHERE `action`.`entity_id` = :entity_id
+                                            AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
+                                            AND `action`.`entity_type` = 'post'");
        $actionQuery->execute([ ':entity_id' => $postId ]);
        $postActions = $actionQuery->fetchAll();
 

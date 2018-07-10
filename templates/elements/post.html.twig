@@ -1,4 +1,4 @@
-<article class="post animated">
+<article class="post animated bounceInUp">
     <div class="post-title mb-2">
         <a class="uploader" href="{{ path('view_user', { permalink: post.permalink }) }}">
             <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.profile_pic) }}" alt="Profile icon of {{ post.first_name ~ ' ' ~ post.last_name }},">
@@ -14,7 +14,7 @@
         <pre class="post-content">{{ post.content }}</pre>
     {% endif %}
     {% if post.image is not null %}
-        <img class="text-center" src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+        <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
     {% endif %}
     <div class="post-info mt-2">
         <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">

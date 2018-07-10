@@ -15,8 +15,6 @@ On the other hand, a social network must have some functions what could make it 
 
 * Profile picture change & user settings
 * Chat between users & teams
-* Organizations & teams
-* Searching for users / organizations
 * Improve UX
 * Host the website
 * Translations for the website

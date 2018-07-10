@@ -1,10 +1,21 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}Messages{% endblock %}
+{% block title %}Create Page{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-    <h1>Create Page</h1>
+    <section class="text-center mt-2">
+        <div class="auth-form">
+            <h1>Create Page</h1>
+            {{ form_start(page_form) }}
+            {{ form_row(page_form.page_type) }}
+            {{ form_row(page_form.page_name) }}
+            {{ form_row(page_form.contact_email) }}
+            {{ form_row(page_form.password) }}
+            {{ form_row(page_form.Submit) }}
+            {{ form_end(page_form) }}
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}{% endblock %}

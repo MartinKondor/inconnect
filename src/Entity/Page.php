@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
@@ -23,16 +24,19 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The first name field cannot be blank.")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The first name field cannot be blank.")
      */
     private $page_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The first name field cannot be blank.")
      */
     private $page_type;
 
@@ -48,6 +52,7 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Email must be a real email address.")
      */
     private $contact_email;
 
@@ -69,7 +74,7 @@ class Page
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $page_pic;
+    private $page_pic = 'default_business.jpg';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

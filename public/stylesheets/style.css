@@ -76,7 +76,7 @@ body {
    margin-top: 5%;
    margin-left: 25%;
    margin-right: 25%;
-   box-shadow: 0 1px 50px var(--secondary-color);
+   /*box-shadow: 0 1px 50px var(--secondary-color);*/
    border-radius: 5px;
    padding: 20px;
 }
@@ -236,20 +236,6 @@ footer .copy {
   padding: 27px;
   margin: 50px auto;
   width: 590px;
-}
-
-.post:nth-child(even) {
-  -webkit-animation-name: bounceInLeft;
-  animation-name: bounceInLeft;
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-}
-
-.post:nth-child(odd) {
-  -webkit-animation-name: bounceInRight;
-  animation-name: bounceInRight;
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
 }
 
 .post-title .uploader {
