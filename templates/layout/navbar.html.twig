@@ -10,10 +10,11 @@
             <ul class="navbar-nav mr-auto">
                 <li class="dropdown nav-item ml-1 mr-4">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                         <img id="actual-user-profile-pic" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
+                         <img id="actual-user-profile-pic" title="{{ app.user.firstName ~ ' ' ~ app.user.lastName }}" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
                      </a>
                      <ul class="dropdown-menu">
-                         <li><a class="nav-link" href="{{ asset('u/' ~ app.user.permalink) }}"><i class="fas fa-user"></i> Profile</a></li>
+                         <li><a class="nav-link" href="{{ path('view_user', { permalink: app.user.permalink }) }}"><i class="fas fa-user"></i> Profile</a></li>
+                         <li><a class="nav-link" href="{{ path('user_pages') }}"><i class="fas fa-file-alt"></i> Pages</a></li>
                          <li><a class="nav-link" href="{{ path('settings') }}"><i class="fas fa-cogs"></i> Settings</a></li>
                          <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                      </ul>

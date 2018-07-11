@@ -93,4 +93,17 @@
        });
    });
 
+   $('.post-with-page-link').on('click', function(e) {
+       e.preventDefault();
+
+       let idOfPage = $(this).attr('id').replace(/\D/gi, '').trim();
+
+       // Open the related form
+       if ($('#post-with-' + idOfPage +'-form').css('display') === 'none') {
+           $('#post-with-' + idOfPage +'-form').css('display', 'block');
+       } else {
+           $('#post-with-' + idOfPage +'-form').css('display', 'none');
+       }
+   });
+
 })(jQuery);

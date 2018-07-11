@@ -86,6 +86,11 @@ class Page
      */
     private $about;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $page_permalink;
+
     public function getPageId()
     {
         return $this->page_id;
@@ -134,7 +139,7 @@ class Page
 
     public function setPageType(string $page_type): self
     {
-        $this->page_type = $page_type;
+        $this->page_type = strtolower($page_type);
 
         return $this;
     }
@@ -244,6 +249,18 @@ class Page
     {
         $this->about = $about;
 
+        return $this;
+    }
+
+    public function getPagePermalink(): string
+    {
+        return $this->page_permalink;
+    }
+
+    public function setPagePermalink(string $page_permalink): self
+    {
+        // Remove all special characters for correct url
+        $this->page_permalink = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $page_permalink));
         return $this;
     }
 }

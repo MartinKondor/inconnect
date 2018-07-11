@@ -1,15 +1,15 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ viewPage.pageName }}{% endblock %}
+{% block title %}{{ viewPage.page_name }}{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
-    <h1 class="font-weight-bold user-name text-left mt-2">{{ viewPage.pageName }}</h1>
+    <h1 class="font-weight-bold user-name text-left mt-2">{{ viewPage.page_name }}</h1>
     <section class="row pt-3">
         <div class="user-profile-info bg-black text-white col-sm-2 text-center animated bounceInLeft">
-            <img class="lg-profile mt-2" title="Profile picture of {{ viewPage.pageName }}"
-                 src="{{ asset('images/pages/' ~ viewPage.pagePic) }}"
-                 alt="Profile picture of {{ viewPage.pageName }},">
+            <img class="lg-profile mt-2" title="Profile picture of {{ viewPage.page_name }}"
+                 src="{{ asset('images/pages/' ~ viewPage.page_pic) }}"
+                 alt="Profile picture of {{ viewPage.page_name }},">
             {# Page upvoted by user #}
             {% if viewPage.upvotedByUser == false %}
                 <button class="btn btn-primary">Upvote</button>
@@ -26,7 +26,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="postModalTitle">
-                        About {{ viewPage.pageName }}
+                        About {{ viewPage.page_name }}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -72,7 +72,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="postModalTitle">
-                        Photos of {{ viewPage.pageName }}
+                        Photos of {{ viewPage.page_name }}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

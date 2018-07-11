@@ -8,10 +8,18 @@
         <div class="auth-form">
             <h1>Create Page</h1>
             {{ form_start(page_form) }}
-            {{ form_row(page_form.page_type) }}
             {{ form_row(page_form.page_name) }}
+            {{ form_row(page_form.page_type) }}
             {{ form_row(page_form.contact_email) }}
             {{ form_row(page_form.password) }}
+            <p class="h4 text-muted mt-5 mb-3">Public Optional information</p>
+
+            {{ form_row(page_form.contact_address) }}
+            {{ form_row(page_form.contact_postal_code) }}
+            {{ form_row(page_form.contact_phone) }}
+
+            {{ form_row(page_form.since_date) }}
+
             {{ form_row(page_form.Submit) }}
             {{ form_end(page_form) }}
         </div>

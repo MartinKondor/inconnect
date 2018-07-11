@@ -31,11 +31,13 @@ CREATE TABLE page (
 );
 
 CREATE TABLE post (
-   post_id INT AUTO_INCREMENT NOT NULL,
+   post_id INT AUTO_INCREMENT NOT NULL, -- when the post holder is a page, the user_id
+                                        -- is the administrator's id who uploaded the post
    user_id INT NOT NULL, -- Owner of this post
    date_of_upload DATETIME NOT NULL,
    image VARCHAR(100) NULL, -- File name for public/images/posts can be here
    content TEXT NOT NULL,
+   holder_type VARCHAR(255) DEFAULT 'user' -- can also be 'page'
    PRIMARY KEY(user_id, post_id)
 );
 

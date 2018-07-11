@@ -56,7 +56,7 @@ class FriendController extends Controller
     }
 
     /**
-     * @Route("/friend/accept/{userId}", name="friend_request_accept", methods={ "POST" })
+     * @Route("/friend/request/accept/{userId}", name="friend_request_accept", methods={ "POST" })
      */
     public function acceptFriend($userId)
     {
@@ -81,7 +81,7 @@ class FriendController extends Controller
     }
 
     /**
-     * @Route("/friend/decline/{userId}", name="friend_request_decline", methods={ "POST" })
+     * @Route("/friend/request/decline/{userId}", name="friend_request_decline", methods={ "POST" })
      */
     public function declineFriend($userId)
     {

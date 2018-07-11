@@ -39,6 +39,11 @@ class Post
      */
     private $content;
 
+    /**
+     * @ORM\Column(type="text", length=255, nullable=true)
+     */
+    private $holder_type = 'user';
+
     // Non database properties for template
     private $uploader;
     private $uploader_profile_pic;
@@ -99,6 +104,17 @@ class Post
     {
         $this->content = $content;
 
+        return $this;
+    }
+
+    public function getHolderType(): string
+    {
+        return $this->holder_type;
+    }
+
+    public function setHolderType(string $holder_type): ?self
+    {
+        $this->holder_type = $holder_type;
         return $this;
     }
 

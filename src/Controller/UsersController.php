@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Friend, Post, Action };
+use App\Entity\{ User, Friend, Page };
 
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UsersController extends Controller 
@@ -102,8 +100,25 @@ class UsersController extends Controller
       ]);
    }
 
+    /**
+     * @Route("/user/pages", name="user_pages", methods={ "GET" })
+     */
+    public function userPages()
+    {
+        $user = $this->getUser();
+
+        $pages = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository(Page::class)
+                    ->findBy([ 'creator_user_id' => $user->getUserId() ]);
+
+        return $this->render('users/pages.html.twig', [
+            'pages' => $pages
+        ]);
+    }
+
    /**
-    * @Route("/info/settings", name="settings", methods={ "GET" })
+    * @Route("/user/settings", name="settings", methods={ "GET" })
     */
    public function settings()
    {
