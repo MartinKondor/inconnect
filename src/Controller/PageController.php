@@ -140,10 +140,10 @@ class PageController extends Controller
 
         // Save the post
         $post = new Post();
-        $post->setUserId($user->getUserId());
-        $post->setContent($_POST['page_post_content']);
-        $post->setDateOfUpload(new \DateTime());
-        $post->setHolderType('page');
+        $post->setUserId($user->getUserId())
+            ->setContent($_POST['page_post_content'])
+            ->setDateOfUpload(new \DateTime())
+            ->setHolderType('page');
 
         $em->persist($post);
         $em->flush();

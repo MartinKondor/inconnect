@@ -50,12 +50,12 @@ class ActionController extends Controller
 
         // Insert user upvote in database
         $userAction = new Action();
-        $userAction->setEntityId($entityId);
-        $userAction->setUserId($user->getUserId());
-        $userAction->setToUserId($toUserId);
-        $userAction->setActionDate(new \DateTime());
-        $userAction->setEntityType('post');
-        $userAction->setActionType('upvote');
+        $userAction->setEntityId($entityId)
+                ->setUserId($user->getUserId())
+                ->setToUserId($toUserId)
+                ->setActionDate(new \DateTime())
+                ->setEntityType('post')
+                ->setActionType('upvote');
 
         $em->persist($userAction);
         $em->flush();

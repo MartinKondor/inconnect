@@ -10,8 +10,9 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $userClara = new User();
-        $userClara->setFirstName('Test')
+        // Creating two users
+        $userAaliyah = new User();
+        $userAaliyah->setFirstName('Test')
                 ->setLastName('Aaliyah')
                 ->setEmail('test@aaliyah.test')
                 ->setProfilePic('female_avatar.jpg')
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
                 ->setPassword(password_hash('test', PASSWORD_BCRYPT))
                 ->setPermalink('~aaliyah')
                 ->setGender('female');
+        $manager->persist($userAaliyah);
 
         $userJohn = new User();
         $userJohn->setFirstName('Test')
@@ -29,9 +31,19 @@ class AppFixtures extends Fixture
                 ->setPassword(password_hash('test', PASSWORD_BCRYPT))
                 ->setPermalink('~john')
                 ->setGender('male');
-
-        $manager->persist($userClara);
         $manager->persist($userJohn);
+        $manager->flush();
+
+        // Getting the id of a user for creating a post
+        $user = $manager->getRepository(User::class)
+                ->findOneBy([ 'email' => 'test@aaliyah.test' ]);
+
+        $firstPost = new Post();
+        $firstPost->setUserId($user->getUserId())
+                ->setContent('Content of the first post.')
+                ->setDateOfUpload(new \DateTime());
+        $manager->persist($firstPost);
+
         $manager->flush();
     }
 }

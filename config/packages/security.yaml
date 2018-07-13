@@ -38,6 +38,11 @@ security:
         # - { path: ^/p/\d+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
         # - { path: ^/u/\d+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
         # - { path: ^/pages/\d+/[0-9a-zA-Z]+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/about, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/privacy, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/terms, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/cookies, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/help, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
