@@ -36,20 +36,20 @@ class FriendController extends Controller
                 $em->flush();
 
                 $fr = new Friend();
-                $fr->setFromUserId($user->getUserId());
-                $fr->setToUserId($user2Id);
-                $fr->setStatus('friends');
+                $fr->setFromUserId($user->getUserId())
+                    ->setToUserId($user2Id)
+                    ->setStatus('friends');
+
                 $em->persist($fr);
                 $em->flush();
-
                 return new Response('success');
             }
         }
 
         $fr = new Friend();
-        $fr->setFromUserId($user->getUserId());
-        $fr->setToUserId($user2Id);
-        $fr->setStatus('request');
+        $fr->setFromUserId($user->getUserId())
+            ->setToUserId($user2Id)
+            ->setStatus('request');
         $em->persist($fr);
         $em->flush();
         return new Response('success');
@@ -67,13 +67,14 @@ class FriendController extends Controller
                 'from_user_id' => $userId,
                 'to_user_id' => $user->getUserId()
             ]);
+        // Update the from user request to friends
         $friendRequest->setStatus('friends');
         $em->flush();
 
         $fr = new Friend();
-        $fr->setFromUserId($user->getUserId());
-        $fr->setToUserId($userId);
-        $fr->setStatus('friends');
+        $fr->setFromUserId($user->getUserId())
+            ->setToUserId($userId)
+            ->setStatus('friends');
         $em->persist($fr);
         $em->flush();
 

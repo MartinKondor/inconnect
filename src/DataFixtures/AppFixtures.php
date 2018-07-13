@@ -11,24 +11,24 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $userClara = new User();
-        $userClara->setFirstName('Test');
-        $userClara->setLastName('Clara');
-        $userClara->setEmail('test@clara.test');
-        $userClara->setProfilePic('female_avatar.jpg');
-        $userClara->setBirthDate(new \DateTime());
-        $userClara->setPassword(password_hash('test', PASSWORD_BCRYPT));
-        $userClara->setPermalink('testclara');
-        $userClara->setGender('female');
+        $userClara->setFirstName('Test')
+                ->setLastName('Aaliyah')
+                ->setEmail('test@aaliyah.test')
+                ->setProfilePic('female_avatar.jpg')
+                ->setBirthDate(new \DateTime())
+                ->setPassword(password_hash('test', PASSWORD_BCRYPT))
+                ->setPermalink('~aaliyah')
+                ->setGender('female');
 
         $userJohn = new User();
-        $userJohn->setFirstName('Test');
-        $userJohn->setLastName('John');
-        $userJohn->setEmail('test@john.test');
-        $userJohn->setProfilePic('male_avatar.jpg');
-        $userJohn->setBirthDate(new \DateTime());
-        $userJohn->setPassword(password_hash('test', PASSWORD_BCRYPT));
-        $userJohn->setPermalink('testjohn');
-        $userJohn->setGender('male');
+        $userJohn->setFirstName('Test')
+                ->setLastName('John')
+                ->setEmail('test@john.test')
+                ->setProfilePic('male_avatar.jpg')
+                ->setBirthDate(new \DateTime())
+                ->setPassword(password_hash('test', PASSWORD_BCRYPT))
+                ->setPermalink('~john')
+                ->setGender('male');
 
         $manager->persist($userClara);
         $manager->persist($userJohn);

@@ -91,6 +91,9 @@ class Page
      */
     private $page_permalink;
 
+    // Non database values
+    private $posts;
+
     public function getPageId()
     {
         return $this->page_id;
@@ -261,6 +264,17 @@ class Page
     {
         // Remove all special characters for correct url
         $this->page_permalink = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $page_permalink));
+        return $this;
+    }
+
+    public function getPosts(): ?array
+    {
+        return $this->posts;
+    }
+
+    public function setPosts(array $posts): self
+    {
+        $this->posts = $posts;
         return $this;
     }
 }

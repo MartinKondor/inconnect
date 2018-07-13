@@ -74,13 +74,13 @@ class ActionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $userAction = new Action();
-        $userAction->setEntityId($entityId);
-        $userAction->setUserId($user->getUserId());
-        $userAction->setToUserId($toUserId);
-        $userAction->setActionDate(new \DateTime());
-        $userAction->setEntityType('post');
-        $userAction->setActionType('comment');
-        $userAction->setContent($_POST['comment']);
+        $userAction->setEntityId($entityId)
+                    ->setUserId($user->getUserId())
+                    ->setToUserId($toUserId)
+                    ->setActionDate(new \DateTime())
+                    ->setEntityType('post')
+                    ->setActionType('comment')
+                    ->setContent($_POST['comment']);
 
         $em->persist($userAction);
         $em->flush();

@@ -16,7 +16,11 @@
             {% endif %}
         </div>
         <div id="post-list" class="col-sm-10">
-            posts
+            {% if viewPage.posts is defined %}
+                {% for post in viewPage.posts %}
+                    {% include 'elements/pagepost.html.twig' %}
+                {% endfor %}
+            {% endif %}
         </div>
     </section>
 

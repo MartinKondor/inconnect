@@ -35,6 +35,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/p/\d+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        # - { path: ^/u/\d+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
+        # - { path: ^/pages/\d+/[0-9a-zA-Z]+$, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

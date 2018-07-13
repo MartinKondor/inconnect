@@ -16,6 +16,7 @@ class UsersController extends Controller
    {
       $user = $this->getUser();
 
+      // Search by the permalink which can be the user_id or the permalink of a user
       $viewUser = null;
       if (preg_match('/^\d*$/', $permalink)) {
           $viewUser = $this->getDoctrine()
@@ -59,6 +60,7 @@ class UsersController extends Controller
                                                 LEFT JOIN user
                                                 ON post.user_id = user.user_id
                                                 WHERE post.user_id = :user_id
+                                                AND post.holder_type = 'user'
                                                 ORDER BY post.date_of_upload DESC");
       $postsOfViewedUser->execute([ ':user_id' => $viewUser->getUserId() ]);
       $posts = $postsOfViewedUser->fetchAll();

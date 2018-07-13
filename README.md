@@ -13,9 +13,9 @@ The main mission of InConnect, is to create and maintain a social network which 
 
 On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 
-* Post with pages at the user_pages controller
-* Profile picture change & user settings
-* Chat between users & teams
+* Editing posts
+* Settings page for Users, Pages (new settings table)
+* Chat between users
 * Improve UX
 * Host the website
 * Translations for the website
