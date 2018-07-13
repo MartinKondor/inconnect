@@ -54,6 +54,11 @@ class Post
     private $comments;
     private $upvotes;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $post_publicity;
+
     public function getPostId()
     {
         return $this->post_id;
@@ -184,5 +189,17 @@ class Post
     public function isUpvotedByUser(): bool
     {
         return $this->isUpvotedByUser;
+    }
+
+    public function getPostPublicity(): ?string
+    {
+        return $this->post_publicity;
+    }
+
+    public function setPostPublicity(?string $post_publicity): self
+    {
+        $this->post_publicity = $post_publicity;
+
+        return $this;
     }
 }
