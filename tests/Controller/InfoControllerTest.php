@@ -13,12 +13,6 @@ class InfoControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function testNews()
-    {
-        $this->client->request('GET', '/news');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    }
-
     public function testEvents()
     {
         $this->client->request('GET', '/events');
@@ -34,7 +28,7 @@ class InfoControllerTest extends WebTestCase
     public function testAbout()
     {
         $this->client->request('GET', '/about');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
     public function testPrivacy()
