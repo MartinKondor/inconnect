@@ -1,0 +1,40 @@
+
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ post.first_name ~ ' ' ~ post.last_name }}{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <section>
+        <article class="post animated bounceInUp">
+            <form action="{{ path('save_post', { postId: post.post_id }) }}" method="POST">
+                <div class="mb-3">
+                    <label for="publicity-select" class="h5">Publicity</label>
+                    <select name="new_post_publicity" id="publicity-select" class="form-control">
+                        <option title="Anyone can see your post." value="public" {% if post.post_publicity == 'public' %}selected{% endif %}>Public</option>
+                        <option title="The post is only shown in your page." value="own" {% if post.post_publicity == 'own' %}selected{% endif %}>Only on my Page</option>
+                        <option title="Only you will be able to see your post." value="private" {% if post.post_publicity == 'private' %}selected{% endif %}>Private</option>
+                    </select>
+                </div>
+                <div class="post-title mb-2">
+                    <a class="uploader" href="{{ path('view_user', { permalink: post.permalink }) }}">
+                        <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.profile_pic) }}" alt="Profile icon of {{ post.first_name ~ ' ' ~ post.last_name }},">
+                        {{ post.first_name ~ ' ' ~ post.last_name }}
+                    </a>
+                    &middot;
+                    <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
+                </div>
+                <textarea name="new_post_content" class="form-control" cols="30" rows="20">{{ post.content }}</textarea>
+                {% if post.image is not null %}
+                    <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+                {% endif %}
+                <button type="submit" class="mt-2 btn btn-primary">Save changes</button>
+            </form>
+            <form action="{{ path('delete_post', { postId: post.post_id }) }}" method="POST">
+                <button type="submit" class="mt-2 text-center btn btn-outline-danger">Delete post</button>
+            </form>
+        </article>
+    </section>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

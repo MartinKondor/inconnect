@@ -37,7 +37,10 @@ CREATE TABLE post (
    date_of_upload DATETIME NOT NULL,
    image VARCHAR(100) NULL, -- File name for public/images/posts can be here
    content TEXT NOT NULL,
-   holder_type VARCHAR(255) DEFAULT 'user' -- can also be 'page'
+   holder_type VARCHAR(255) DEFAULT 'user', -- can also be 'page'
+   post_publicity VARCHAR(100) DEFAULT 'public', -- can be public, private, own
+   -- Own: only on the uploader's page
+   -- Private: Never shown, only for the uploader
    PRIMARY KEY(user_id, post_id)
 );
 

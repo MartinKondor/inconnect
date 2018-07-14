@@ -82,7 +82,7 @@ server and making changes on it.
     Log in to one of these users:
     
     ```
-    Email: test@clara.test
+    Email: test@aaliyah.test
     Password: test
     -
     Email: test@john.test

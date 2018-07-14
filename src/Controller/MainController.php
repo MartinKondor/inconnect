@@ -74,7 +74,7 @@ class MainController extends Controller
 
         // Getting all posts from the friends of the user, and also from the user her/himself
         $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, post.image, post.holder_type, 
-                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
+                                        post.post_publicity, user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
                                         FROM user
                                         INNER JOIN friend
                                         ON friend.to_user_id = user.user_id
@@ -83,8 +83,9 @@ class MainController extends Controller
                                         WHERE friend.from_user_id = :user_id
                                         AND friend.status = 'friends'
                                         AND post.content IS NOT NULL
-                                        OR post.user_id = :user_id
                                         AND post.holder_type != 'page'
+                                        AND post.post_publicity = 'public'
+                                        OR post.user_id = :user_id
                                         GROUP BY post.post_id)
                                         ORDER BY post.date_of_upload DESC
                                         LIMIT 50");

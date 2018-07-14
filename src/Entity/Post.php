@@ -44,6 +44,11 @@ class Post
      */
     private $holder_type = 'user';
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $post_publicity = 'public';
+
     // Non database properties for template
     private $uploader;
     private $uploader_profile_pic;
@@ -53,11 +58,6 @@ class Post
     private $isUpvotedByUser = false;
     private $comments;
     private $upvotes;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $post_publicity;
 
     public function getPostId()
     {

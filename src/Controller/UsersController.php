@@ -56,12 +56,23 @@ class UsersController extends Controller
       }
 
       // Getting the posts
-      $postsOfViewedUser = $connection->prepare("SELECT * FROM post
+      // If the user is the same as the requested user then show every type of publicity posts
+      if ($user->getPermalink() === $permalink) {
+          $postsOfViewedUser = $connection->prepare("SELECT * FROM post
                                                 LEFT JOIN user
                                                 ON post.user_id = user.user_id
                                                 WHERE post.user_id = :user_id
                                                 AND post.holder_type = 'user'
                                                 ORDER BY post.date_of_upload DESC");
+      } else {
+          $postsOfViewedUser = $connection->prepare("SELECT * FROM post
+                                                LEFT JOIN user
+                                                ON post.user_id = user.user_id
+                                                WHERE post.user_id = :user_id
+                                                AND post.holder_type = 'user'
+                                                AND post.post_publicity != 'private'
+                                                ORDER BY post.date_of_upload DESC");
+      }
       $postsOfViewedUser->execute([ ':user_id' => $viewUser->getUserId() ]);
       $posts = $postsOfViewedUser->fetchAll();
 

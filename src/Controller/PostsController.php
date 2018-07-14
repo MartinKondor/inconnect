@@ -25,7 +25,8 @@ class PostsController extends Controller
                                         user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic
                                         FROM post RIGHT JOIN user
                                         ON post.user_id = user.user_id
-                                        WHERE post.post_id = :post_id");
+                                        WHERE post.post_id = :post_id
+                                        AND post.post_publicity != 'private'");
        $query->execute([ ':post_id' => $postId ]);
        $post = $query->fetch();
        if (empty($post))
@@ -54,7 +55,6 @@ class PostsController extends Controller
                    $post['isUpvotedByUser'] = true;
            }
        }
-
        $post['upvotes'] = $upvotes;
        $post['comments'] = $comments;
 
@@ -62,4 +62,76 @@ class PostsController extends Controller
            'post' => $post
        ]);
    }
+
+   /**
+    * @Route("/p/{postId}/edit", name="edit_post", methods={ "GET" })
+    */
+   public function editPost($postId)
+   {
+       $user = $this->getUser();
+
+       $em = $this->getDoctrine()->getManager();
+       $connection = $em->getConnection();
+
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.image, post.content, post.post_publicity,
+                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic
+                                        FROM post RIGHT JOIN user
+                                        ON post.user_id = user.user_id
+                                        WHERE post.post_id = :post_id");
+       $query->execute([ ':post_id' => $postId ]);
+       $post = $query->fetch();
+
+       if (empty($post))
+           throw $this->createNotFoundException('The post does not exists.');
+       // See if the user has permission for editing this post
+       if ($post['user_id'] != $user->getUserId())
+           throw $this->createAccessDeniedException('Access denied for editing this post.');
+
+       return $this->render('posts/edit.html.twig', [
+           'post' => $post
+       ]);
+   }
+
+    /**
+     * @Route("/p/{postId}/delete", name="delete_post", methods={ "POST" })
+     */
+    public function deletePost($postId)
+    {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->findOneBy([ 'post_id' => $postId ]);
+
+        if ($post->getUserId() != $user->getUserId())
+            throw $this->createAccessDeniedException('Access denied for deleting this post.');
+
+        $em->remove($post);
+        $em->flush();
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/p/{postId}/save", name="save_post", methods={ "POST" })
+     */
+    public function savePost($postId, Request $request)
+    {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository(Post::class)->findOneBy([ 'post_id' => $postId ]);
+
+        if ($post->getUserId() != $user->getUserId())
+            throw $this->createAccessDeniedException('Access denied for change this post.');
+
+        $postData = $request->request->all();
+
+        $post->setContent($_POST['new_post_content']);
+        $post->setPostPublicity($_POST['new_post_publicity']);
+
+        $em->persist($post);
+        $em->flush();
+
+        return $this->redirectToRoute('index');
+    }
 }

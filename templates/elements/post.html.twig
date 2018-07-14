@@ -6,6 +6,11 @@
         </a>
         &middot;
         <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
+        {% if post.user_id == app.user.userId %}
+            <span class="ml-5">
+                <a href="{{ path('edit_post', { postId: post.post_id }) }}"><i class="fas fa-pen"></i></a>
+            </span>
+        {% endif %}
     </div>
     {# Modal for post is at the bottom of the page #}
     {% if post.shortContent is defined %}
