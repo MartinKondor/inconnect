@@ -1,7 +1,7 @@
 
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ post.first_name ~ ' ' ~ post.last_name }}{% endblock %}
+{% block title %}Editing{% endblock %}
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
@@ -28,10 +28,10 @@
                 {% if post.image is not null %}
                     <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
                 {% endif %}
-                <button type="submit" class="mt-2 btn btn-primary">Save changes</button>
+                <button type="submit" class="mt-2 btn-block btn btn-primary">Save changes</button>
             </form>
             <form action="{{ path('delete_post', { postId: post.post_id }) }}" method="POST">
-                <button type="submit" class="mt-2 text-center btn btn-outline-danger">Delete post</button>
+                <button type="submit" class="mt-2 btn-block text-center btn btn-outline-danger">Delete post</button>
             </form>
         </article>
     </section>

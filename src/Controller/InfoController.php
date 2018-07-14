@@ -28,19 +28,11 @@ class InfoController extends Controller
     }
 
     /**
-     * @Route("/news", name="news", methods={ "GET" })
-     */
-    public function news()
-    {
-        return new Response('news');
-    }
-
-    /**
      * @Route("/events", name="events", methods={ "GET" })
      */
     public function events()
     {
-        return new Response('events');
+        return $this->render('info/events.html.twig', []);
     }
 
     /**
@@ -48,7 +40,7 @@ class InfoController extends Controller
      */
     public function findfriends()
     {
-        return new Response('findfriends');
+        return $this->render('info/findfriends.html.twig', []);
     }
 
     /**
@@ -56,7 +48,8 @@ class InfoController extends Controller
      */
     public function about()
     {
-        return new Response('about');
+        return $this->redirect('https://github.com/in-connect/inconnect#readme');
+        // return $this->render('info/about.html.twig', []);
     }
 
     /**
@@ -64,7 +57,7 @@ class InfoController extends Controller
      */
     public function privacy()
     {
-        return new Response('privacy');
+        return $this->render('info/privacy.html.twig', []);
     }
 
     /**
@@ -72,7 +65,7 @@ class InfoController extends Controller
      */
     public function terms()
     {
-        return new Response('terms');
+        return $this->render('info/terms.html.twig', []);
     }
 
     /**
@@ -80,7 +73,7 @@ class InfoController extends Controller
      */
     public function cookies()
     {
-        return new Response('cookies');
+        return $this->render('info/cookies.html.twig', []);
     }
 
     /**
@@ -88,6 +81,6 @@ class InfoController extends Controller
      */
     public function help()
     {
-        return new Response('help');
+        return $this->render('info/help.html.twig', []);
     }
 }
