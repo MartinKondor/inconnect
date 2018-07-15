@@ -38,25 +38,26 @@
   });
 
   $('.send-comment').on('click', function(e) {
-     e.preventDefault();
-     let url = $(this).attr('href');
-     let postId = url.split('/')[3];
-     let commentContent = $('#comment-area-' + postId).val();
+        e.preventDefault();
+        let url = $(this).attr('href');
+        let urlArray = url.split('/');
+        let postId = urlArray[urlArray.length - 2];
+        let commentContent = $('#comment-area-' + postId).val();
 
-     if ($('#comment-area-' + url.split('/')[3]).val()) {
-         $.ajax({
-             method: 'POST',
-             url: url,
-             data: { comment: commentContent }
-         }).done((data) => {
+        if (commentContent) {
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: { comment: commentContent }
+            }).done((data) => {
 
-             // Place comment on the page
-             if (data['status'] === 'success') {
-                 let aUserName = data['actualUserFullName'];
-                 let aUserLink = data['actualUserLink'];
-                 let aUserProfilePic = data['actualUserProfilePic'];
+                // Place comment on the page
+                if (data['status'] === 'success') {
+                    let aUserName = data['actualUserFullName'];
+                    let aUserLink = data['actualUserLink'];
+                    let aUserProfilePic = data['actualUserProfilePic'];
 
-                 let commentHtml = `
+                    let commentHtml = `
                         <div class="comment animated rotateIn">
                             <div>
                                 <a href="${aUserLink}" class="comment-commenter">
@@ -69,12 +70,12 @@
                             <pre class="comment-content">${commentContent}</pre>
                         </div>`;
 
-                 $('#post-' + postId + '-comments').append(commentHtml);
-                 $('#comment-area-' + postId).val('');
-             }
-         });
-     }
-  });
+                    $('#post-' + postId + '-comments').append(commentHtml);
+                    $('#comment-area-' + postId).val('');
+                }
+            });
+        }
+   });
 
     // Friend adding
    $('.add-friend-btn').on('click', function(e) {
