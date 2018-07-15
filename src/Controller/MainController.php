@@ -86,7 +86,7 @@ class MainController extends Controller
                                         AND post.holder_type != 'page'
                                         AND post.post_publicity = 'public'
                                         OR post.user_id = :user_id
-                                        GROUP BY post.post_id)
+                                        GROUP BY post.post_id, icuser.user_id)
                                         ORDER BY post.date_of_upload DESC
                                         LIMIT 50");
         $query->execute([ ':user_id' => $this->getUser()->getUserId() ]);
