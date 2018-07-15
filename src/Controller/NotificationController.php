@@ -27,8 +27,8 @@ class NotificationController extends Controller
         // Get all friend request sent to this user
         $con = $this->getDoctrine()->getManager()->getConnection();
         $friendsQuery = $con->prepare("SELECT * FROM friend 
-                                    LEFT JOIN user 
-                                    ON friend.from_user_id = user.user_id
+                                    LEFT JOIN icuser 
+                                    ON friend.from_user_id = icuser.user_id
                                     WHERE friend.status = 'request'
                                     AND friend.to_user_id = :to_user_id");
         $friendsQuery->execute([ ':to_user_id' => $userId ]);

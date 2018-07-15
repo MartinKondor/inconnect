@@ -14,7 +14,7 @@ class InfoController extends Controller
     public function search(Request $request)
     {
         $query = $this->getDoctrine()->getManager()->getConnection()->prepare("SELECT profile_pic, permalink,
-                                                                      first_name, last_name FROM user
+                                                                      first_name, last_name FROM icuser
                                                                       WHERE first_name LIKE :queryFirst OR 
                                                                       last_name LIKE :queryLast LIMIT 5;");
         // If the search contains first and last name split it for the query

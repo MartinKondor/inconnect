@@ -21,10 +21,10 @@ class PostsController extends Controller
        $em = $this->getDoctrine()->getManager();
        $connection = $em->getConnection();
 
-       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.image, post.content,
-                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic
-                                        FROM post RIGHT JOIN user
-                                        ON post.user_id = user.user_id
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, icuser.user_id, post.image, post.content,
+                                        icuser.first_name, icuser.last_name, icuser.permalink, post.date_of_upload, icuser.profile_pic
+                                        FROM post RIGHT JOIN icuser
+                                        ON post.user_id = icuser.user_id
                                         WHERE post.post_id = :post_id
                                         AND post.post_publicity != 'private'");
        $query->execute([ ':post_id' => $postId ]);
@@ -32,11 +32,11 @@ class PostsController extends Controller
        if (empty($post))
            throw $this->createNotFoundException('The post does not exists.');
 
-       $actionQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
-                                            user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+       $actionQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
+                                            icuser.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
                                             FROM `action` 
-                                            RIGHT JOIN user
-                                            ON `action`.`user_id` = user.user_id
+                                            RIGHT JOIN icuser
+                                            ON `action`.`user_id` = icuser.user_id
                                             WHERE `action`.`entity_id` = :entity_id
                                             AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
                                             AND `action`.`entity_type` = 'post'");
@@ -73,10 +73,10 @@ class PostsController extends Controller
        $em = $this->getDoctrine()->getManager();
        $connection = $em->getConnection();
 
-       $query = $connection->prepare("SELECT post.post_id, post.user_id, user.user_id, post.image, post.content, post.post_publicity,
-                                        user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic
-                                        FROM post RIGHT JOIN user
-                                        ON post.user_id = user.user_id
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, icuser.user_id, post.image, post.content, post.post_publicity,
+                                        icuser.first_name, icuser.last_name, icuser.permalink, post.date_of_upload, icuser.profile_pic
+                                        FROM post RIGHT JOIN icuser
+                                        ON post.user_id = icuser.user_id
                                         WHERE post.post_id = :post_id");
        $query->execute([ ':post_id' => $postId ]);
        $post = $query->fetch();

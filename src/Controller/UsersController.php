@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Friend, Page };
+use App\Entity\{ ICUser, Friend, Page };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,11 +20,11 @@ class UsersController extends Controller
       $viewUser = null;
       if (preg_match('/^\d*$/', $permalink)) {
           $viewUser = $this->getDoctrine()
-              ->getRepository(User::class)
+              ->getRepository(ICUser::class)
               ->findOneBy([ 'user_id' => $permalink ]);
       } else {
           $viewUser = $this->getDoctrine()
-              ->getRepository(User::class)
+              ->getRepository(ICUser::class)
               ->findOneBy([ 'permalink' => $permalink ]);
       }
       if (empty($viewUser))
@@ -34,8 +34,8 @@ class UsersController extends Controller
       $em = $this->getDoctrine()->getManager();
       $connection = $em->getConnection();
       $friendQuery = $connection->prepare("SELECT * FROM friend
-                                            RIGHT JOIN user
-                                            ON friend.to_user_id = user.user_id
+                                            RIGHT JOIN icuser
+                                            ON friend.to_user_id = icuser.user_id
                                             WHERE friend.from_user_id = :from_user_id AND friend.status = 'friends'");
       $friendQuery->execute([ ':from_user_id' => $viewUser->getUserId() ]);
       $friendsOfViewedUser = $friendQuery->fetchAll();
@@ -59,15 +59,15 @@ class UsersController extends Controller
       // If the user is the same as the requested user then show every type of publicity posts
       if ($user->getPermalink() === $permalink) {
           $postsOfViewedUser = $connection->prepare("SELECT * FROM post
-                                                LEFT JOIN user
-                                                ON post.user_id = user.user_id
+                                                LEFT JOIN icuser
+                                                ON post.user_id = icuser.user_id
                                                 WHERE post.user_id = :user_id
                                                 AND post.holder_type = 'user'
                                                 ORDER BY post.date_of_upload DESC");
       } else {
           $postsOfViewedUser = $connection->prepare("SELECT * FROM post
-                                                LEFT JOIN user
-                                                ON post.user_id = user.user_id
+                                                LEFT JOIN icuser
+                                                ON post.user_id = icuser.user_id
                                                 WHERE post.user_id = :user_id
                                                 AND post.holder_type = 'user'
                                                 AND post.post_publicity != 'private'
@@ -78,10 +78,10 @@ class UsersController extends Controller
 
       // Get the actions of each posts
       foreach ($posts as $i => $post) {
-          $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
-                                                user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
-                                                FROM `action` RIGHT JOIN user
-                                                ON `action`.`user_id` = user.user_id
+          $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
+                                                icuser.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+                                                FROM `action` RIGHT JOIN icuser
+                                                ON `action`.`user_id` = icuser.user_id
                                                 WHERE `action`.`entity_id` = :entity_id
                                                 AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
                                                 AND `action`.`entity_type` = 'post'");

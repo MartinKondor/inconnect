@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Post, Action };
+use App\Entity\{ ICUser, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

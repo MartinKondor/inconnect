@@ -1,11 +1,11 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\User: bcrypt
+        App\Entity\ICUser: bcrypt
     providers:
         db_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\ICUser
                 property: email
 
     firewalls:

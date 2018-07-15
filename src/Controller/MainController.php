@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Form\{ UserSignUpType, PostType };
-use App\Entity\{ User, Post, Action };
+use App\Entity\{ ICUser, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,7 +18,7 @@ class MainController extends Controller
     */
    public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder)
    {
-      $user = new User();
+      $user = new ICUser();
       $form = $this->createForm(UserSignUpType::class, $user, [
             'action' => $this->generateUrl('signup')
       ]);
@@ -73,11 +73,11 @@ class MainController extends Controller
         $connection = $em->getConnection();
 
         // Getting all posts from the friends of the user, and also from the user her/himself
-        $query = $connection->prepare("(SELECT post.post_id, post.user_id, user.user_id, post.content, post.image, post.holder_type, 
-                                        post.post_publicity, user.first_name, user.last_name, user.permalink, post.date_of_upload, user.profile_pic 
-                                        FROM user
+        $query = $connection->prepare("(SELECT post.post_id, post.user_id, icuser.user_id, post.content, post.image, post.holder_type, 
+                                        post.post_publicity, icuser.first_name, icuser.last_name, icuser.permalink, post.date_of_upload, icuser.profile_pic 
+                                        FROM icuser
                                         INNER JOIN friend
-                                        ON friend.to_user_id = user.user_id
+                                        ON friend.to_user_id = icuser.user_id
                                         INNER JOIN post
                                         ON post.user_id = friend.to_user_id
                                         WHERE friend.from_user_id = :user_id
@@ -94,10 +94,10 @@ class MainController extends Controller
 
         // Set up the post with the comments and upvotes
         foreach ($posts as $i => $post) {
-            $postQuery = $connection->prepare("SELECT user.user_id, user.first_name, user.last_name, user.permalink, 
-                                                user.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
-                                                FROM `action` RIGHT JOIN user
-                                                ON `action`.`user_id` = user.user_id
+            $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
+                                                icuser.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
+                                                FROM `action` RIGHT JOIN icuser
+                                                ON `action`.`user_id` = icuser.user_id
                                                 WHERE `action`.`entity_id` = :entity_id
                                                 AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
                                                 AND `action`.`entity_type` = 'post'");

@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\{ User, Post, Action, Friend };
+use App\Entity\{ ICUser, Post, Action, Friend };
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -11,7 +11,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         // Creating two users
-        $userAaliyah = new User();
+        $userAaliyah = new ICUser();
         $userAaliyah->setFirstName('Test')
                 ->setLastName('Aaliyah')
                 ->setEmail('test@aaliyah.test')
@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
                 ->setGender('female');
         $manager->persist($userAaliyah);
 
-        $userJohn = new User();
+        $userJohn = new ICUser();
         $userJohn->setFirstName('Test')
                 ->setLastName('John')
                 ->setEmail('test@john.test')
@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         // Getting the id of a user for creating a post
-        $user = $manager->getRepository(User::class)
+        $user = $manager->getRepository(ICUser::class)
                 ->findOneBy([ 'email' => 'test@aaliyah.test' ]);
 
         $firstPost = new Post();

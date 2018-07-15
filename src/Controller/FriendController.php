@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Friend, Post, Action };
+use App\Entity\{ ICUser, Friend, Post, Action };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
