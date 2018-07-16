@@ -1,6 +1,6 @@
 -- This is not the final database structure
 
-CREATE TABLE user (
+CREATE TABLE icuser (
   user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE action ( -- Actions like comment/upvotes/downvotes stored here
    user_id INT NOT NULL, -- Who did the action
    action_date DATETIME NOT NULL, -- When it happened
    entity_type VARCHAR(100) NOT NULL, -- like post/user and ?
-   action_type VARCHAR(100) NOT NULL, -- comment/upvote/page_upvote and ?
+   action_type VARCHAR(100) NOT NULL, -- comment/upvote/page_upvote/message and ?
    seen_by_user VARCHAR(100) NOT NULL, -- To user seen it or not?
    to_user_id INT NOT NULL,
    content TEXT NULL, -- Only relevant when the type is comment

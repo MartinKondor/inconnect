@@ -1,11 +1,76 @@
-{% extends 'layout/base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="description" content="InConnect, an open source social network.">
+    <meta name="keywords" content="connect,inconnect,in-connect,social,network">
+    <meta name="author" content="Martin Kondor">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property='og:type' content='website'>
+    <meta property='og:title' content= title>
+    <meta property="og:description" content="InConnect. Free to use open source social network for everyone.">
+    <title>Messages</title>
+    <link rel="shortcut icon" href="{{ asset("images/ic-icon.png") }}">
+    <link rel="stylesheet" href="{{ asset("assets/css/normalize.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/css/theme.min.css") }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset("assets/css/animate.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("stylesheets/style.css") }}">
+    <link rel="stylesheet" href="{{ asset("stylesheets/messages.css") }}">
+</head>
+<body>
 
-{% block title %}Messages{% endblock %}
-{% block stylesheets %}{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-main pl-4 pr-4 pt-1 pb-1">
+    <a class="navbar-brand brand-logo" href="{{ path('index') }}" title="Home page"><i class="fas fa-home"></i> InConnect</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-link nav-item">
+                <a href="{{ path('view_user', { permalink: app.user.permalink }) }}">
+                    {{ app.user.firstName ~ ' ' ~ app.user.lastName }}
+                    <img title="{{ app.user.firstName ~ ' ' ~ app.user.lastName }}" class="xxs-profile ml-1" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-{% block body %}
-    <h1>Messages</h1>
+<div class="row">
+    {% if contacts is not null %}
+        <div class="contact-col col-md-3">
+            <ul class="contact-list text-left" style="list-style:none;">
+                {% for contact in contacts %}
+                    <li class="friend-list-item">
+                        <a id="{{ 'message-' ~ contact.user_id }}" class="message-link" href="{{ path('view_user', { permalink: contact.permalink }) }}">
+                            <img class="contact-profile" src="{{ asset('images/profiles/' ~ contact.profile_pic) }}" alt="Profile picture of {{ contact.first_name ~ ' ' ~ contact.last_name }},">
+                            <span class="contact-name pl-3">{{ contact.first_name ~ ' ' ~ contact.last_name }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {% for contact in contacts %}
+                <div id="{{ 'messages-of-' ~ contact.user_id }}" class="message-box" style="display:none;">
+                    <ul class="message-list"></ul>
+                    <div class="input-group">
+                        <textarea id="{{ 'message-field-' ~ contact.user_id }}" height="42" class="form-control" placeholder=""></textarea>
+                        <div class="input-group-append">
+                            <button href="{{ path('send_message', { toUserId: contact.user_id }) }}" class="btn btn-info btn-lg send-message"><i class="fas fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1 class="mx-5 my-2">You got no messages.</h1>
+    {% endif %}
+</div>
 
-{% endblock %}
-
-{% block javascripts %}{% endblock %}
+<script src="{{ asset("assets/js/jquery.min.js") }}"></script>
+<script src="{{ asset("assets/js/popper.min.js") }}"></script>
+<script src="{{ asset("assets/js/bootstrap.min.js") }}"></script>
+<script src="{{ asset("assets/js/cookienotice.min.js") }}"></script>
+<script src="{{ asset("javascripts/messages.js") }}"></script>
+</body>
+</html>

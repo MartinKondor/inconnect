@@ -1,0 +1,50 @@
+
+.contact-profile {
+    width: 42px !important;
+    height: auto !important;
+    border-radius: 0px;
+    box-shadow: 1px 2px 10px #424242;
+    background-color: #FEFEFE;
+    transition: width 0.2s ease;
+}
+
+.contact-profile:hover,
+.contact-profile:active {
+    width: 59px !important;
+    transition: width 0.2s ease-out;
+}
+
+.contact-name {
+    font-size: 20px;
+    transition: font-size 0.2s ease;
+}
+
+
+.contact-name:hover,
+.contact-name:active {
+    font-size: 30px !important;
+    transition: font-size 0.2s ease-out;
+}
+
+.contact-col {
+    background-color: var(--main-color);
+}
+
+.contact-list li a {
+    color: #fefefe !important;
+    transition: color 0.8s ease-out;
+}
+
+.contact-list li a:hover,
+.contact-list li a:active {
+    color: var(--secondary-color) !important;
+    transition: color 0.8s ease;
+}
+
+.contact-list li {
+    padding: 20px;
+}
+
+.message-list {
+    list-style: none;
+}

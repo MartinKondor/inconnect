@@ -3,7 +3,7 @@
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
             let friendsData = '';
-            let messageData = '';
+            let messageData = ``;
             let generalData = '';
 
             for (let i in data) {
