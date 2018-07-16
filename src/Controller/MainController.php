@@ -95,12 +95,12 @@ class MainController extends Controller
         // Set up the post with the comments and upvotes
         foreach ($posts as $i => $post) {
             $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
-                                                icuser.profile_pic, `action`.action_type, `action`.action_date, `action`.content
-                                                FROM `action` RIGHT JOIN icuser
-                                                ON `action`.user_id = icuser.user_id
-                                                WHERE `action`.entity_id = :entity_id
-                                                AND (`action`.action_type = 'comment' OR `action`.action_type = 'upvote')
-                                                AND `action`.entity_type = 'post'");
+                                                icuser.profile_pic, \"action\".action_type, \"action\".action_date, \"action\".content
+                                                FROM \"action\" RIGHT JOIN icuser
+                                                ON \"action\".user_id = icuser.user_id
+                                                WHERE \"action\".entity_id = :entity_id
+                                                AND (\"action\".action_type = 'comment' OR \"action\".action_type = 'upvote')
+                                                AND \"action\".entity_type = 'post'");
             $postQuery->execute([
                 ':entity_id' => $post['post_id']
             ]);
