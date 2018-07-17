@@ -13,7 +13,7 @@ The main mission of InConnect, is to create and maintain a social network which 
 
 On the other hand, a social network must have some functions what could make it more useful. Here is the list (not complete) of these yet not implemented functions where you can help us:
 
-* Chat between users
+* The message module
 * Improve UX
 * Host the website
 * Translations for the website

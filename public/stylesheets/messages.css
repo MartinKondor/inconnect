@@ -14,18 +14,6 @@
     transition: width 0.2s ease-out;
 }
 
-.contact-name {
-    font-size: 20px;
-    transition: font-size 0.2s ease;
-}
-
-
-.contact-name:hover,
-.contact-name:active {
-    font-size: 30px !important;
-    transition: font-size 0.2s ease-out;
-}
-
 .contact-col {
     background-color: var(--main-color);
 }
@@ -42,9 +30,49 @@
 }
 
 .contact-list li {
-    padding: 20px;
+    padding: 5px;
+}
+
+.message-box {}
+
+.send-message-box {
+    bottom: 0;
 }
 
 .message-list {
+    bottom: 0;
+    overflow-y: scroll;
     list-style: none;
+    padding: 0;
+}
+
+.message-list li {
+    display: inline-block;
+    clear: both;
+    padding: 5px;
+    border-radius: 2px;
+    margin: 12px;
+    box-shadow: 1px 1px 10px #d0d0d0;
+}
+
+.got-message {
+    float: left;
+    background-color: #fcfcfc;
+    color: rgb(5, 5, 5);
+}
+
+.sent-message {
+    float: right;
+    background-color: #909090;
+    color: rgb(250, 250, 250);
+}
+
+.sent-message + .sent-message,
+.got-message + .got-message {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.message-list li:last-of-type {
+    margin-bottom: 10px;
 }

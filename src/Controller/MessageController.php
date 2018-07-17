@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\{ ICUser, Post, Action };
 
+use PHPUnit\Util\Json;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
@@ -57,15 +58,34 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/messages/get/{fromUserId}", name="get_messages", methods={ "POST" })
+     * @Route("/messages/get", name="get_messages", methods={ "POST" })
      */
-    public function getMessages($fromUserId)
+    public function getMessages()
     {
         // List messages from a specific user in json
+        $user = $this->getUser();
 
-        //SELECT * FROM `action`
-        //LEFT JOIN icuser ON icuser.user_id = `action`.`user_id`
-        //WHERE `action`.`entity_type` = 'message'
-        //AND `action`.`action_type` = 'message'
+        $connection = $this->getDoctrine()->getManager()->getConnection();
+        $msgQuery = $connection->prepare("SELECT icuser.user_id, `action`.`action_type`, `action`.`entity_type`,
+                                        `action`.`user_id`, `action`.`content`, `action`.`to_user_id`,
+                                        `action`.`action_date`, icuser.first_name,
+                                        icuser.last_name
+                                        FROM `action`
+                                        LEFT JOIN icuser
+                                        ON icuser.user_id = `action`.`user_id`
+                                        WHERE `action`.`entity_type` = 'message'
+                                        AND `action`.`action_type` = 'message'
+                                        AND ((`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id) OR (`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id))
+                                        OR (`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id)
+                                        OR (`action`.`to_user_id` = :from_user_id AND `action`.`user_id` = :user_id)");
+        $msgQuery->execute([
+            ':user_id' => $user->getUserId(),
+            ':from_user_id' => $_POST['fromUserId']
+        ]);
+        $messagesBetweenUsers = $msgQuery->fetchAll();
+
+        return new JsonResponse([
+            'messages' => $messagesBetweenUsers
+        ]);
     }
 }

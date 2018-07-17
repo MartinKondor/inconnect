@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
                 ->setProfilePic('female_avatar.jpg')
                 ->setBirthDate(new \DateTime())
                 ->setPassword(password_hash('test', PASSWORD_BCRYPT))
-                ->setPermalink('~aaliyah')
+                ->setPermalink('aaliyah')
                 ->setGender('female');
         $manager->persist($userAaliyah);
 
@@ -29,10 +29,33 @@ class AppFixtures extends Fixture
                 ->setProfilePic('male_avatar.jpg')
                 ->setBirthDate(new \DateTime())
                 ->setPassword(password_hash('test', PASSWORD_BCRYPT))
-                ->setPermalink('~john')
+                ->setPermalink('john')
                 ->setGender('male');
         $manager->persist($userJohn);
         $manager->flush();
+
+        $userCharles = new ICUser();
+        $userCharles->setFirstName('Test')
+            ->setLastName('Charles')
+            ->setEmail('test@charles.test')
+            ->setProfilePic('male_avatar2.jpg')
+            ->setBirthDate(new \DateTime())
+            ->setPassword(password_hash('test', PASSWORD_BCRYPT))
+            ->setPermalink('charles')
+            ->setGender('male');
+        $manager->persist($userCharles);
+        $manager->flush();
+
+        $userAda = new ICUser();
+        $userAda->setFirstName('Test')
+            ->setLastName('Ada')
+            ->setEmail('test@ada.test')
+            ->setProfilePic('female_avatar2.jpg')
+            ->setBirthDate(new \DateTime())
+            ->setPassword(password_hash('test', PASSWORD_BCRYPT))
+            ->setPermalink('ada')
+            ->setGender('female');
+        $manager->persist($userAda);
 
         // Getting the id of a user for creating a post
         $user = $manager->getRepository(ICUser::class)
