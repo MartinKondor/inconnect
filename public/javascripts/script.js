@@ -24,22 +24,26 @@
    $('.upvote-icon').on('click', function(e) {
       e.preventDefault();
 
+      // Upvote post and get the upvote count
       $.ajax({
           method: 'POST',
           url: $(this).attr('href')
-      }).done((data) => {
-
-          if (data['way'] === 'up')
-              $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> Upvote ' + data['upvoteCount']);
-
-          if (data['way'] === 'down')
-              $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> Upvote ' + data['upvoteCount']);
+      }).done((upvoteData) => {
+          if (upvoteData['way'] === 'up') {
+              $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> Upvote ' + upvoteData['upvoteCount']);
+          }
+          if (upvoteData['way'] === 'down') {
+              $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> Upvote ' + upvoteData['upvoteCount']);
+          }
       });
   });
 
   $('.send-comment').on('click', function(e) {
         e.preventDefault();
+
         let url = $(this).attr('href');
+
+        // Getting the post id from the url
         let urlArray = url.split('/');
         let postId = urlArray[urlArray.length - 2];
         let commentContent = $('#comment-area-' + postId).val();
@@ -49,20 +53,17 @@
                 method: 'POST',
                 url: url,
                 data: { comment: commentContent }
-            }).done((data) => {
+            }).done((commentData) => {
 
-                // Place comment on the page
-                if (data['status'] === 'success') {
-                    let aUserName = data['actualUserFullName'];
-                    let aUserLink = data['actualUserLink'];
-                    let aUserProfilePic = data['actualUserProfilePic'];
+                // Place comment on the page by forming the html
+                if (commentData['status'] === 'success') {
 
                     let commentHtml = `
                         <div class="comment animated rotateIn">
                             <div>
-                                <a href="${aUserLink}" class="comment-commenter">
-                                    <img class="xxs-profile" src="/images/profiles/${aUserProfilePic}" alt="Profile picture of ${aUserName},">
-                                    ${aUserName}
+                                <a href="${commentData['actualUserLink']}" class="comment-commenter">
+                                    <img class="xxs-profile" src="/images/profiles/${commentData['actualUserProfilePic']}" alt="Profile picture of ${commentData['actualUserFullName']},">
+                                    ${commentData['actualUserFullName']}
                                 </a>
                                 &middot;
                                 <span class="comment-time">Now</span>

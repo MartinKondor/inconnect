@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\{ ICUser, Post, Action };
-
+use App\Entity\Action;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 
@@ -14,7 +12,7 @@ class ActionController extends Controller
     /**
      * @Route("/action/upvote/{entityId}/{toUserId}", name="upvote", methods={ "POST" })
      */
-    public function upvote($entityId, $toUserId, Request $request)
+    public function upvote($entityId, $toUserId)
     {
         $user = $this->getUser();
 
@@ -32,9 +30,8 @@ class ActionController extends Controller
         if (isset($actions)) {
             $upvoteCount = count($actions);
 
-            // If user upvoted post, delete the user realated upvote
-            // action from database & send back "down-<upvotes>"
-            // else save it and response "up-<upvotes>"
+            // If user upvoted the post, delete the user related upvote
+            // action from database else save it
             foreach ($actions as $a) {
                 if ($a->getUserId() === $user->getUserId()) {
 
@@ -42,8 +39,10 @@ class ActionController extends Controller
                     $em->remove($a);
                     $em->flush();
 
-                    // The ternary op. is to pervent upvotes showing up like -1
-                    return new JsonResponse([ 'way' => 'down', 'upvoteCount' => ($upvoteCount - 1) ]);
+                    return new JsonResponse([
+                        'way' => 'down',
+                        'upvoteCount' => ($upvoteCount - 1)
+                    ]);
                 }
             }
         }
@@ -56,19 +55,24 @@ class ActionController extends Controller
                 ->setActionDate(new \DateTime())
                 ->setEntityType('post')
                 ->setActionType('upvote');
-
         $em->persist($userAction);
         $em->flush();
 
-        return new JsonResponse([ 'way' => 'up', 'upvoteCount' => ($upvoteCount + 1) ]);
+        return new JsonResponse([
+            'way' => 'up',
+            'upvoteCount' => ($upvoteCount + 1) // Prevent upvotes like -1
+        ]);
     }
 
     /**
      * @Route("/action/comment/{entityId}/{toUserId}", name="comment", methods={ "POST" })
      */
-    public function comment($entityId, $toUserId)
+    public function comment($entityId, $toUserId, Request $request)
     {
-        if (empty($_POST['comment'])) return new JsonResponse([ 'status' => 'failure' ]);
+        $commentData = $request->request->all();
+
+        if (empty($commentData['comment']))
+            return new JsonResponse([ 'status' => 'failure' ]);
 
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -80,8 +84,7 @@ class ActionController extends Controller
                     ->setActionDate(new \DateTime())
                     ->setEntityType('post')
                     ->setActionType('comment')
-                    ->setContent($_POST['comment']);
-
+                    ->setContent($commentData['comment']);
         $em->persist($userAction);
         $em->flush();
 

@@ -50,8 +50,7 @@ class UserSignUpType extends AbstractType
                   'years' => range(date('Y'), date('Y') - 100)
             ])
             ->add('gender', ChoiceType::class, [
-                  'choices' => [ 'female' => 'Female', 'male' => 'Male' ],
-                  'label' => false
+                  'choices' => [ 'female' => 'Female', 'male' => 'Male' ]
             ])
             ->add('termsBox', CheckboxType::class, [
                   'mapped' => false,

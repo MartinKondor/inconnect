@@ -1,40 +1,35 @@
 {% extends 'layout/base.html.twig' %}
 
 {% block title %}Welcome{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('stylesheets/forms.css') }}">
+{% endblock %}
 
 {% block body %}
-<section class="text-center mt-4">
-   <div class="auth-form">
-      <span style="color:#727272;font-size:14px;">Already have an account? <a href="{{ path("login") }}">Log In</a></span>
-      <h2>Sign up for free</h2>
-      {{ form_start(signup) }}
-         <div class="row mt-3">
-            <div class="col-sm">{{ form_row(signup.first_name) }}</div>
-            <div class="col-sm">{{ form_row(signup.last_name) }}</div>
-         </div>
-         {{ form_row(signup.email) }}
-         {{ form_row(signup.plain_password) }}
-         <div class="row mb-3 mt-3">
-            <div class="col-sm">
-               {{ form_row(signup.birth_date) }}
+   <section class="text-center mt-4 animated fadeIn">
+      <div class="auth-form">
+         <h2>Sign up for free</h2>
+         {{ form_start(signup) }}
+            <div class="row mt-3">
+               <div class="col-sm">{{ form_row(signup.first_name) }}</div>
+               <div class="col-sm">{{ form_row(signup.last_name) }}</div>
             </div>
-            <div class="col-sm">
-               <label>Gender</label>
-               {{ form_row(signup.gender) }}
-            </div>
-         </div>
-         <span style="display:inline-block">
-            {{ form_row(signup.termsBox) }}
-         </span>
-         <span style="display:inline-block;font-size:20px;">
-            <a href="{{ path('terms') }}" class="btn btn-link" style="display:inline">terms and conditions.</a>
-         </span>
-         {{ form_row(signup.Submit) }}
-         {{ form_errors(signup) }}
-      {{ form_end(signup) }}
-   </div>
-</section>
+            {{ form_row(signup.email) }}
+            {{ form_row(signup.plain_password) }}
+            {{ form_row(signup.birth_date) }}
+            {{ form_row(signup.gender) }}
+            <span style="display:inline-block">
+               {{ form_row(signup.termsBox) }}
+            </span>
+            <span style="display:inline-block;font-size:20px;">
+               <a href="{{ path('terms') }}" class="btn btn-link" style="display:inline">terms and conditions.</a>
+            </span>
+            {{ form_row(signup.Submit) }}
+            {{ form_errors(signup) }}
+         <span style="font-size:14px;">Already have an account? <a href="{{ path("login") }}">Log In</a></span>
+         {{ form_end(signup) }}
+      </div>
+   </section>
 {% endblock %}
 
 {% block javascripts %}{% endblock %}

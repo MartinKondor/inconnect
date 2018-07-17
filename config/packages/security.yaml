@@ -24,7 +24,11 @@ security:
             logout: 
                 path: /logout
                 target: /login
-                
+
+            remember_me:
+                path: /
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 

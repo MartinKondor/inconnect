@@ -3,6 +3,7 @@
 html {
     --main-color: #279B61;
     --secondary-color: #A3E496;
+    --third-color: #008AB8;
 }
 
 html, body {
@@ -52,14 +53,6 @@ body {
    #actual-user-name {
        display: none;
    }
-   .auth-form {
-      margin-top: 2% !important;
-      margin-left: 2% !important;
-      margin-right: 2% !important;
-   }
-   .community-row, #quote {
-     display: none !important;
-   }
    .post {
       margin: 20px 0px 40px 0px !important;
       padding: 20px !important;
@@ -70,15 +63,6 @@ body {
    .settings-box {
      margin: 2% 2% 2% 2% !important;
    }
-}
-
-.auth-form {
-   margin-top: 5%;
-   margin-left: 25%;
-   margin-right: 25%;
-   /*box-shadow: 0 1px 50px var(--secondary-color);*/
-   border-radius: 5px;
-   padding: 20px;
 }
 
 header {

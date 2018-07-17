@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ ICUser, Friend, Post, Action };
+use App\Entity\Friend;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +21,8 @@ class FriendController extends Controller
             ->getManager();
 
         // First, see the connections between the two user
-        // beacause if the requested User2 already added
-        // Logined User as a friend then this friend adding equals to a friend request acception
+        // because if the requested User2 already added
+        // Logined User as a friend then this friend adding equals to a friend request acceptance
         $user2Request = $em->getRepository(Friend::class)
                             ->findOneBy([
                                 'from_user_id' => $user2Id,
@@ -39,9 +39,9 @@ class FriendController extends Controller
                 $fr->setFromUserId($user->getUserId())
                     ->setToUserId($user2Id)
                     ->setStatus('friends');
-
                 $em->persist($fr);
                 $em->flush();
+
                 return new Response('success');
             }
         }
@@ -52,6 +52,7 @@ class FriendController extends Controller
             ->setStatus('request');
         $em->persist($fr);
         $em->flush();
+
         return new Response('success');
     }
 
@@ -67,7 +68,7 @@ class FriendController extends Controller
                 'from_user_id' => $userId,
                 'to_user_id' => $user->getUserId()
             ]);
-        // Update the from user request to friends
+        // Update the 'friend' request to 'friends'
         $friendRequest->setStatus('friends');
         $em->flush();
 

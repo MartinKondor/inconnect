@@ -1,0 +1,81 @@
+
+html {
+    --input-text-color: #fefefe;
+}
+
+body {
+    background-color: #909090;
+    background-image: url('../images/formbg.jpg') !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        background: #909090 !important;
+    }
+    .auth-form {
+        margin-top: 2% !important;
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+    }
+}
+
+h2 {
+    color: #303030;
+    text-shadow: none;
+}
+
+.auth-form,
+.auth-form a,
+.auth-form a:hover,
+.auth-form a:active{
+    text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.59);
+}
+
+.auth-form {
+    margin: 5% 31% 12% 31%;
+    border-radius: 7px;
+    padding: 20px;
+    background-color: rgba(250, 250, 250, 0.27);
+    color: #fefefe;
+}
+
+fieldset {
+    margin: 0 auto !important;
+    text-align: center;
+}
+
+.auth-form a {
+    color: #fefefe;
+}
+
+.auth-form a:hover,
+.auth-form a:active {
+    color: var(--secondary-color);
+}
+
+input,
+select {
+    background-color: rgba(250, 250, 250, 0.30) !important;
+    border: none !important;
+    color: var(--input-text-color) !important;
+    text-shadow: 0 0 5px #777777;
+}
+
+select option {
+    color: #101010;
+}
+
+::-webkit-input-placeholder {
+    color: var(--input-text-color) !important;
+}
+:-moz-placeholder {
+    color: var(--input-text-color) !important;
+}
+::-moz-placeholder {
+    color: var(--input-text-color) !important;
+}
+:-ms-input-placeholder {
+    color: var(--input-text-color) !important;
+}

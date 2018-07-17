@@ -117,6 +117,7 @@ class PostsController extends Controller
     public function savePost($postId, Request $request)
     {
         $user = $this->getUser();
+        $postData = $request->request->all();
 
         $em = $this->getDoctrine()->getManager();
         $post = $em->getRepository(Post::class)->findOneBy([ 'post_id' => $postId ]);
@@ -124,10 +125,8 @@ class PostsController extends Controller
         if ($post->getUserId() != $user->getUserId())
             throw $this->createAccessDeniedException('Access denied for change this post.');
 
-        $postData = $request->request->all();
-
-        $post->setContent($_POST['new_post_content']);
-        $post->setPostPublicity($_POST['new_post_publicity']);
+        $post->setContent($postData['new_post_content']);
+        $post->setPostPublicity($postData['new_post_publicity']);
 
         $em->persist($post);
         $em->flush();

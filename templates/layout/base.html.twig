@@ -2,15 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="UTF-8">
-    <meta name="description" content="InConnect, an open source social network.">
-    <meta name="keywords" content="connect,inconnect,in-connect,social,network">
-    <meta name="author" content="Martin Kondor">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property='og:type' content='website'>
-    <meta property='og:title' content= title>
-    <meta property="og:description" content="InConnect. Free to use open source social network for everyone.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow"/>
+    <meta name="application-name" content="InConnect" />
+    <meta name="description" content="InConnect, the free open source social network for everyone." />
+    <meta name="keywords" content="connect,inconnect,in-connect,social,network,open,source,free" />
+    <meta name="author" content="Martin Kondor" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content= "InConnect" />
+    <meta property="og:description" content="InConnect, the free open source social network for everyone." />
     <title>InConnect - {% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="{{ asset("images/ic-icon.png") }}">
     <link rel="stylesheet" href="{{ asset("assets/css/normalize.css") }}"> 
@@ -28,7 +30,7 @@
     {% block body %}
     {% endblock %}
 </main>
-<footer>
+<footer class="bg-black">
     {% include 'layout/footer.html.twig' %}
 </footer>
 <script src="{{ asset("assets/js/jquery.min.js") }}"></script>

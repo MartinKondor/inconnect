@@ -37,10 +37,11 @@ class MessageController extends Controller
     /**
      * @Route("/messages/send/{toUserId}", name="send_message", methods={ "POST" })
      */
-    public function sendMessage($toUserId)
+    public function sendMessage($toUserId, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+        $messageData = $request->request->all();
 
         $message = new Action();
         $message->setEntityId($toUserId)
@@ -49,7 +50,7 @@ class MessageController extends Controller
             ->setActionDate(new \DateTime())
             ->setEntityType('message')
             ->setActionType('message')
-            ->setContent($_POST['message']);
+            ->setContent($messageData['message']);
 
         $em->persist($message);
         $em->flush();
@@ -60,10 +61,11 @@ class MessageController extends Controller
     /**
      * @Route("/messages/get", name="get_messages", methods={ "POST" })
      */
-    public function getMessages()
+    public function getMessages(Request $request)
     {
         // List messages from a specific user in json
         $user = $this->getUser();
+        $messageData = $request->request->all();
 
         $connection = $this->getDoctrine()->getManager()->getConnection();
         $msgQuery = $connection->prepare("SELECT icuser.user_id, `action`.`action_type`, `action`.`entity_type`,
@@ -80,7 +82,7 @@ class MessageController extends Controller
                                         OR (`action`.`to_user_id` = :from_user_id AND `action`.`user_id` = :user_id)");
         $msgQuery->execute([
             ':user_id' => $user->getUserId(),
-            ':from_user_id' => $_POST['fromUserId']
+            ':from_user_id' => $messageData['fromUserId']
         ]);
         $messagesBetweenUsers = $msgQuery->fetchAll();
 

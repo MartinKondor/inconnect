@@ -123,9 +123,10 @@ class PageController extends Controller
     /**
      * @Route("/pages/{pageId}/{pagePermalink}/post", name="post_with_page", methods={ "POST" })
      */
-    public function postWithPage($pageId, $pagePermalink)
+    public function postWithPage($pageId, $pagePermalink, Request $request)
     {
         $user = $this->getUser();
+        $pagePostData = $request->request->all();
 
         $em = $this->getDoctrine()->getManager();
         $page = $em->getRepository(Page::class)
@@ -141,7 +142,7 @@ class PageController extends Controller
         // Save the post
         $post = new Post();
         $post->setUserId($user->getUserId())
-            ->setContent($_POST['page_post_content'])
+            ->setContent($pagePostData['page_post_content'])
             ->setDateOfUpload(new \DateTime())
             ->setHolderType('page');
 

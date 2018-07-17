@@ -13,17 +13,30 @@ class InfoController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $this->getDoctrine()->getManager()->getConnection()->prepare("SELECT profile_pic, permalink,
-                                                                      first_name, last_name FROM icuser
-                                                                      WHERE first_name LIKE :queryFirst OR 
-                                                                      last_name LIKE :queryLast LIMIT 5;");
+        $query = $this->getDoctrine()
+                    ->getManager()
+                    ->getConnection()
+                    ->prepare("SELECT profile_pic, permalink, first_name, last_name
+                               FROM icuser
+                               WHERE first_name LIKE :queryFirst OR 
+                               last_name LIKE :queryLast LIMIT 5;");
+
         // If the search contains first and last name split it for the query
         if (preg_match('/.*\s{1}.*/', $request->query->get('query'))) {
+
             list($queryFirst, $queryLast) = explode(' ', $request->query->get('query'));
-            $query->execute([ ':queryFirst' => "%$queryFirst%", ':queryLast' => "%$queryLast%" ]);
+
+            $query->execute([
+                ':queryFirst' => "%$queryFirst%",
+                ':queryLast' => "%$queryLast%"
+            ]);
         } else {
-            $query->execute([ ':queryFirst' => "%{$request->query->get('query')}%", ':queryLast' => "%{$request->query->get('query')}%" ]);
+            $query->execute([
+                ':queryFirst' => "%{$request->query->get('query')}%",
+                ':queryLast' => "%{$request->query->get('query')}%"
+            ]);
         }
+
         return new JsonResponse([ 'result' => $query->fetchAll() ]);
     }
 

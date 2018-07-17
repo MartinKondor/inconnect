@@ -1,26 +1,30 @@
 {% extends 'layout/base.html.twig' %}
 
 {% block title %}Welcome{% endblock %}
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+   <link rel="stylesheet" href="{{ asset('stylesheets/forms.css') }}">
+{% endblock %}
 
 {% block body %}
-<section class="text-center mt-4">
-   <div class="auth-form">
-      <h2>Log in</h2>
-      {% if error %}
-         <div class="alert alert-dismissible alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong>
-         </div>
-      {% endif %}
-      <form action="{{ path('login') }}" method="POST">
-         <input type="email" id="username" placeholder="Email" name="_username" value="{{ last_username }}" class="form-control mb-3">
-         <input type="password" id="password" placeholder="Password" name="_password" class="form-control mb-3">
-         <button type="submit" class="btn btn-primary btn-lg btn-block mb-2 mt-5">Submit</button>
-         <span style="color:#727272;font-size:14px;"><a href="{{ path("signup") }}">Create an account</a></span>
-      </form>
-   </div>
-</section>
+   <section class="text-center mt-4 animated fadeIn">
+      <div class="auth-form">
+         <h2>Welcome</h2>
+         {% if error %}
+            <div class="alert alert-dismissible alert-danger">
+               <button type="button" class="close" data-dismiss="alert">&times;</button>
+               <strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong>
+            </div>
+         {% endif %}
+         <form action="{{ path('login') }}" method="POST">
+            <input type="email" id="username" placeholder="Email" name="_username" value="{{ last_username }}" class="form-control mb-3" required>
+            <input type="password" id="password" placeholder="Password" name="_password" class="form-control mb-3" required>
+            <input type="checkbox" id="remember_me" name="_remember_me" checked />
+            <label for="remember_me">Keep me logged in</label>
+            <button type="submit" class="btn btn-primary btn-lg btn-block mb-2 mt-5">Log in</button>
+            <span style="color:#727272;font-size:14px;"><a href="{{ path("signup") }}">Create an account</a></span>
+         </form>
+      </div>
+   </section>
 {% endblock %}
 
 {% block javascripts %}{% endblock %}
