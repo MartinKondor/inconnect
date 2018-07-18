@@ -19,22 +19,34 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, ICUser::class);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return User[] Returns an array of ICUser objects
+     */
+    public function findByName($fullName)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $searchQuery = $this->getEntityManager()
+                ->getConnection()
+                ->prepare("SELECT profile_pic, permalink, first_name, last_name
+                          FROM icuser
+                          WHERE first_name LIKE :queryFirst OR 
+                          last_name LIKE :queryLast LIMIT 5;");
+
+        // If the search contains first and last name split it for the query
+        if (preg_match('/.*\s{1}.*/', $fullName)) {
+            list($queryFirst, $queryLast) = explode(' ', $fullName);
+            $searchQuery->execute([
+                ':queryFirst' => "%$queryFirst%",
+                ':queryLast' => "%$queryLast%"
+            ]);
+        } else {
+            $searchQuery->execute([
+                ':queryFirst' => "%{$fullName}%",
+                ':queryLast' => "%{$fullName}%"
+            ]);
+        }
+
+        return $searchQuery->fetchAll();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?User

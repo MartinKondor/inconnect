@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ ICUser, Friend, Page };
+use App\Entity\{ ICUser, Friend, Page, Post };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +15,8 @@ class UsersController extends Controller
    public function viewUser($permalink)
    {
       $user = $this->getUser();
+      $em = $this->getDoctrine()->getManager();
+      $connection = $em->getConnection();
 
       // Search by the permalink which can be the user_id or the permalink of a user
       $viewUser = null;
@@ -31,14 +33,9 @@ class UsersController extends Controller
           throw $this->createNotFoundException('The user does not exists.');
 
       // Getting the friends of the viewed user
-      $em = $this->getDoctrine()->getManager();
-      $connection = $em->getConnection();
-      $friendQuery = $connection->prepare("SELECT * FROM friend
-                                            RIGHT JOIN icuser
-                                            ON friend.to_user_id = icuser.user_id
-                                            WHERE friend.from_user_id = :from_user_id AND friend.status = 'friends'");
-      $friendQuery->execute([ ':from_user_id' => $viewUser->getUserId() ]);
-      $friendsOfViewedUser = $friendQuery->fetchAll();
+      $friendsOfViewedUser = $em->getRepository(Friend::class)
+                                ->findFriends($user->getUserId());
+
       $viewUser->setFriends($friendsOfViewedUser);
 
       // What is the friend status between the viewed user and the logined in user?
@@ -78,17 +75,8 @@ class UsersController extends Controller
 
       // Get the actions of each posts
       foreach ($posts as $i => $post) {
-          $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
-                                                icuser.profile_pic, `action`.action_type, `action`.action_date, `action`.content
-                                                FROM `action` RIGHT JOIN icuser
-                                                ON `action`.user_id = icuser.user_id
-                                                WHERE `action`.entity_id = :entity_id
-                                                AND (`action`.action_type = 'comment' OR `action`.action_type = 'upvote')
-                                                AND `action`.entity_type = 'post'");
-          $postQuery->execute([
-              ':entity_id' => $post['post_id']
-          ]);
-          $actions = $postQuery->fetchAll();
+          $actions = $em->getRepository(Post::class)
+                        ->findPostActions($post['post_id']);
 
           $upvotes = 0;
           $comments = null;

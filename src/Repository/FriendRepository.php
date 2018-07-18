@@ -19,22 +19,38 @@ class FriendRepository extends ServiceEntityRepository
         parent::__construct($registry, Friend::class);
     }
 
-//    /**
-//     * @return Friend[] Returns an array of Friend objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Friend[] Returns an array of Friend objects
+     */
+    public function findContacts($userId)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $contactsQuery = $this->getEntityManager()
+                        ->getConnection()
+                        ->prepare("SELECT * FROM friend
+                                LEFT JOIN icuser
+                                ON friend.to_user_id = icuser.user_id
+                                WHERE friend.from_user_id = :user_id
+                                AND friend.status = 'friends'");
+        $contactsQuery->execute([
+            ':user_id' => $userId
+        ]);
+        return $contactsQuery->fetchAll();
     }
-    */
+
+    /**
+     * @return Friend[] Returns an array of Friend objects
+     */
+    public function findFriends($userId)
+    {
+        $friendQuery = $this->getEntityManager()
+                                ->getConnection()
+                                ->prepare("SELECT * FROM friend
+                                            RIGHT JOIN icuser
+                                            ON friend.to_user_id = icuser.user_id
+                                            WHERE friend.from_user_id = :from_user_id AND friend.status = 'friends'");
+        $friendQuery->execute([ ':from_user_id' => $userId ]);
+        return $friendQuery->fetchAll();
+    }
 
     /*
     public function findOneBySomeField($value): ?Friend

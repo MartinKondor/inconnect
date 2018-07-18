@@ -25,12 +25,14 @@ class PageType extends AbstractType
             ->setAction($options['action'])
             ->add('page_name', TextType::class, [
                 'attr' => [
+                    'autocomplete' => 'off',
                     'placeholder' => 'Name of the page'
                 ],
                 'label' => false
             ])
             ->add('page_type', TextType::class, [
                 'attr' => [
+                    'autocomplete' => 'off',
                     'placeholder' => 'Page type like celebrity, business, product ... etc'
                 ],
                 'label' => false

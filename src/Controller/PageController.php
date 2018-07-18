@@ -3,15 +3,11 @@
 namespace App\Controller;
 
 use App\Form\PageType;
-
-use App\Entity\{ ICUser, Post, Action, Page };
-
+use App\Entity\{ Post, Page };
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
-use Symfony\Component\Validator\Constraints\DateTime;
-use Zend\Code\Generator\ParameterGenerator;
 
 class PageController extends Controller
 {
@@ -34,15 +30,14 @@ class PageController extends Controller
                 ->setDateOfCreation(new \DateTime())
                 ->setPassword(password_hash($page->getPassword(), PASSWORD_BCRYPT))
                 ->setPagePermalink($page->getPageName());
-
             $em->persist($page);
             $em->flush();
+
             return $this->redirectToRoute('view_page', [
                 'pageId' => $page->getPageId(),
                 'pagePermalink' => $page->getPagePermalink()
             ]);
         }
-
         return $this->render('pages/create.html.twig', [
             'page_form' => $form->createView()
         ]);
@@ -89,7 +84,8 @@ class PageController extends Controller
                                                 ON `action`.`user_id` = icuser.user_id
                                                 WHERE `action`.`entity_id` = :entity_id
                                                 AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
-                                                AND `action`.`entity_type` = 'post'");
+                                                AND `action`.`entity_type` = 'post'
+                                                ORDER BY `action`.action_date ASC");
             $postQuery->execute([
                 ':entity_id' => $post['post_id']
             ]);

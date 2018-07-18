@@ -39,7 +39,7 @@
                             {{ comment.first_name ~ ' ' ~ comment.last_name }}
                         </a>
                         &middot;
-                        <span class="comment-time">{{ comment.action_date | date("Y-m-d") }}</span>
+                        <span class="comment-time">{{ comment.action_date | date("Y-m-d G:i") }}</span>
                     </div>
                     <pre class="comment-content">{{ comment.content }}</pre>
                 </div>

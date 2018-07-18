@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Friend;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -90,10 +89,10 @@ class FriendController extends Controller
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $friendRequest = $em->getRepository(Friend::class)
-            ->findOneBy([
-                'from_user_id' => $userId,
-                'to_user_id' => $user->getUserId()
-            ]);
+                            ->findOneBy([
+                                'from_user_id' => $userId,
+                                'to_user_id' => $user->getUserId()
+                            ]);
         $em->remove($friendRequest);
         $em->flush();
 

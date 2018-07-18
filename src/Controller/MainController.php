@@ -30,7 +30,8 @@ class MainController extends Controller
             $user->setPermalink(explode('@', $user->getEmail())[0] . rand(0, 100));
             
             // Save user to the database
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()
+                      ->getManager();
             $em->persist($user);
             $em->flush();
 
@@ -67,48 +68,16 @@ class MainController extends Controller
     public function index(Request $request)
     {
         $user = $this->getUser();
+        $em = $this->getDoctrine()
+                  ->getManager();
 
-        $em = $this->getDoctrine()->getManager();
-        $connection = $em->getConnection();
-
-        // Getting all posts from the friends of the user, and also from the user her/himself
-        $query = $connection->prepare("(SELECT post.post_id, post.user_id, icuser.user_id,
-                                            post.content, post.image, post.holder_type, 
-                                            post.post_publicity, icuser.first_name,
-                                            icuser.last_name, icuser.permalink,
-                                            post.date_of_upload, icuser.profile_pic 
-                                        FROM icuser
-                                        INNER JOIN friend
-                                        ON friend.to_user_id = icuser.user_id
-                                        INNER JOIN post
-                                        ON post.user_id = friend.to_user_id
-                                        WHERE friend.from_user_id = :user_id
-                                        AND friend.status = 'friends'
-                                        AND post.content IS NOT NULL
-                                        AND post.holder_type != 'page'
-                                        AND post.post_publicity = 'public'
-                                        OR post.user_id = :user_id
-                                        GROUP BY post.post_id, icuser.user_id)
-                                        ORDER BY post.date_of_upload DESC
-                                        LIMIT 50");
-        $query->execute([ ':user_id' => $this->getUser()->getUserId() ]);
-        $posts = $query->fetchAll();
+        $posts = $em->getRepository(Post::class)
+                    ->findRelated($user->getUserId());
 
         // Set up the post with the comments and upvotes
         foreach ($posts as $i => $post) {
-            $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name,
-                                                  icuser.permalink, icuser.profile_pic, `action`.action_type,
-                                                  `action`.action_date, `action`.content
-                                                FROM `action`
-                                                RIGHT JOIN icuser
-                                                ON `action`.user_id = icuser.user_id
-                                                WHERE `action`.entity_id = :entity_id
-                                                AND (`action`.action_type = 'comment' OR `action`.action_type = 'upvote')
-                                                AND `action`.entity_type = 'post'");
-            $postQuery->execute([
-                ':entity_id' => $post['post_id']
-            ]);
-            $actions = $postQuery->fetchAll();
+            $actions = $em->getRepository(Post::class)
+                        ->findPostActions($post['post_id']);
 
             // Mark long post for template
             if (strlen($post['content']) > 250)
@@ -126,7 +95,6 @@ class MainController extends Controller
                         $posts[$i]['isUpvotedByUser'] = true;
                 }
             }
-
             $posts[$i]['upvotes'] = $upvotes;
             $posts[$i]['comments'] = $comments;
         }
@@ -134,23 +102,19 @@ class MainController extends Controller
         /**
          * New post form for index page
          */
-        // Create form
         $post = new Post();
         $form = $this->createForm(PostType::class, $post, [
             'action' => $this->generateUrl('index')
         ]);
         $form->handleRequest($request);
 
-        // Handle new post request
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
             $post->setUserId($user->getUserId())
                  ->setDateOfUpload(new \DateTime());
 
             // If defined save the post's image
             if (!is_null($post->getImage())) {
-
                 $file = $post->getImage();
                 $fileName = md5(uniqid()).'.'.$file->guessExtension();
 

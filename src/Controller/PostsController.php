@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\{ User, Post, Action };
+use App\Entity\Post;
 
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
 
@@ -17,31 +16,15 @@ class PostsController extends Controller
    public function viewPost($postId)
    {
        $user = $this->getUser();
-
        $em = $this->getDoctrine()->getManager();
-       $connection = $em->getConnection();
 
-       $query = $connection->prepare("SELECT post.post_id, post.user_id, icuser.user_id, post.image, post.content,
-                                        icuser.first_name, icuser.last_name, icuser.permalink, post.date_of_upload, icuser.profile_pic
-                                        FROM post RIGHT JOIN icuser
-                                        ON post.user_id = icuser.user_id
-                                        WHERE post.post_id = :post_id
-                                        AND post.post_publicity != 'private'");
-       $query->execute([ ':post_id' => $postId ]);
-       $post = $query->fetch();
+       $post = $em->getRepository(Post::class)
+                ->findById($postId);
        if (empty($post))
            throw $this->createNotFoundException('The post does not exists.');
 
-       $actionQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
-                                            icuser.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
-                                            FROM `action` 
-                                            RIGHT JOIN icuser
-                                            ON `action`.`user_id` = icuser.user_id
-                                            WHERE `action`.`entity_id` = :entity_id
-                                            AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
-                                            AND `action`.`entity_type` = 'post'");
-       $actionQuery->execute([ ':entity_id' => $postId ]);
-       $postActions = $actionQuery->fetchAll();
+       $postActions = $em->getRepository(Post::class)
+                        ->findPostActions($postId);
 
        $upvotes = 0;
        $comments = null;
@@ -73,8 +56,10 @@ class PostsController extends Controller
        $em = $this->getDoctrine()->getManager();
        $connection = $em->getConnection();
 
-       $query = $connection->prepare("SELECT post.post_id, post.user_id, icuser.user_id, post.image, post.content, post.post_publicity,
-                                        icuser.first_name, icuser.last_name, icuser.permalink, post.date_of_upload, icuser.profile_pic
+       $query = $connection->prepare("SELECT post.post_id, post.user_id, icuser.user_id,
+                                             post.image, post.content, post.post_publicity,
+                                             icuser.first_name, icuser.last_name, icuser.permalink,
+                                             post.date_of_upload, icuser.profile_pic
                                         FROM post RIGHT JOIN icuser
                                         ON post.user_id = icuser.user_id
                                         WHERE post.post_id = :post_id");
@@ -83,6 +68,7 @@ class PostsController extends Controller
 
        if (empty($post))
            throw $this->createNotFoundException('The post does not exists.');
+
        // See if the user has permission for editing this post
        if ($post['user_id'] != $user->getUserId())
            throw $this->createAccessDeniedException('Access denied for editing this post.');
@@ -98,9 +84,10 @@ class PostsController extends Controller
     public function deletePost($postId)
     {
         $user = $this->getUser();
-
         $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository(Post::class)->findOneBy([ 'post_id' => $postId ]);
+
+        $post = $em->getRepository(Post::class)
+                    ->findOneBy([ 'post_id' => $postId ]);
 
         if ($post->getUserId() != $user->getUserId())
             throw $this->createAccessDeniedException('Access denied for deleting this post.');
@@ -118,9 +105,10 @@ class PostsController extends Controller
     {
         $user = $this->getUser();
         $postData = $request->request->all();
-
         $em = $this->getDoctrine()->getManager();
-        $post = $em->getRepository(Post::class)->findOneBy([ 'post_id' => $postId ]);
+
+        $post = $em->getRepository(Post::class)
+                    ->findOneBy([ 'post_id' => $postId ]);
 
         if ($post->getUserId() != $user->getUserId())
             throw $this->createAccessDeniedException('Access denied for change this post.');
