@@ -30,10 +30,10 @@
           url: $(this).attr('href')
       }).done((upvoteData) => {
           if (upvoteData['way'] === 'up') {
-              $(this).html('<i class="fas fa-thumbs-up animated zoomIn"></i> Upvote ' + upvoteData['upvoteCount']);
+              $(this).html(`<i class="fas fa-thumbs-up animated zoomIn"></i> ${upvoteData["upvoteCount"]}`);
           }
           if (upvoteData['way'] === 'down') {
-              $(this).html('<i class="far fa-thumbs-up animated zoomIn"></i> Upvote ' + upvoteData['upvoteCount']);
+              $(this).html(`<i class="far fa-thumbs-up animated zoomIn"></i> ${upvoteData["upvoteCount"]}`);
           }
       });
   });
@@ -59,7 +59,7 @@
                 if (commentData['status'] === 'success') {
 
                     let commentHtml = `
-                        <div class="comment animated rotateIn">
+                        <div class="comment animated lightSpeedIn">
                             <div>
                                 <a href="${commentData['actualUserLink']}" class="comment-commenter">
                                     <img class="xxs-profile" src="/images/profiles/${commentData['actualUserProfilePic']}" alt="Profile picture of ${commentData['actualUserFullName']},">
