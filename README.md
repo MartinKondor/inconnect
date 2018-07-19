@@ -21,6 +21,12 @@ On the other hand, a social network must have some functions what could make it 
 
 But anyway, if you think you have a great idea for us, just go ahead and write an email: [martinkondor@gmail.com](mailto://martinkondor@gmail.com)
 
+## New features
+
+### Passive friend requests
+
+You indicate that you would like to be friends with someone, but no message is sent, no notification triggered. They don’t know you did anything. Then, if they also do the same, you become friends.
+
 ## Getting started
 
 Clearly in a few steps:

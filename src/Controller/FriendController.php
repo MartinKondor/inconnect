@@ -28,7 +28,7 @@ class FriendController extends Controller
                                 'to_user_id' => $user->getUserId()
                             ]);
         if (isset($user2Request)) {
-            if ($user2Request->getStatus() === 'request') {
+            if ($user2Request->getStatus() === 'request' || $user2Request->getStatus() === 'muted_request') {
                 // Then save a connection on this two user as friends
 
                 $user2Request->setStatus('friends');
@@ -48,7 +48,7 @@ class FriendController extends Controller
         $fr = new Friend();
         $fr->setFromUserId($user->getUserId())
             ->setToUserId($user2Id)
-            ->setStatus('request');
+            ->setStatus($_POST['isMuted']);
         $em->persist($fr);
         $em->flush();
 
@@ -79,6 +79,24 @@ class FriendController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/friend/request/remove/{userId}", name="remove_friend_request", methods={ "POST" })
+     */
+    public function removeFriendRequest($userId)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $friendRequest = $em->getRepository(Friend::class)
+            ->findOneBy([
+                'from_user_id' => $user->getUserId(),
+                'to_user_id' => $userId
+            ]);
+        $em->remove($friendRequest);
+        $em->flush();
+
+        return new Response('success');
     }
 
     /**

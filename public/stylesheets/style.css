@@ -148,7 +148,7 @@ header .brand-logo {
    color: #fefefe !important;
    font-weight: 700;
    font-family: 'Orbitron', sans-serif;
-   font-size: 27px;
+   font-size: 23px;
 }
 
 .nav-icon {
@@ -179,7 +179,7 @@ footer {
     position: relative;
     width: 100vw;
     background-color: #F4F4F4;
-    margin-top: 22%;
+    margin-top: 10%;
     padding: 20px 20px 5px 20px;
 }
 
@@ -303,11 +303,14 @@ footer .copy {
     z-index: 0;
 }
 
+header #search-field,
 .comment-field textarea,
 .comment-field button {
     border-radius: 0px;
 }
 
+header #search-field:focus,
+header #search-field:active,
 .comment-field textarea:focus,
 .comment-field button:focus,
 .comment-field textarea:active,
@@ -320,6 +323,7 @@ footer .copy {
     color: #303030 !important;
 }
 
+header #search-field,
 .comment-field textarea {
     border: none;
     outline: none;

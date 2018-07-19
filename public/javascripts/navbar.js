@@ -3,7 +3,7 @@
     function notificator() {
         $.post($('#notification-link').attr('href'), function(data) {
             let friendsData = '';
-            let messageData = ``;
+            let messageData = '';
             let generalData = '';
 
             for (let i in data) {
@@ -42,7 +42,9 @@
                         generalData += `
                         <li class="mb-3 pl-1 pr-1">
                             <form action="${general['deleteLink']}" method="POST">
-                                  <button type="submit" class="btn btn-link text-danger mb-0 mt-0">&times;</button>
+                                <button title="Mute notification" type="submit" class="btn btn-link text-danger mb-0 mt-0">
+                                      <i class="fas fa-times-circle"></i>
+                                </button>
                             </form>
                             <a href="${general['link']}">
                                 <button class="btn btn-link">

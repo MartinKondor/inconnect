@@ -29,7 +29,7 @@ class NotificationController extends Controller
         $friendsQuery = $con->prepare("SELECT * FROM friend 
                                     LEFT JOIN icuser 
                                     ON friend.from_user_id = icuser.user_id
-                                    WHERE friend.status = 'request'
+                                    WHERE friend.status = 'request' 
                                     AND friend.to_user_id = :to_user_id");
         $friendsQuery->execute([ ':to_user_id' => $userId ]);
         $friendRequests = $friendsQuery->fetchAll();
@@ -58,9 +58,6 @@ class NotificationController extends Controller
             foreach ($actions as $action) {
                 // The event is not from the logined user
                 if ($action->getUserId() === $this->getUser()->getUserId()) continue;
-                if ($action->getActionType() === 'message') {
-                    $responseJson['counters']['message']++;
-                }
                 if ($action->getActionType() === 'upvote' or $action->getActionType() === 'comment') {
                     $responseJson['counters']['general']++;
                     $responseJson['general'][] = [

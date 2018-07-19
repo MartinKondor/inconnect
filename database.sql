@@ -61,6 +61,16 @@ CREATE TABLE friend (
   friend_id INT AUTO_INCREMENT NOT NULL,
   from_user_id INT NOT NULL, -- Request from this user
   to_user_id INT NOT NULL, -- To this user
-  status VARCHAR(100) NOT NULL, -- Can be friends, request ...
+  status VARCHAR(100) NOT NULL, -- Can be friends, request, muted_request ...
   PRIMARY KEY(friend_id, user1_id, user2_id)
+);
+
+CREATE TABLE message (
+  message_id INT AUTO_INCREMENT NOT NULL,
+  from_user_id INT NOT NULL,
+  to_user_id INT NOT NULL,
+  send_date DATETIME NOT NULL,
+  status VARCHAR(255) NOT NULL, -- seen, not_seen ...
+  content LONGTEXT NOT NULL,
+  PRIMARY KEY(message_id)
 );

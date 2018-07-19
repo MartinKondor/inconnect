@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{ Friend, Action };
+use App\Entity\{ Friend, Message };
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
@@ -32,13 +32,11 @@ class MessageController extends Controller
         $user = $this->getUser();
         $messageData = $request->request->all();
 
-        $message = new Action();
-        $message->setEntityId(-1)
-            ->setUserId($user->getUserId())
+        $message = new Message();
+        $message->setFromUserId($user->getUserId())
             ->setToUserId($toUserId)
-            ->setActionDate(new \DateTime())
-            ->setEntityType('message')
-            ->setActionType('message')
+            ->setSendDate(new \DateTime())
+            ->setStatus('not_seen')
             ->setContent($messageData['message']);
 
         $em->persist($message);
@@ -57,7 +55,7 @@ class MessageController extends Controller
         $messageData = $request->request->all();
 
         $messagesBetweenUsers = $this->getDoctrine()
-                            ->getRepository(Action::class)
+                            ->getRepository(Message::class)
                             ->findMessages($user->getUserId(), $messageData['fromUserId']);
 
         return new JsonResponse([

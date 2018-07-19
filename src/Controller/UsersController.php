@@ -34,7 +34,7 @@ class UsersController extends Controller
 
       // Getting the friends of the viewed user
       $friendsOfViewedUser = $em->getRepository(Friend::class)
-                                ->findFriends($user->getUserId());
+                                ->findFriends($viewUser->getUserId());
 
       $viewUser->setFriends($friendsOfViewedUser);
 

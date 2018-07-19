@@ -18,14 +18,16 @@
                     <br><br>
                     <a class="btn-link h4" href="#" data-toggle="modal" data-target="#user-photos-modal">Photos</a>
                 </div>
-            {% elseif viewUser.friendStatus == 'request' %}
-                <button class="mt-2 mb-2 btn btn-primary disabled" href="#" disabled>
-                    Friend request sent
+            {% elseif viewUser.friendStatus == 'request' or viewUser.friendStatus == 'muted_request' %}
+                <button class="mt-2 mb-2 btn btn-outline-danger remove-request-btn" href="{{ path('remove_friend_request', { userId: viewUser.userId }) }}">
+                    Remove my request
                 </button>
             {% else %}
-                <button class="mt-2 mb-2 btn btn-primary add-friend-btn" href="{{ path('add_friend', { user2Id: viewUser.userId }) }}">
-                    Add Friend
+                <button class="mt-2 mb-2 btn btn-success add-friend-btn" href="{{ path('add_friend', { user2Id: viewUser.userId }) }}">
+                    Send friend request
                 </button>
+                <label title="Mute request: Meaning that if it is checked {{ viewUser.firstName ~' '~ viewUser.lastName }} will not getting any notification about your request. Note that in this case your friend request can be only accepted when {{ viewUser.firstName ~' '~ viewUser.lastName }} sends you a friend request to your profile."
+                       for="mute-request">Mute friend request <input id="mute-request" type="checkbox"></label>
             {% endif %}
         </div>
         <div id="post-list" class="col-sm-10">

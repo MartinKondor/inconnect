@@ -53,7 +53,7 @@
             for (let msg of data['messages']) {
                 let fromWho = 'got-message'; // css class of the message
 
-                if (msg['user_id'] !== lastMessageId) fromWho = 'sent-message';
+                if (msg['from_user_id'] !== lastMessageId) fromWho = 'sent-message';
 
                 messagesList += `<li title="${msg['action_date']}" class="${fromWho}">${msg['content']}</li>`;
             }

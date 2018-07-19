@@ -84,11 +84,26 @@
 
        $.ajax({
            method: 'POST',
-           url: $(this).attr('href')
+           url: $(this).attr('href'),
+           data: { isMuted: $('#mute-request').prop('checked') ? 'muted_request' : 'request' }
        }).done((done) => {
-
            if (done === 'success') {
                $(this).html('Friend request sent');
+               $(this).addClass('disabled');
+               $(this).prop('disabled', true);
+           }
+       });
+   });
+
+   $('.remove-request-btn').on('click', function(e) {
+       e.preventDefault();
+
+       $.ajax({
+           method: 'POST',
+           url: $(this).attr('href')
+       }).done((done) => {
+           if (done === 'success') {
+               $(this).html('Request removed');
                $(this).addClass('disabled');
                $(this).prop('disabled', true);
            }
