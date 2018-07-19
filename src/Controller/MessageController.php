@@ -33,7 +33,7 @@ class MessageController extends Controller
         $messageData = $request->request->all();
 
         $message = new Action();
-        $message->setEntityId($toUserId)
+        $message->setEntityId(-1)
             ->setUserId($user->getUserId())
             ->setToUserId($toUserId)
             ->setActionDate(new \DateTime())

@@ -4,6 +4,7 @@ html {
     --main-color: #279B61;
     --secondary-color: #A3E496;
     --third-color: #008AB8;
+    --post-size: 40vw;
 }
 
 html, body {
@@ -49,13 +50,17 @@ body {
    overflow-x: hidden;
 }
 
-@media screen and (max-width: 1000px) {
-   #actual-user-name {
-       display: none;
-   }
+@media screen and (max-width: 736px) {
    .post {
-      margin: 20px 0px 40px 0px !important;
-      padding: 20px !important;
+       margin: 1px auto !important;
+       margin-bottom: 42px !important;
+       width: calc(var(--post-size) * 2) !important;
+   }
+   .post-body {
+       padding: 15px !important;
+   }
+   .post-image {
+       width: calc(var(--post-size) + 30vw) !important;
    }
    .user-card-profile img {
       width: 200px !important;
@@ -217,12 +222,12 @@ footer .copy {
     border-radius: 4px;
     box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
     margin: 50px auto;
-    width: 590px;
     background-color: #fefefe;
+    width: var(--post-size);
 }
 
 .post-body {
-    padding: 27px !important;
+    padding: 27px;
 }
 
 .post-title .uploader {
@@ -259,6 +264,20 @@ footer .copy {
     white-space: pre-line;
     margin-top: 7px;
     font-family: 'Roboto', sans-serif;
+}
+
+.post-image {
+    margin-top: 10px;
+    height: auto;
+    width: calc(var(--post-size) - 4vw);
+    transition: width  0.3s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+.post-image:hover {
+    width: calc(var(--post-size) + 2vw);
+    transition: width 0.3s ease-out;
 }
 
 .post-info {

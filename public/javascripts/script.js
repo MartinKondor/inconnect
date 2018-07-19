@@ -107,5 +107,4 @@
            $('#post-with-' + idOfPage +'-form').css('display', 'none');
        }
    });
-
 })(jQuery);

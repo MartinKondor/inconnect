@@ -21,12 +21,11 @@
                         <img class="img-responsive xs-profile" src="{{ asset("images/profiles/" ~ post.profile_pic) }}" alt="Profile icon of {{ post.first_name ~ ' ' ~ post.last_name }},">
                         {{ post.first_name ~ ' ' ~ post.last_name }}
                     </a>
-                    &middot;
                     <span class="post-time">{{ post.date_of_upload | date('Y-m-d G:i') }}</span>
                 </div>
                 <textarea name="new_post_content" class="form-control" cols="30" rows="20">{{ post.content }}</textarea>
                 {% if post.image is not null %}
-                    <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+                    <img class="post-image edit-photo" src="{{ asset('images/posts/' ~ post.image) }}" alt="Post image,">
                 {% endif %}
                 <button type="submit" class="mt-2 btn-block btn btn-primary">Save changes</button>
             </form>

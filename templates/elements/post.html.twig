@@ -19,7 +19,7 @@
             <pre class="post-content">{{ post.content }}</pre>
         {% endif %}
         {% if post.image is not null %}
-            <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+            <img class="post-image" src="{{ asset('images/posts/' ~ post.image) }}" alt="Post image,">
         {% endif %}
         <div class="post-info">
             <a class="upvote-icon feed-icon" href="{{ path("upvote", { entityId: post.post_id, toUserId: post.user_id }) }}" title="Upvote this post">
@@ -83,7 +83,7 @@
             </div>
             <div class="modal-body">
                 {% if post.image is not null %}
-                    <img src="{{ asset('images/posts/' ~ post.image) }}" style="max-height:auto;max-width:500px;" alt="Post image,">
+                    <img class="center-block img-responsive post-image" src="{{ asset('images/posts/' ~ post.image) }}" alt="Post image,">
                 {% endif %}
                 <pre class="post-content">{{ post.content }}</pre>
             </div>

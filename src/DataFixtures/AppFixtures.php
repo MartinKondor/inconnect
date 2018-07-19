@@ -10,7 +10,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // Creating two users
         $userAaliyah = new ICUser();
         $userAaliyah->setFirstName('Test')
                 ->setLastName('Aaliyah')
@@ -32,7 +31,6 @@ class AppFixtures extends Fixture
                 ->setPermalink('john')
                 ->setGender('male');
         $manager->persist($userJohn);
-        $manager->flush();
 
         $userCharles = new ICUser();
         $userCharles->setFirstName('Test')
@@ -44,7 +42,6 @@ class AppFixtures extends Fixture
             ->setPermalink('charles')
             ->setGender('male');
         $manager->persist($userCharles);
-        $manager->flush();
 
         $userAda = new ICUser();
         $userAda->setFirstName('Test')
@@ -56,6 +53,7 @@ class AppFixtures extends Fixture
             ->setPermalink('ada')
             ->setGender('female');
         $manager->persist($userAda);
+        $manager->flush();
 
         // Getting the id of a user for creating a post
         $user = $manager->getRepository(ICUser::class)
@@ -63,7 +61,7 @@ class AppFixtures extends Fixture
 
         $firstPost = new Post();
         $firstPost->setUserId($user->getUserId())
-                ->setContent('Content of the first post.')
+                ->setContent('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
                 ->setDateOfUpload(new \DateTime());
         $manager->persist($firstPost);
 

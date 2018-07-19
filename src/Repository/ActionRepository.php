@@ -35,10 +35,10 @@ class ActionRepository extends ServiceEntityRepository
                                         LEFT JOIN icuser
                                         ON icuser.user_id = `action`.`user_id`
                                         WHERE `action`.`entity_type` = 'message'
-                                        AND `action`.`action_type` = 'message'
                                         AND ((`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id) OR (`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id))
                                         OR (`action`.`to_user_id` = :user_id AND `action`.`user_id` = :from_user_id)
                                         OR (`action`.`to_user_id` = :from_user_id AND `action`.`user_id` = :user_id)
+                                        AND `action`.`action_type` = 'message'
                                         ORDER BY `action`.action_date ASC");
         $msgQuery->execute([
             ':user_id' => $userId,
