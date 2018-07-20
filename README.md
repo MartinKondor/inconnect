@@ -8,6 +8,7 @@ Free, open source, built by a community, built for everyone.
 
 [![Build Status](https://travis-ci.org/in-connect/inconnect.svg?branch=master)](https://travis-ci.org/in-connect/inconnect)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![first-timers-only Friendly](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](http://www.firsttimersonly.com/)
 
 The main mission of InConnect, is to create and maintain a social network which is available for everyone, free to use, as secure as possible and built by a community. On the community, we mean both the developers and the users who can recommend different functionalities and/or contribute on InConnect.
 

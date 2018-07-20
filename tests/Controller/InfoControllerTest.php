@@ -54,4 +54,10 @@ class InfoControllerTest extends WebTestCase
         $this->client->request('GET', '/help');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testFriends()
+    {
+        $this->client->request('GET', '/friends');
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+    }
 }

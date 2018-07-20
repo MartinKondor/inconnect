@@ -33,6 +33,12 @@ h2 {
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.59);
 }
 
+.badge,
+.alert,
+.form-error-message {
+    text-shadow: none !important;
+}
+
 .auth-form {
     margin: 5% 31% 12% 35%;
     border-radius: 7px;

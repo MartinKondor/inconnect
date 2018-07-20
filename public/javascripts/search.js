@@ -22,8 +22,8 @@
                 }
                 $('#search-list').css('display', 'block');
                 $('#search-list').html(searchList);
+                keyCounter = 0;
             });
-            keyCounter = 0;
         }
         keyCounter++;
     });

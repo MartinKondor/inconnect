@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\{ Action };
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{ JsonResponse, Response };
+use Symfony\Component\HttpFoundation\{
+    JsonResponse, RedirectResponse, Response
+};
 use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationController extends Controller
@@ -12,7 +14,7 @@ class NotificationController extends Controller
     /**
      * @Route("/notification", name="notification", methods={ "POST" })
      */
-    public function notificationUpdater()
+    public function notificationUpdater(): JsonResponse
     {
         $user = $this->getUser();
         $userId = $user->getUserId();
@@ -76,7 +78,7 @@ class NotificationController extends Controller
     /**
      * @Route("/notification/mute/{actionId}", name="mute_notification", methods={ "POST" })
      */
-    public function muteNotification($actionId)
+    public function muteNotification($actionId): RedirectResponse
     {
         $em = $this->getDoctrine()
                 ->getManager();
@@ -84,6 +86,7 @@ class NotificationController extends Controller
                 ->findOneBy([ 'action_id' => $actionId ]);
         $action->setSeenByUser('seen');
         $em->flush();
+
         return $this->redirectToRoute('index');
     }
 }

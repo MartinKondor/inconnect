@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Action;
+use PHPUnit\Util\Json;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
@@ -12,7 +13,7 @@ class ActionController extends Controller
     /**
      * @Route("/action/upvote/{entityId}/{toUserId}", name="upvote", methods={ "POST" })
      */
-    public function upvote($entityId, $toUserId)
+    public function upvote(int $entityId, int $toUserId): JsonResponse
     {
         $user = $this->getUser();
 
@@ -67,7 +68,7 @@ class ActionController extends Controller
     /**
      * @Route("/action/comment/{entityId}/{toUserId}", name="comment", methods={ "POST" })
      */
-    public function comment($entityId, $toUserId, Request $request)
+    public function comment(int $entityId, int $toUserId, Request $request): JsonResponse
     {
         $commentData = $request->request->all();
 

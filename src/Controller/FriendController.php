@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Friend;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{ RedirectResponse, Response };
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FriendController extends Controller
@@ -12,7 +12,7 @@ class FriendController extends Controller
     /**
      * @Route("/friend/add/{user2Id}", name="add_friend", methods={ "POST" })
      */
-    public function addFriend($user2Id)
+    public function addFriend(int $user2Id): Response
     {
         // Create a new friend request
         $user = $this->getUser();
@@ -23,10 +23,10 @@ class FriendController extends Controller
         // because if the requested User2 already added
         // Logined User as a friend then this friend adding equals to a friend request acceptance
         $user2Request = $em->getRepository(Friend::class)
-                            ->findOneBy([
-                                'from_user_id' => $user2Id,
-                                'to_user_id' => $user->getUserId()
-                            ]);
+            ->findOneBy([
+                'from_user_id' => $user2Id,
+                'to_user_id' => $user->getUserId()
+            ]);
         if (isset($user2Request)) {
             if ($user2Request->getStatus() === 'request' || $user2Request->getStatus() === 'muted_request') {
                 // Then save a connection on this two user as friends
@@ -58,7 +58,7 @@ class FriendController extends Controller
     /**
      * @Route("/friend/request/accept/{userId}", name="friend_request_accept", methods={ "POST" })
      */
-    public function acceptFriend($userId)
+    public function acceptFriend(int $userId): RedirectResponse
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -84,7 +84,7 @@ class FriendController extends Controller
     /**
      * @Route("/friend/request/remove/{userId}", name="remove_friend_request", methods={ "POST" })
      */
-    public function removeFriendRequest($userId)
+    public function removeFriendRequest(int $userId): Response
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -102,18 +102,43 @@ class FriendController extends Controller
     /**
      * @Route("/friend/request/decline/{userId}", name="friend_request_decline", methods={ "POST" })
      */
-    public function declineFriend($userId)
+    public function declineFriend(int $userId): RedirectResponse
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $friendRequest = $em->getRepository(Friend::class)
-                            ->findOneBy([
-                                'from_user_id' => $userId,
-                                'to_user_id' => $user->getUserId()
-                            ]);
+            ->findOneBy([
+                'from_user_id' => $userId,
+                'to_user_id' => $user->getUserId()
+            ]);
         $em->remove($friendRequest);
         $em->flush();
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/friend/remove/{userId}", name="remove_friend", methods={ "POST" })
+     */
+    public function removeFriend(int $userId)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        // Get both friend request and remove them
+        $fromUser = $em->getRepository(Friend::class)->findOneBy([
+            'from_user_id' => $userId,
+            'to_user_id' => $user->getUserId()
+        ]);
+        $toUser = $em->getRepository(Friend::class)->findOneBy([
+            'from_user_id' => $user->getUserId(),
+            'to_user_id' => $userId
+        ]);
+
+        $em->remove($fromUser);
+        $em->remove($toUser);
+        $em->flush();
+
+        return new Response('success');
     }
 }

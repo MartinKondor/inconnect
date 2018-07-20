@@ -26,7 +26,14 @@
         </div>
     </section>
     <section class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-2">
+            <ul id="index-menu-left-col">
+                <li><a href="{{ path('view_user', { permalink: app.user.permalink }) }}"><i class="far fa-user"></i> Profile</a></li>
+                <li><a href="{{ path('user_friends') }}"><i class="fas fa-cog"></i> Friends</a></li>
+                <li><a href="{{ path('settings') }}"><i class="fas fa-users-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-8">
             {% if posts is defined %}
                 {% for post in posts %}
                     {% include 'elements/post.html.twig' %}
@@ -35,6 +42,14 @@
                 <h1 class="mx-5 my-5">There are no post's to show!</h1>
                 <p style="margin-bottom:500px !important;">Please come back later ...</p>
             {% endif %}
+        </div>
+        <div class="col-sm-2">
+            <ul id="index-menu-right-col">
+                <li><a href="{{ path('index') }}"><i class="far fa-newspaper"></i> News</a></li>
+                <li><a href="{{ path('messages') }}"><i class="far fa-comments"></i> Messages</a></li>
+                <li><a href="{{ path('find_friends') }}"><i class="fas fa-users"></i> Find Friends</a></li>
+                <li><a href="{{ path('events') }}"><i class="far fa-calendar-alt"></i> Events</a></li>
+            </ul>
         </div>
     </section>
 {% endblock %}

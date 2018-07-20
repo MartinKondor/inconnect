@@ -22,7 +22,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of ICUser objects
      */
-    public function findByName($fullName)
+    public function findByName(string $fullName)
     {
         $searchQuery = $this->getEntityManager()
                 ->getConnection()

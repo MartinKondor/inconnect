@@ -41,7 +41,7 @@
 
                         generalData += `
                         <li class="mb-3 pl-1 pr-1">
-                            <form action="${general['deleteLink']}" method="POST">
+                            <form class="inline-form" action="${general['deleteLink']}" method="POST">
                                 <button title="Mute notification" type="submit" class="btn btn-link text-danger mb-0 mt-0">
                                       <i class="fas fa-times-circle"></i>
                                 </button>

@@ -22,7 +22,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return Post[] Returns an array of Post objects including private ones
      */
-    public function findRelated($userId)
+    public function findRelated(int $userId)
     {
         // Getting all posts from the friends of the user, and also from the user her/himself
         $query = $this->getEntityManager()
@@ -55,7 +55,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return Action[] Returns an array of actions related to the post
      */
-    public function findPostActions($postId)
+    public function findPostActions(int $postId)
     {
         $postQuery = $this->getEntityManager()
                                     ->getConnection()
@@ -78,7 +78,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return Post Returns a not private post
      */
-    public function findById($postId)
+    public function findById(int $postId)
     {
         $query = $this->getEntityManager()
                             ->getConnection()

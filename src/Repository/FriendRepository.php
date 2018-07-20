@@ -22,7 +22,7 @@ class FriendRepository extends ServiceEntityRepository
     /**
      * @return Friend[] Returns an array of Friend objects
      */
-    public function findContacts($userId)
+    public function findContacts(int $userId)
     {
         $contactsQuery = $this->getEntityManager()
                         ->getConnection()
@@ -40,7 +40,7 @@ class FriendRepository extends ServiceEntityRepository
     /**
      * @return Friend[] Returns an array of Friend objects
      */
-    public function findFriends($userId)
+    public function findFriends(int $userId)
     {
         $friendQuery = $this->getEntityManager()
                                 ->getConnection()

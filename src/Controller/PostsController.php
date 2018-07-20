@@ -6,14 +6,16 @@ use App\Entity\Post;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
+use Symfony\Component\HttpFoundation\{
+    RedirectResponse, Response, JsonResponse, Request
+};
 
-class PostsController extends Controller 
+class PostsController extends Controller
 {
    /**
     * @Route("/p/{postId}", name="view_post", methods={ "GET" })
     */
-   public function viewPost($postId)
+   public function viewPost(int $postId): Response
    {
        $user = $this->getUser();
        $em = $this->getDoctrine()->getManager();
@@ -46,10 +48,37 @@ class PostsController extends Controller
        ]);
    }
 
+    /**
+     * @Route("/p/{postId}/share", name="share_post", methods={ "POST" })
+     */
+    public function sharePost(int $postId): Response
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $originalPost = $em->getRepository(Post::class)
+                        ->findOneBy([ 'post_id' => $postId ]);
+
+        $sharedPost = new Post();
+        $sharedPost->setUserId($user->getUserId())
+                ->setDateOfUpload(new \DateTime())
+                ->setContent("Shared from {$this->generateUrl('view_post', [ 'postId' => $postId ])}\n\r".
+                    $originalPost->getContent());
+
+        if (!is_null($originalPost->getImage())) {
+            $sharedPost->setImage($originalPost->getImage());
+        }
+
+        $em->persist($sharedPost);
+        $em->flush();
+
+        return $this->redirectToRoute('view_post', [ 'postId' => $sharedPost->getPostId() ]);
+    }
+
    /**
     * @Route("/p/{postId}/edit", name="edit_post", methods={ "GET" })
     */
-   public function editPost($postId)
+   public function editPost(int $postId): Response
    {
        $user = $this->getUser();
 
@@ -81,7 +110,7 @@ class PostsController extends Controller
     /**
      * @Route("/p/{postId}/delete", name="delete_post", methods={ "POST" })
      */
-    public function deletePost($postId)
+    public function deletePost(int $postId): RedirectResponse
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -101,7 +130,7 @@ class PostsController extends Controller
     /**
      * @Route("/p/{postId}/save", name="save_post", methods={ "POST" })
      */
-    public function savePost($postId, Request $request)
+    public function savePost(int $postId, Request $request): RedirectResponse
     {
         $user = $this->getUser();
         $postData = $request->request->all();

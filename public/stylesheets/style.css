@@ -13,6 +13,13 @@ html, body {
     border: 0;
     height: 100vh;
     width: 100vw;
+    background-color: #f7f7f7 !important;
+}
+
+.inline-form {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
 }
 
 .navbar a {
@@ -51,6 +58,10 @@ body {
 }
 
 @media screen and (max-width: 736px) {
+    #index-menu-left-col,
+    #index-menu-right-col {
+        display: none;
+    }
    .post {
        margin: 1px auto !important;
        margin-bottom: 42px !important;
@@ -117,7 +128,7 @@ header nav {
 }
 
 .xs-profile {
-   width: 34px !important;
+   width: 37px !important;
    height: auto !important;
    border-radius: 50%;
    box-shadow: 0px 0px 1px #373737;
@@ -125,7 +136,7 @@ header nav {
 }
 
 .xxs-profile {
-   width: 30px !important;
+   width: 32px !important;
    height: auto !important;
    border-radius: 50%;
    box-shadow: 0px 0px 1px #424242;
@@ -198,8 +209,24 @@ footer .copy {
 
 /* Home page related styles */
 
+#index-menu-left-col,
+#index-menu-right-col {
+    list-style: none;
+    background-color: #f0f0f0;
+    box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    color: #373737;
+    padding: 20px;
+}
+
+#index-menu-left-col li,
+#index-menu-right-col li {
+    margin-top: 10px;
+}
+
 .feed-icon {
-    font-size: 17px;
+    margin-right: 30px;
+    font-size: 18px;
     transition: color 0.4s ease-out;
     color: var(--main-color) !important;
     text-decoration: none;
@@ -220,9 +247,10 @@ footer .copy {
 .post {
     font-size: 17px;
     border-radius: 4px;
-    box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+    /*box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);*/
+    box-shadow: 0 0 50px 5px rgba(0,0,0,.25);
     margin: 50px auto;
-    background-color: #fefefe;
+    background-color: #fff;
     width: var(--post-size);
 }
 
@@ -233,10 +261,6 @@ footer .copy {
 .post-title .uploader {
     font-weight: 700;
     font-size: 18px;
-    color: #101010;
-}
-
-.post-title .uploader {
     text-decoration: none;
     transition: color 0.4s ease-out;
     color: #101010 !important;
@@ -245,7 +269,7 @@ footer .copy {
 .post-title .uploader:hover,
 .post-title .uploader:active {
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.5s ease;
     color: #777777 !important;
 }
 
@@ -281,7 +305,11 @@ footer .copy {
 }
 
 .post-info {
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
     margin-top: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     width: 100%;
 }
 

@@ -122,4 +122,19 @@
            $('#post-with-' + idOfPage +'-form').css('display', 'none');
        }
    });
+
+  $('.remove-friend-btn').on('click', function(e) {
+      e.preventDefault();
+
+      $.ajax({
+          method: 'POST',
+          url: $(this).attr('href')
+      }).done((response) => {
+          if (response === 'success') {
+              $(this).attr('disabled', true);
+              $(this).attr('class', 'btn btn-danger');
+              $(this).parent().parent().addClass('animated fadeOut');
+          }
+      });
+  });
 })(jQuery);

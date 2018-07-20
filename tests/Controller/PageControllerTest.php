@@ -15,7 +15,7 @@ class PageControllerTest extends WebTestCase
 
     public function testCreatePage()
     {
-        $this->client->request('GET', '/create/pages');
+        $this->client->request('GET', '/pages/create');
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 }

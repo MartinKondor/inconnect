@@ -6,13 +6,37 @@ use App\Entity\{ ICUser, Friend, Page, Post };
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\{ Response };
 
-class UsersController extends Controller 
+class UsersController extends Controller
 {
+    /**
+     * @Route("/u/pages", name="user_pages", methods={ "GET" })
+     */
+    public function userPages(): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('users/pages.html.twig', [
+            'pages' => $this->getDoctrine()
+                ->getManager()
+                ->getRepository(Page::class)
+                ->findBy([ 'creator_user_id' => $user->getUserId() ])
+        ]);
+    }
+
+    /**
+     * @Route("/u/settings", name="settings", methods={ "GET" })
+     */
+    public function settings(): Response
+    {
+        return $this->render('users/settings.html.twig', []);
+    }
+
    /**
     * @Route("/u/{permalink}", name="view_user", methods={ "GET" })
     */
-   public function viewUser($permalink)
+   public function viewUser(string $permalink): Response
    {
       $user = $this->getUser();
       $em = $this->getDoctrine()->getManager();
@@ -99,30 +123,5 @@ class UsersController extends Controller
       return $this->render('users/view.html.twig', [
          'viewUser' => $viewUser
       ]);
-   }
-
-    /**
-     * @Route("/user/pages", name="user_pages", methods={ "GET" })
-     */
-    public function userPages()
-    {
-        $user = $this->getUser();
-
-        $pages = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository(Page::class)
-                    ->findBy([ 'creator_user_id' => $user->getUserId() ]);
-
-        return $this->render('users/pages.html.twig', [
-            'pages' => $pages
-        ]);
-    }
-
-   /**
-    * @Route("/user/settings", name="settings", methods={ "GET" })
-    */
-   public function settings()
-   {
-        return $this->render('users/settings.html.twig', []);
    }
 }

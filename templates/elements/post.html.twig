@@ -30,10 +30,15 @@
                 {% endif %}
                 {{ post.upvotes }}
             </a>
-            <a id="{{ 'post-' ~ post.post_id ~ '-link'}}" class="feed-icon ml-2 comment-link" href="#" title="Show the comments of this post">
+            <a id="{{ 'post-' ~ post.post_id ~ '-link'}}" class="feed-icon ml-2 comment-link" href="#" title="Show comments">
                 <i class="far fa-comment"></i>
                 {{ post.comments | length }}
             </a>
+            <form class="inline-form" action="{{ path('share_post', { postId: post.post_id }) }}" method="POST">
+                <button type="submit" class="btn btn-link feed-icon" title="Share">
+                    <i class="far fa-share-square"></i>
+                </button>
+            </form>
         </div>
         <div id="{{ 'post-' ~ post.post_id ~ '-comments' }}" class="animated fadeIn" style="display:none;">
             {% if post.comments is not null %}

@@ -7,14 +7,14 @@ use App\Entity\{ Post, Page };
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request };
+use Symfony\Component\HttpFoundation\{ Response, JsonResponse, Request, RedirectResponse };
 
 class PageController extends Controller
 {
     /**
-     * @Route("/create/pages", name="create_page", methods={ "GET", "POST" })
+     * @Route("/pages/create", name="create_page", methods={ "GET", "POST" })
      */
-    public function create(Request $request)
+    public function create(Request $request): ?Response
     {
         $page = new Page();
         $form = $this->createForm(PageType::class, $page, [
@@ -46,7 +46,7 @@ class PageController extends Controller
     /**
      * @Route("/pages/{pageId}/{pagePermalink}", name="view_page", methods={ "GET" })
      */
-    public function viewPage($pageId, $pagePermalink)
+    public function viewPage(int $pageId, string $pagePermalink): Response
     {
         $user = $this->getUser();
         $connection = $this->getDoctrine()->getManager()->getConnection();
@@ -119,7 +119,7 @@ class PageController extends Controller
     /**
      * @Route("/pages/{pageId}/{pagePermalink}/post", name="post_with_page", methods={ "POST" })
      */
-    public function postWithPage($pageId, $pagePermalink, Request $request)
+    public function postWithPage(int $pageId, string $pagePermalink, Request $request): RedirectResponse
     {
         $user = $this->getUser();
         $pagePostData = $request->request->all();
@@ -154,7 +154,7 @@ class PageController extends Controller
     /**
      * @Route("/pages/{pageId}/{pagePermalink}/settings", name="page_settings", methods={ "GET", "POST" })
      */
-    public function pageSettings($pageId, $pagePermalink)
+    public function pageSettings(int $pageId, string $pagePermalink): Response
     {
         return $this->render('pages/settings.html.twig', []);
     }

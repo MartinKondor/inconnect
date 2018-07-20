@@ -22,17 +22,17 @@ class MessageRepository extends ServiceEntityRepository
     /**
      * @return Message[] Returns an array of message objects
      */
-    public function findMessages($userId, $fromUserId)
+    public function findMessages(int $userId, int $fromUserId)
     {
         $msgQuery = $this->getEntityManager()
             ->getConnection()
-            ->prepare("SELECT message.to_user_id, message.from_user_id, message.content, message.send_date, message.status
+            ->prepare("SELECT icuser.user_id, message.to_user_id, message.from_user_id, message.content, message.send_date, message.status
                        FROM message
                        LEFT JOIN icuser
                        ON message.to_user_id = icuser.user_id
                        WHERE icuser.user_id = :user_id
-                       AND (message.to_user_id = :user_id OR message.from_user_id = :from_user_id)
-                       OR (message.to_user_id = :from_user_id OR message.from_user_id = :user_id)");
+                       AND (message.to_user_id = :user_id AND message.from_user_id = :from_user_id)
+                       OR (message.to_user_id = :from_user_id AND message.from_user_id = :user_id)");
         $msgQuery->execute([
             ':user_id' => $userId,
             ':from_user_id' => $fromUserId

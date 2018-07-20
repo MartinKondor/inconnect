@@ -12,7 +12,7 @@ class MessageController extends Controller
     /**
      * @Route("/messages", name="messages", methods={ "GET", "POST" })
      */
-    public function messages()
+    public function messages(): Response
     {
         $user = $this->getUser();
 
@@ -26,7 +26,7 @@ class MessageController extends Controller
     /**
      * @Route("/messages/send/{toUserId}", name="send_message", methods={ "POST" })
      */
-    public function sendMessage($toUserId, Request $request)
+    public function sendMessage(int $toUserId, Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -48,18 +48,16 @@ class MessageController extends Controller
     /**
      * @Route("/messages/get", name="get_messages", methods={ "POST" })
      */
-    public function getMessages(Request $request)
+    public function getMessages(Request $request): ?JsonResponse
     {
         // List messages from a specific user in json
         $user = $this->getUser();
         $messageData = $request->request->all();
 
-        $messagesBetweenUsers = $this->getDoctrine()
-                            ->getRepository(Message::class)
-                            ->findMessages($user->getUserId(), $messageData['fromUserId']);
-
         return new JsonResponse([
-            'messages' => $messagesBetweenUsers
+            'messages' => $this->getDoctrine()
+                        ->getRepository(Message::class)
+                        ->findMessages($user->getUserId(), $messageData['fromUserId'])
         ]);
     }
 }

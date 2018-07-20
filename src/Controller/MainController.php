@@ -15,7 +15,7 @@ class MainController extends Controller
    /**
     * @Route("/signup", name="signup", methods={ "GET", "POST" })
     */
-   public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+   public function signup(Request $request, UserPasswordEncoderInterface $passwordEncoder): ?Response
    {
       $user = new ICUser();
       $form = $this->createForm(UserSignUpType::class, $user, [
@@ -46,26 +46,23 @@ class MainController extends Controller
    /**
     * @Route("/login", name="login", methods={ "GET", "POST" })
     */
-   public function login(Request $request, AuthenticationUtils $au)
+   public function login(Request $request, AuthenticationUtils $au): Response
    {
-      $lastUsername = $au->getLastUsername();
-      $error = $au->getLastAuthenticationError();
-      
       return $this->render('main/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error
+            'last_username' => $au->getLastUsername(),
+            'error' => $au->getLastAuthenticationError()
       ]);
    }
 
    /**
     * @Route("/logout", name="logout")
     */
-   public function logout() {}
+   public function logout(): void {}
 
     /**
      * @Route("/", name="index", methods={ "GET", "POST" })
      */
-    public function index(Request $request)
+    public function index(Request $request): ?Response
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()

@@ -15,19 +15,19 @@ class UsersControllerTest extends WebTestCase
 
     public function testUsersPage()
     {
-        $this->client->request('GET', '/u/~john');
+        $this->client->request('GET', '/u/john');
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUserPages()
     {
-        $this->client->request('GET', '/user/pages');
+        $this->client->request('GET', '/u/pages');
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUserSettings()
     {
-        $this->client->request('GET', '/user/settings');
+        $this->client->request('GET', '/u/settings');
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 }
