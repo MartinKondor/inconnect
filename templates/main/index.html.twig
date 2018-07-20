@@ -36,7 +36,9 @@
         <div class="col-sm-8">
             {% if posts is defined %}
                 {% for post in posts %}
-                    {% include 'elements/post.html.twig' %}
+                    {% if post.holder_type != 'page' %}
+                        {% include 'elements/post.html.twig' %}
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 <h1 class="mx-5 my-5">There are no post's to show!</h1>

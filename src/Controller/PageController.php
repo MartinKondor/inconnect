@@ -49,7 +49,8 @@ class PageController extends Controller
     public function viewPage(int $pageId, string $pagePermalink): Response
     {
         $user = $this->getUser();
-        $connection = $this->getDoctrine()->getManager()->getConnection();
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
 
         // Get all info about the page and all posts posted by the page
         $pageQuery = $connection->prepare("SELECT * FROM page
@@ -78,18 +79,8 @@ class PageController extends Controller
         
         // Setting up posts for template
         foreach ($posts as $i => $post) {
-            $postQuery = $connection->prepare("SELECT icuser.user_id, icuser.first_name, icuser.last_name, icuser.permalink, 
-                                                icuser.profile_pic, `action`.`action_type`, `action`.`action_date`, `action`.`content`
-                                                FROM `action` RIGHT JOIN icuser
-                                                ON `action`.`user_id` = icuser.user_id
-                                                WHERE `action`.`entity_id` = :entity_id
-                                                AND (`action`.`action_type` = 'comment' OR `action`.`action_type` = 'upvote')
-                                                AND `action`.`entity_type` = 'post'
-                                                ORDER BY `action`.action_date ASC");
-            $postQuery->execute([
-                ':entity_id' => $post['post_id']
-            ]);
-            $actions = $postQuery->fetchAll();
+            $actions = $em->getRepository(Post::class)
+                        ->findPostActions($post['post_id']);
 
             $upvotes = 0;
             $comments = null;
