@@ -6,16 +6,20 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PageControllerTest extends WebTestCase
 {
-    private $client = null;
-
-    public function setUp()
+    /**
+     * @dataProvider redirectUrlProvider
+     */
+    public function testPageIsRedirecting($url)
     {
-        $this->client = static::createClient();
+        $client = self::createClient();
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
-    public function testCreatePage()
+    public function redirectUrlProvider()
     {
-        $this->client->request('GET', '/pages/create');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        yield ['/pages/create'];
     }
 }

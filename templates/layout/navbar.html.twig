@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-main pl-4 pr-4 pt-1 pb-1">
+<nav class="navbar navbar-expand-lg navbar-dark bg-main pl-4 pr-4 pt-1 pb-1">
       <a title="InConnect" class="navbar-brand brand-logo" href="{{ path('index') }}">
           InConnect
       </a>
@@ -8,16 +8,17 @@
      <div class="collapse navbar-collapse" id="navbarContent">
          {% if app.user is not null %}
             <ul class="navbar-nav mr-auto">
-                <li class="dropdown nav-item ml-1 mr-4">
+                <li class="nav-item dropdown show ml-1 mr-4">
                      <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
                          <img id="actual-user-profile-pic" title="{{ app.user.firstName ~ ' ' ~ app.user.lastName }}" class="xs-profile" src="{{ asset('images/profiles/' ~ app.user.profilePic) }}" alt="Navigation bar profile picture">
                      </a>
-                     <ul class="dropdown-menu">
-                         <li><a class="nav-link" href="{{ path('view_user', { permalink: app.user.permalink }) }}"><i class="fas fa-user"></i> {{ app.user.firstName ~ ' ' ~ app.user.lastName }}</a></li>
-                         <li><a class="nav-link" href="{{ path('settings') }}"><i class="fas fa-cogs"></i> Settings</a></li>
-                         <li><a class="nav-link" href="{{ path('user_pages') }}"><i class="fas fa-file-alt"></i> Pages</a></li>
-                         <li><a class="nav-link" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
-                     </ul>
+                     <div class="dropdown-menu">
+                         <a class="dropdown-item" href="{{ path('view_user', { permalink: app.user.permalink }) }}"><i class="fas fa-user"></i> {{ app.user.firstName ~ ' ' ~ app.user.lastName }}</a>
+                         <a class="dropdown-item" href="{{ path('settings') }}"><i class="fas fa-cogs"></i> Settings</a>
+                         <a class="dropdown-item" href="{{ path('user_pages') }}"><i class="fas fa-file-alt"></i> Pages</a>
+                         <div class="dropdown-divider"></div>
+                         <a class="dropdown-item" href="{{ path("logout") }}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                     </div>
                 </li>
 
                 {# Friend Notifications #}

@@ -6,28 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersControllerTest extends WebTestCase
 {
-    private $client = null;
-
-    public function setUp()
+    /**
+     * @dataProvider redirectUrlProvider
+     */
+    public function testPageIsRedirecting($url)
     {
-        $this->client = static::createClient();
+        $client = self::createClient();
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
-    public function testUsersPage()
+    public function redirectUrlProvider()
     {
-        $this->client->request('GET', '/u/john');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testUserPages()
-    {
-        $this->client->request('GET', '/u/pages');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testUserSettings()
-    {
-        $this->client->request('GET', '/u/settings');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        yield ['/u/john'];
+        yield ['/u/pages'];
+        yield ['/u/settings'];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class PostControllerTest extends WebTestCase
+class MessageControllerTest extends WebTestCase
 {
     /**
      * @dataProvider redirectUrlProvider
@@ -20,6 +20,6 @@ class PostControllerTest extends WebTestCase
 
     public function redirectUrlProvider()
     {
-        yield ['/p/0'];
+        yield ['/messages'];
     }
 }

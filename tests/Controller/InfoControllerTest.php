@@ -6,58 +6,42 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class InfoControllerTest extends WebTestCase
 {
-    private $client = null;
-
-    public function setUp()
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testPageIsSuccessful($url)
     {
-        $this->client = static::createClient();
+        $client = self::createClient();
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testEvents()
+    public function urlProvider()
     {
-        $this->client->request('GET', '/events');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        yield ['/privacy'];
+        yield ['/terms'];
+        yield ['/cookies'];
+        yield ['/help'];
     }
 
-    public function testFindfriends()
+    /**
+     * @dataProvider redirectUrlProvider
+     */
+    public function testPageIsRedirecting($url)
     {
-        $this->client->request('GET', '/findfriends');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $client = self::createClient();
+        $client->request('GET', $url);
+
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
-    public function testAbout()
+    public function redirectUrlProvider()
     {
-        $this->client->request('GET', '/about');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testPrivacy()
-    {
-        $this->client->request('GET', '/privacy');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testTerms()
-    {
-        $this->client->request('GET', '/terms');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testCookies()
-    {
-        $this->client->request('GET', '/cookies');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testHelp()
-    {
-        $this->client->request('GET', '/help');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testFriends()
-    {
-        $this->client->request('GET', '/friends');
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        yield ['/events'];
+        yield ['/findfriends'];
+        yield ['/about'];
     }
 }

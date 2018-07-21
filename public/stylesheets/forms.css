@@ -11,8 +11,8 @@ body {
 }
 
 @media screen and (max-width: 1000px) {
-    body {
-        background: #909090 !important;
+    html, body {
+        background: var(--main-color) !important;
     }
     .auth-form {
         margin-top: 2% !important;
@@ -22,14 +22,13 @@ body {
 }
 
 h2 {
-    color: #303030;
-    text-shadow: none;
+    color: #fefefe;
 }
 
 .auth-form,
 .auth-form a,
 .auth-form a:hover,
-.auth-form a:active{
+.auth-form a:active {
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.59);
 }
 
@@ -84,4 +83,8 @@ select option {
 }
 :-ms-input-placeholder {
     color: var(--input-text-color) !important;
+}
+
+.signup {
+    margin-bottom: -11% !important;
 }

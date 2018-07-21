@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class PostControllerTest extends WebTestCase
+class NotificationControllerTest extends WebTestCase
 {
     /**
      * @dataProvider redirectUrlProvider
@@ -12,14 +12,13 @@ class PostControllerTest extends WebTestCase
     public function testPageIsRedirecting($url)
     {
         $client = self::createClient();
-        $client->request('GET', $url);
+        $client->request('POST', $url);
 
-        $this->assertTrue($client->getResponse()->isRedirect());
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertFalse($client->getResponse()->isSuccessful());
     }
 
     public function redirectUrlProvider()
     {
-        yield ['/p/0'];
+        yield ['/notification'];
     }
 }

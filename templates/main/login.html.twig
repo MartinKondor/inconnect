@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-   <section class="text-center mt-4 animated fadeIn">
+   <section class="login text-center mt-4 animated fadeIn">
       <div class="auth-form">
          <h2>Welcome</h2>
          {% if error %}
@@ -20,7 +20,7 @@
             <input type="password" id="password" placeholder="Password" name="_password" class="form-control mb-3" required>
             <input type="checkbox" id="remember_me" name="_remember_me" checked />
             <label for="remember_me">Keep me logged in</label>
-            <button type="submit" class="btn btn-primary btn-lg btn-block mb-2 mt-5">Log in</button>
+            <button type="submit" name="Submit" class="btn btn-primary btn-lg btn-block mb-2 mt-5">Log in</button>
             <span style="color:#727272;font-size:14px;"><a href="{{ path("signup") }}">Create an account</a></span>
          </form>
       </div>
