@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/in-connect/inconnect/blob/master/public/images/ic-banner.png" width="270px" height="auto">
+<img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/public/images/ic-banner.png" width="270px" height="auto">
 </p>
 <h1 align="center">InConnect, the social network</h1>
 <h3 align="center">
@@ -49,6 +49,12 @@ For more details read the [CONTRIBUTING.md](https://github.com/in-connect/inconn
 ## Authors
 
 * **[Martin Kondor](https://github.com/MartinKondor)**
+
+<p align="center">
+<a title="Fiverr" href="https://www.fiverr.com/martinkondor">
+<img id="fiverr-img" class="img-responsive" alt="Hire me on fiverr!" title="Hire me on fiverr!" src="https://martinkondor.github.io/img/hire_me_on_fiverr_button.png" width="222">
+</a>
+</p>
 
 <p align="center"><a href="https://www.patreon.com/bePatron?u=17006186" data-patreon-widget-type="become-patron-button"><img width="222" class="img-responsive" alt="Become a Patron!" title="Become a Patron!" src="https://martinkondor.github.io/img/become_a_patron_button.png"></a></p>
 
