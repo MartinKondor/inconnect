@@ -1,6 +1,6 @@
-<video align="center" width="320" height="240" controls>
-  <source src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/inconnect.mov" type="video/mp4">
-</video>
+<p align="center">
+<img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/inconnect.gif" width="400px" height="auto">
+</p>
 <p align="center">
 <img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/public/images/ic-banner.png" width="270px" height="auto">
 </p>
