@@ -1,8 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/inconnect.gif" width="400px" height="auto">
-</p>
-<p align="center">
-<img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/public/images/ic-banner.png" width="270px" height="auto">
+<img src="https://raw.githubusercontent.com/MartinKondor/inconnect/master/inconnect.gif" width="750px" height="auto">
 </p>
 <h1 align="center">InConnect, the social network</h1>
 <h3 align="center">
